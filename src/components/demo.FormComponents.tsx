@@ -112,21 +112,23 @@ export function Select({
       <ShadcnSelect.Select
         name={field.name}
         value={field.state.value}
-        onValueChange={(value) => field.handleChange(value)}
+        onValueChange={(value) => field.handleChange(value ?? '')}
       >
         <ShadcnSelect.SelectTrigger className="w-full">
           <ShadcnSelect.SelectValue placeholder={placeholder} />
         </ShadcnSelect.SelectTrigger>
-        <ShadcnSelect.SelectContent>
-          <ShadcnSelect.SelectGroup>
-            <ShadcnSelect.SelectLabel>{label}</ShadcnSelect.SelectLabel>
-            {values.map((value) => (
-              <ShadcnSelect.SelectItem key={value.value} value={value.value}>
-                {value.label}
-              </ShadcnSelect.SelectItem>
-            ))}
-          </ShadcnSelect.SelectGroup>
-        </ShadcnSelect.SelectContent>
+        <ShadcnSelect.SelectPositioner>
+          <ShadcnSelect.SelectContent>
+            <ShadcnSelect.SelectGroup>
+              <ShadcnSelect.SelectLabel>{label}</ShadcnSelect.SelectLabel>
+              {values.map((value) => (
+                <ShadcnSelect.SelectItem key={value.value} value={value.value}>
+                  {value.label}
+                </ShadcnSelect.SelectItem>
+              ))}
+            </ShadcnSelect.SelectGroup>
+          </ShadcnSelect.SelectContent>
+        </ShadcnSelect.SelectPositioner>
       </ShadcnSelect.Select>
       {field.state.meta.isTouched && <ErrorMessages errors={errors} />}
     </div>
@@ -146,7 +148,9 @@ export function Slider({ label }: { label: string }) {
         id={label}
         onBlur={field.handleBlur}
         value={[field.state.value]}
-        onValueChange={(value) => field.handleChange(value[0])}
+        onValueChange={(value) =>
+          field.handleChange(Array.isArray(value) ? value[0] : value)
+        }
       />
       {field.state.meta.isTouched && <ErrorMessages errors={errors} />}
     </div>
