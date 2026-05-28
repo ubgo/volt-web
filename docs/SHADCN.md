@@ -89,14 +89,14 @@ These are configured in both `components.json` (for the CLI) and `tsconfig.json`
 
 ## Installed Components
 
-| Component | File | Radix Dependency |
+| Component | File | Base UI Dependency |
 |---|---|---|
-| Button | `src/components/ui/button.tsx` | `radix-ui` (Slot) |
+| Button | `src/components/ui/button.tsx` | `@base-ui/react/button` |
 | Input | `src/components/ui/input.tsx` | — |
-| Label | `src/components/ui/label.tsx` | `radix-ui` |
-| Select | `src/components/ui/select.tsx` | `radix-ui` |
-| Slider | `src/components/ui/slider.tsx` | `radix-ui` |
-| Switch | `src/components/ui/switch.tsx` | `radix-ui` |
+| Label | `src/components/ui/label.tsx` | — |
+| Select | `src/components/ui/select.tsx` | `@base-ui/react/select` |
+| Slider | `src/components/ui/slider.tsx` | `@base-ui/react/slider` |
+| Switch | `src/components/ui/switch.tsx` | `@base-ui/react/switch` |
 | Textarea | `src/components/ui/textarea.tsx` | — |
 
 ---
@@ -297,7 +297,7 @@ It combines `clsx` (conditional class joining) with `tailwind-merge` (conflict r
 
 ```bash
 pnpm add clsx tailwind-merge class-variance-authority
-pnpm add radix-ui lucide-react
+pnpm add @base-ui/react lucide-react
 pnpm add tw-animate-css
 ```
 
@@ -405,7 +405,7 @@ In `src/styles.css`, remove the theme CSS variables (`:root`, `.dark`, `@theme i
 #### 5. Remove dependencies
 
 ```bash
-pnpm remove class-variance-authority radix-ui lucide-react tw-animate-css clsx tailwind-merge
+pnpm remove class-variance-authority @base-ui/react lucide-react tw-animate-css clsx tailwind-merge
 ```
 
 #### 6. Remove component imports
