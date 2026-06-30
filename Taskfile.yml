@@ -65,3 +65,18 @@ tasks:
     cmds:
       - mkdir -p tmp
       - portless 2>&1 | tee tmp/dev.log
+
+  typecheck:
+    desc: type-check the whole project with tsc (no emit)
+    cmds:
+      - pnpm exec tsc --noEmit
+
+  check:
+    desc: biome check (lint + format) the source tree
+    cmds:
+      - pnpm exec biome check src
+
+  build:
+    desc: production build (vite + nitro), regenerates the route tree
+    cmds:
+      - pnpm build

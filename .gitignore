@@ -29,3 +29,4 @@ src/generated/graphql/graphql.ts
 # Scripts build artifacts
 scripts/dist/
 scripts/node_modules/
+.claude/settings.local.json

@@ -12,10 +12,11 @@ import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import type { TRPCRouter } from "@/integrations/trpc/routers";
 import type { RouterUtils } from "@orpc/tanstack-query";
 import type { ORPCClient } from "@/integrations/orpc/react";
+import { Toaster } from "sonner";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
 import { Provider } from "../integrations/tanstack-query/root-provider";
-import Header from "../components/Header";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-import StoreDevtools from "../lib/demo-store-devtools";
+import StoreDevtools from "@/demo/data/store-devtools";
 import appCss from "../styles.css?url";
 
 interface MyRouterContext {
@@ -78,11 +79,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
 			<head>
+				{/* Set the .dark class before paint to avoid a light→dark flash. */}
+				{/* biome-ignore lint/security/noDangerouslySetInnerHtml: trusted inline theme bootstrap */}
+				<script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
 				<HeadContent />
 			</head>
 			<body>
-				<Header />
 				{children}
+				<Toaster theme="system" richColors closeButton position="top-right" />
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",

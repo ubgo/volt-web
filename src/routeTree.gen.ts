@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DemoIndexRouteImport } from './routes/demo/index'
 import { Route as DemoTrpcTodoRouteImport } from './routes/demo/trpc-todo'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStoreRouteImport } from './routes/demo/store'
+import { Route as DemoServerTableRouteImport } from './routes/demo/server-table'
 import { Route as DemoOrpcTodoRouteImport } from './routes/demo/orpc-todo'
 import { Route as DemoMcpTodosRouteImport } from './routes/demo/mcp-todos'
 import { Route as ApiVersionRouteImport } from './routes/api.version'
@@ -23,7 +25,10 @@ import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.se
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
+import { Route as DemoFormProductRouteImport } from './routes/demo/form.product'
+import { Route as DemoFormKitchenSinkRouteImport } from './routes/demo/form.kitchen-sink'
 import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
+import { Route as DemoFormAccountRouteImport } from './routes/demo/form.account'
 import { Route as DemoApiTqTodosRouteImport } from './routes/demo/api.tq-todos'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
 import { Route as DemoApiMcpTodosRouteImport } from './routes/demo/api.mcp-todos'
@@ -45,6 +50,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemoIndexRoute = DemoIndexRouteImport.update({
+  id: '/demo/',
+  path: '/demo/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoTrpcTodoRoute = DemoTrpcTodoRouteImport.update({
   id: '/demo/trpc-todo',
   path: '/demo/trpc-todo',
@@ -63,6 +73,11 @@ const DemoTableRoute = DemoTableRouteImport.update({
 const DemoStoreRoute = DemoStoreRouteImport.update({
   id: '/demo/store',
   path: '/demo/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoServerTableRoute = DemoServerTableRouteImport.update({
+  id: '/demo/server-table',
+  path: '/demo/server-table',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoOrpcTodoRoute = DemoOrpcTodoRouteImport.update({
@@ -105,9 +120,24 @@ const DemoFormSimpleRoute = DemoFormSimpleRouteImport.update({
   path: '/demo/form/simple',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemoFormProductRoute = DemoFormProductRouteImport.update({
+  id: '/demo/form/product',
+  path: '/demo/form/product',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoFormKitchenSinkRoute = DemoFormKitchenSinkRouteImport.update({
+  id: '/demo/form/kitchen-sink',
+  path: '/demo/form/kitchen-sink',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
   id: '/demo/form/address',
   path: '/demo/form/address',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoFormAccountRoute = DemoFormAccountRouteImport.update({
+  id: '/demo/form/account',
+  path: '/demo/form/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoApiTqTodosRoute = DemoApiTqTodosRouteImport.update({
@@ -168,17 +198,22 @@ export interface FileRoutesByFullPath {
   '/api/version': typeof ApiVersionRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
   '/demo/orpc-todo': typeof DemoOrpcTodoRoute
+  '/demo/server-table': typeof DemoServerTableRoute
   '/demo/store': typeof DemoStoreRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/demo/trpc-todo': typeof DemoTrpcTodoRoute
+  '/demo/': typeof DemoIndexRoute
   '/api/i/bootinfo': typeof ApiIBootinfoRoute
   '/api/orpc/$': typeof ApiOrpcSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/demo/api/mcp-todos': typeof DemoApiMcpTodosRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
+  '/demo/form/account': typeof DemoFormAccountRoute
   '/demo/form/address': typeof DemoFormAddressRoute
+  '/demo/form/kitchen-sink': typeof DemoFormKitchenSinkRoute
+  '/demo/form/product': typeof DemoFormProductRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/sentry/testing': typeof DemoSentryTestingRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -195,17 +230,22 @@ export interface FileRoutesByTo {
   '/api/version': typeof ApiVersionRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
   '/demo/orpc-todo': typeof DemoOrpcTodoRoute
+  '/demo/server-table': typeof DemoServerTableRoute
   '/demo/store': typeof DemoStoreRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/demo/trpc-todo': typeof DemoTrpcTodoRoute
+  '/demo': typeof DemoIndexRoute
   '/api/i/bootinfo': typeof ApiIBootinfoRoute
   '/api/orpc/$': typeof ApiOrpcSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/demo/api/mcp-todos': typeof DemoApiMcpTodosRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
+  '/demo/form/account': typeof DemoFormAccountRoute
   '/demo/form/address': typeof DemoFormAddressRoute
+  '/demo/form/kitchen-sink': typeof DemoFormKitchenSinkRoute
+  '/demo/form/product': typeof DemoFormProductRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/sentry/testing': typeof DemoSentryTestingRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -223,17 +263,22 @@ export interface FileRoutesById {
   '/api/version': typeof ApiVersionRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
   '/demo/orpc-todo': typeof DemoOrpcTodoRoute
+  '/demo/server-table': typeof DemoServerTableRoute
   '/demo/store': typeof DemoStoreRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/demo/trpc-todo': typeof DemoTrpcTodoRoute
+  '/demo/': typeof DemoIndexRoute
   '/api/i/bootinfo': typeof ApiIBootinfoRoute
   '/api/orpc/$': typeof ApiOrpcSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/demo/api/mcp-todos': typeof DemoApiMcpTodosRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
+  '/demo/form/account': typeof DemoFormAccountRoute
   '/demo/form/address': typeof DemoFormAddressRoute
+  '/demo/form/kitchen-sink': typeof DemoFormKitchenSinkRoute
+  '/demo/form/product': typeof DemoFormProductRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/sentry/testing': typeof DemoSentryTestingRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -252,17 +297,22 @@ export interface FileRouteTypes {
     | '/api/version'
     | '/demo/mcp-todos'
     | '/demo/orpc-todo'
+    | '/demo/server-table'
     | '/demo/store'
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/demo/trpc-todo'
+    | '/demo/'
     | '/api/i/bootinfo'
     | '/api/orpc/$'
     | '/api/trpc/$'
     | '/demo/api/mcp-todos'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
+    | '/demo/form/account'
     | '/demo/form/address'
+    | '/demo/form/kitchen-sink'
+    | '/demo/form/product'
     | '/demo/form/simple'
     | '/demo/sentry/testing'
     | '/demo/start/api-request'
@@ -279,17 +329,22 @@ export interface FileRouteTypes {
     | '/api/version'
     | '/demo/mcp-todos'
     | '/demo/orpc-todo'
+    | '/demo/server-table'
     | '/demo/store'
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/demo/trpc-todo'
+    | '/demo'
     | '/api/i/bootinfo'
     | '/api/orpc/$'
     | '/api/trpc/$'
     | '/demo/api/mcp-todos'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
+    | '/demo/form/account'
     | '/demo/form/address'
+    | '/demo/form/kitchen-sink'
+    | '/demo/form/product'
     | '/demo/form/simple'
     | '/demo/sentry/testing'
     | '/demo/start/api-request'
@@ -306,17 +361,22 @@ export interface FileRouteTypes {
     | '/api/version'
     | '/demo/mcp-todos'
     | '/demo/orpc-todo'
+    | '/demo/server-table'
     | '/demo/store'
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/demo/trpc-todo'
+    | '/demo/'
     | '/api/i/bootinfo'
     | '/api/orpc/$'
     | '/api/trpc/$'
     | '/demo/api/mcp-todos'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
+    | '/demo/form/account'
     | '/demo/form/address'
+    | '/demo/form/kitchen-sink'
+    | '/demo/form/product'
     | '/demo/form/simple'
     | '/demo/sentry/testing'
     | '/demo/start/api-request'
@@ -334,17 +394,22 @@ export interface RootRouteChildren {
   ApiVersionRoute: typeof ApiVersionRoute
   DemoMcpTodosRoute: typeof DemoMcpTodosRoute
   DemoOrpcTodoRoute: typeof DemoOrpcTodoRoute
+  DemoServerTableRoute: typeof DemoServerTableRoute
   DemoStoreRoute: typeof DemoStoreRoute
   DemoTableRoute: typeof DemoTableRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   DemoTrpcTodoRoute: typeof DemoTrpcTodoRoute
+  DemoIndexRoute: typeof DemoIndexRoute
   ApiIBootinfoRoute: typeof ApiIBootinfoRoute
   ApiOrpcSplatRoute: typeof ApiOrpcSplatRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
   DemoApiMcpTodosRoute: typeof DemoApiMcpTodosRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoApiTqTodosRoute: typeof DemoApiTqTodosRoute
+  DemoFormAccountRoute: typeof DemoFormAccountRoute
   DemoFormAddressRoute: typeof DemoFormAddressRoute
+  DemoFormKitchenSinkRoute: typeof DemoFormKitchenSinkRoute
+  DemoFormProductRoute: typeof DemoFormProductRoute
   DemoFormSimpleRoute: typeof DemoFormSimpleRoute
   DemoSentryTestingRoute: typeof DemoSentryTestingRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
@@ -369,6 +434,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/': {
+      id: '/demo/'
+      path: '/demo'
+      fullPath: '/demo/'
+      preLoaderRoute: typeof DemoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/trpc-todo': {
@@ -397,6 +469,13 @@ declare module '@tanstack/react-router' {
       path: '/demo/store'
       fullPath: '/demo/store'
       preLoaderRoute: typeof DemoStoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/server-table': {
+      id: '/demo/server-table'
+      path: '/demo/server-table'
+      fullPath: '/demo/server-table'
+      preLoaderRoute: typeof DemoServerTableRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/orpc-todo': {
@@ -455,11 +534,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormSimpleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/demo/form/product': {
+      id: '/demo/form/product'
+      path: '/demo/form/product'
+      fullPath: '/demo/form/product'
+      preLoaderRoute: typeof DemoFormProductRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/form/kitchen-sink': {
+      id: '/demo/form/kitchen-sink'
+      path: '/demo/form/kitchen-sink'
+      fullPath: '/demo/form/kitchen-sink'
+      preLoaderRoute: typeof DemoFormKitchenSinkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/form/address': {
       id: '/demo/form/address'
       path: '/demo/form/address'
       fullPath: '/demo/form/address'
       preLoaderRoute: typeof DemoFormAddressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/form/account': {
+      id: '/demo/form/account'
+      path: '/demo/form/account'
+      fullPath: '/demo/form/account'
+      preLoaderRoute: typeof DemoFormAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/api/tq-todos': {
@@ -542,17 +642,22 @@ const rootRouteChildren: RootRouteChildren = {
   ApiVersionRoute: ApiVersionRoute,
   DemoMcpTodosRoute: DemoMcpTodosRoute,
   DemoOrpcTodoRoute: DemoOrpcTodoRoute,
+  DemoServerTableRoute: DemoServerTableRoute,
   DemoStoreRoute: DemoStoreRoute,
   DemoTableRoute: DemoTableRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   DemoTrpcTodoRoute: DemoTrpcTodoRoute,
+  DemoIndexRoute: DemoIndexRoute,
   ApiIBootinfoRoute: ApiIBootinfoRoute,
   ApiOrpcSplatRoute: ApiOrpcSplatRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,
   DemoApiMcpTodosRoute: DemoApiMcpTodosRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoApiTqTodosRoute: DemoApiTqTodosRoute,
+  DemoFormAccountRoute: DemoFormAccountRoute,
   DemoFormAddressRoute: DemoFormAddressRoute,
+  DemoFormKitchenSinkRoute: DemoFormKitchenSinkRoute,
+  DemoFormProductRoute: DemoFormProductRoute,
   DemoFormSimpleRoute: DemoFormSimpleRoute,
   DemoSentryTestingRoute: DemoSentryTestingRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,

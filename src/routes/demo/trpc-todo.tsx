@@ -1,77 +1,266 @@
-import { useCallback, useState } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { useTRPC } from '@/integrations/trpc/react'
+import { createFileRoute } from "@tanstack/react-router"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+	Check,
+	ListChecks,
+	MoreHorizontal,
+	Pencil,
+	Plus,
+	RotateCcw,
+	Trash2,
+} from "lucide-react"
+import { type FormEvent, useState } from "react"
+import { toast } from "sonner"
+import { AdminShell, PageHeader } from "@/components/admin-shell"
+import { StatusBadge } from "@/demo/form/form-kit"
+import { Button } from "@/components/ui/button"
+import {
+	Dialog,
+	DialogBody,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog"
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { useTRPC } from "@/integrations/trpc/react"
 
-export const Route = createFileRoute('/demo/trpc-todo')({
-  component: TRPCTodos,
-  loader: async ({ context }) => {
-    await context.queryClient.prefetchQuery(
-      context.trpc.todos.list.queryOptions(),
-    )
-  },
+export const Route = createFileRoute("/demo/trpc-todo")({
+	component: TRPCTodos,
+	loader: async ({ context }) => {
+		await context.queryClient.prefetchQuery(
+			context.trpc.todos.list.queryOptions(),
+		)
+	},
 })
 
+type Todo = { id: number; name: string; completed: boolean }
+
 function TRPCTodos() {
-  const trpc = useTRPC()
-  const { data, refetch } = useQuery(trpc.todos.list.queryOptions())
+	const trpc = useTRPC()
+	const {
+		data: todos = [],
+		isLoading,
+		refetch,
+	} = useQuery(trpc.todos.list.queryOptions())
 
-  const [todo, setTodo] = useState('')
-  const { mutate: addTodo } = useMutation({
-    ...trpc.todos.add.mutationOptions(),
-    onSuccess: () => {
-      refetch()
-      setTodo('')
-    },
-  })
+	// One dialog serves both create and edit. `editing` is the discriminator:
+	// null → create, a Todo → edit (prefilled).
+	const [dialogOpen, setDialogOpen] = useState(false)
+	const [editing, setEditing] = useState<Todo | null>(null)
+	const [name, setName] = useState("")
 
-  const submitTodo = useCallback(() => {
-    addTodo({ name: todo })
-  }, [addTodo, todo])
+	const reload = () => refetch()
 
-  return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-white"
-      style={{
-        backgroundImage:
-          'radial-gradient(50% 50% at 95% 5%, #4a90c2 0%, #317eb9 50%, #1e4d72 100%)',
-      }}
-    >
-      <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
-        <h1 className="text-2xl mb-4">tRPC Todos list</h1>
-        <ul className="mb-4 space-y-2">
-          {data?.map((t) => (
-            <li
-              key={t.id}
-              className="bg-white/10 border border-white/20 rounded-lg p-3 backdrop-blur-sm shadow-md"
-            >
-              <span className="text-lg text-white">{t.name}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-col gap-2">
-          <input
-            type="text"
-            value={todo}
-            onChange={(e) => setTodo(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                submitTodo()
-              }
-            }}
-            placeholder="Enter a new todo..."
-            className="w-full px-4 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-          />
-          <button
-            type="button"
-            disabled={todo.trim().length === 0}
-            onClick={submitTodo}
-            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors"
-          >
-            Add todo
-          </button>
-        </div>
-      </div>
-    </div>
-  )
+	const addTodo = useMutation({
+		...trpc.todos.add.mutationOptions(),
+		onSuccess: () => {
+			reload()
+			toast.success("Todo created")
+			setDialogOpen(false)
+		},
+		onError: (e) => toast.error(e.message),
+	})
+	const updateTodo = useMutation({
+		...trpc.todos.update.mutationOptions(),
+		onSuccess: () => {
+			reload()
+			toast.success("Todo updated")
+			setDialogOpen(false)
+		},
+		onError: (e) => toast.error(e.message),
+	})
+	const toggleTodo = useMutation({
+		...trpc.todos.toggle.mutationOptions(),
+		onSuccess: () => reload(),
+		onError: (e) => toast.error(e.message),
+	})
+	const deleteTodo = useMutation({
+		...trpc.todos.delete.mutationOptions(),
+		onSuccess: () => {
+			reload()
+			toast.success("Todo deleted")
+		},
+		onError: (e) => toast.error(e.message),
+	})
+
+	const busy = addTodo.isPending || updateTodo.isPending
+
+	function openCreate() {
+		setEditing(null)
+		setName("")
+		setDialogOpen(true)
+	}
+	function openEdit(todo: Todo) {
+		setEditing(todo)
+		setName(todo.name)
+		setDialogOpen(true)
+	}
+
+	function onSubmit(e: FormEvent) {
+		e.preventDefault()
+		const trimmed = name.trim()
+		if (!trimmed) return
+		if (editing) updateTodo.mutate({ id: editing.id, name: trimmed })
+		else addTodo.mutate({ name: trimmed })
+	}
+
+	function onDelete(todo: Todo) {
+		if (!confirm(`Delete “${todo.name}”? This can't be undone.`)) return
+		deleteTodo.mutate({ id: todo.id })
+	}
+
+	const remaining = todos.filter((t) => !t.completed).length
+
+	return (
+		<AdminShell>
+			<div className="px-6 py-6 max-w-3xl">
+				<PageHeader
+					icon={<ListChecks />}
+					title="Todos"
+					subtitle="End-to-end typesafe CRUD over tRPC v11 + React Query"
+					primaryAction={
+						<Button onClick={openCreate} className="gap-1">
+							<Plus className="size-3" />
+							New todo
+						</Button>
+					}
+				/>
+
+				{/* Sub-toolbar — counters */}
+				<div className="mb-2 text-[11px] text-muted-foreground tabular-nums">
+					{isLoading ? "…" : `${todos.length} todos · ${remaining} open`}
+				</div>
+
+				{/* Table */}
+				{isLoading ? (
+					<div className="rounded-md border border-border bg-background px-3 py-2 text-[11px] text-muted-foreground">
+						Loading…
+					</div>
+				) : todos.length === 0 ? (
+					<div className="rounded-md border border-dashed border-border bg-background py-8 text-[12px] text-muted-foreground text-center">
+						No todos yet. Click <span className="font-medium">New todo</span> to
+						add one.
+					</div>
+				) : (
+					<div className="rounded-md border border-border bg-background overflow-hidden">
+						<table className="w-full text-[13px]">
+							<thead className="bg-muted/50 text-[12px] text-foreground">
+								<tr className="border-b border-border">
+									<th className="text-left font-semibold px-3 py-2">Todo</th>
+									<th className="text-left font-semibold px-3 py-2 w-[110px]">
+										Status
+									</th>
+									<th className="px-3 py-2 w-[40px]" />
+								</tr>
+							</thead>
+							<tbody className="divide-y divide-border">
+								{todos.map((t) => (
+									<tr key={t.id} className="group hover:bg-muted/60">
+										<td
+											className={`px-3 py-(--row-padding-y) font-medium truncate max-w-[420px] ${
+												t.completed
+													? "text-muted-foreground line-through"
+													: "text-foreground"
+											}`}
+										>
+											{t.name}
+										</td>
+										<td className="px-3 py-(--row-padding-y)">
+											<StatusBadge
+												label={t.completed ? "Done" : "Open"}
+												tone={t.completed ? "success" : "warning"}
+											/>
+										</td>
+										<td className="px-1 py-1">
+											<DropdownMenu>
+												<DropdownMenuTrigger className="cursor-pointer rounded p-1 text-foreground/70 opacity-0 transition-opacity hover:bg-muted hover:text-foreground group-hover:opacity-100 data-[popup-open]:opacity-100">
+													<MoreHorizontal className="size-3.5" />
+												</DropdownMenuTrigger>
+												<DropdownMenuContent align="end">
+													<DropdownMenuItem onClick={() => openEdit(t)}>
+														<Pencil className="size-3.5 mr-2" />
+														Edit
+													</DropdownMenuItem>
+													<DropdownMenuItem
+														onClick={() => toggleTodo.mutate({ id: t.id })}
+													>
+														{t.completed ? (
+															<>
+																<RotateCcw className="size-3.5 mr-2" />
+																Mark open
+															</>
+														) : (
+															<>
+																<Check className="size-3.5 mr-2" />
+																Mark done
+															</>
+														)}
+													</DropdownMenuItem>
+													<DropdownMenuSeparator />
+													<DropdownMenuItem
+														variant="destructive"
+														onClick={() => onDelete(t)}
+													>
+														<Trash2 className="size-3.5 mr-2" />
+														Delete
+													</DropdownMenuItem>
+												</DropdownMenuContent>
+											</DropdownMenu>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				)}
+
+				{/* Create / edit dialog — Polaris 3-zone (header / body / footer) */}
+				<Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+					<DialogContent>
+						<form onSubmit={onSubmit} className="contents">
+							<DialogHeader>
+								<DialogTitle>{editing ? "Edit todo" : "Create todo"}</DialogTitle>
+							</DialogHeader>
+							<DialogBody>
+								<div className="space-y-1.5">
+									<Label htmlFor="todo-name">Name</Label>
+									<Input
+										id="todo-name"
+										value={name}
+										onChange={(e) => setName(e.target.value)}
+										placeholder="e.g. Ship the dashboard"
+										// biome-ignore lint/a11y/noAutofocus: focus the field on open
+										autoFocus
+										autoComplete="off"
+										spellCheck={false}
+									/>
+								</div>
+							</DialogBody>
+							<DialogFooter>
+								<Button
+									type="button"
+									variant="outline"
+									onClick={() => setDialogOpen(false)}
+								>
+									Cancel
+								</Button>
+								<Button type="submit" disabled={busy || !name.trim()}>
+									{busy ? "Saving…" : editing ? "Save changes" : "Create todo"}
+								</Button>
+							</DialogFooter>
+						</form>
+					</DialogContent>
+				</Dialog>
+			</div>
+		</AdminShell>
+	)
 }

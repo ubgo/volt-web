@@ -5,6 +5,12 @@ export const addTodoInputSchema = z.object({
 })
 export type AddTodoInput = z.infer<typeof addTodoInputSchema>
 
+export const updateTodoInputSchema = z.object({
+  id: z.number(),
+  name: z.string().min(1, 'Todo name is required'),
+})
+export type UpdateTodoInput = z.infer<typeof updateTodoInputSchema>
+
 export const toggleTodoInputSchema = z.object({
   id: z.number(),
 })

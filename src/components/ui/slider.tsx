@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Slider as SliderPrimitive } from "@base-ui/react/slider"
+import * as React from "react";
+import { Slider as SliderPrimitive } from "@base-ui/react/slider";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Slider({
   className,
@@ -18,10 +18,10 @@ function Slider({
       Array.isArray(value)
         ? value
         : Array.isArray(defaultValue)
-          ? defaultValue
-          : [min, max],
+        ? defaultValue
+        : [min, max],
     [value, defaultValue, min, max]
-  )
+  );
 
   return (
     <SliderPrimitive.Root
@@ -31,12 +31,15 @@ function Slider({
       min={min}
       max={max}
       className={cn(
-        "relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
+        // px-2 = thumb radius (size-4 → 8px). Insets the track by half the
+        // thumb so the thumb's edge stays flush with the field's left/right
+        // bounds at 0%/100% instead of overhanging into the layout.
+        "relative flex w-full touch-none items-center select-none px-2 data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:px-0 data-[orientation=vertical]:py-2",
         className
       )}
       {...props}
     >
-      <SliderPrimitive.Control className="grid grow data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5">
+      <SliderPrimitive.Control className="relative grid grow data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5">
         <SliderPrimitive.Track
           data-slot="slider-track"
           className={cn(
@@ -59,7 +62,7 @@ function Slider({
         ))}
       </SliderPrimitive.Control>
     </SliderPrimitive.Root>
-  )
+  );
 }
 
-export { Slider }
+export { Slider };

@@ -1,5 +1,10 @@
 import { useCallback, useState, useEffect } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
+import { Sparkles } from 'lucide-react'
+
+import { AdminShell, PageHeader } from '@/components/admin-shell'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 type Todo = {
   id: number
@@ -7,10 +12,10 @@ type Todo = {
 }
 
 export const Route = createFileRoute('/demo/mcp-todos')({
-  component: ORPCTodos,
+  component: MCPTodos,
 })
 
-function ORPCTodos() {
+function MCPTodos() {
   const [todos, setTodos] = useState<Todo[]>([])
 
   useEffect(() => {
@@ -24,6 +29,7 @@ function ORPCTodos() {
   const [todo, setTodo] = useState('')
 
   const submitTodo = useCallback(async () => {
+    if (!todo.trim()) return
     await fetch('/demo/api/mcp-todos', {
       method: 'POST',
       body: JSON.stringify({ title: todo }),
@@ -32,48 +38,48 @@ function ORPCTodos() {
   }, [todo])
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-gradient-to-br from-teal-200 to-emerald-900 p-4 text-white"
-      style={{
-        backgroundImage:
-          'radial-gradient(70% 70% at 20% 20%, #07A798 0%, #045C4B 60%, #01251F 100%)',
-      }}
-    >
-      <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
-        <h1 className="text-2xl mb-4">MCP Todos list</h1>
-        <ul className="mb-4 space-y-2">
-          {todos?.map((t) => (
-            <li
-              key={t.id}
-              className="bg-white/10 border border-white/20 rounded-lg p-3 backdrop-blur-sm shadow-md"
-            >
-              <span className="text-lg text-white">{t.title}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-col gap-2">
-          <input
-            type="text"
+    <AdminShell>
+      <div className="px-6 py-6 max-w-3xl">
+        <PageHeader
+          icon={<Sparkles />}
+          title="MCP todos"
+          subtitle="Live todo list streamed over Server-Sent Events from an MCP server"
+        />
+        <div className="mb-2 text-[11px] text-muted-foreground tabular-nums">
+          {todos.length} todos · live
+        </div>
+        {todos.length > 0 && (
+          <div className="rounded-md border border-border bg-background overflow-hidden divide-y divide-border">
+            {todos.map((t) => (
+              <div
+                key={t.id}
+                className="px-3 py-(--row-padding-y) text-(length:--row-font-size) text-foreground hover:bg-muted/60 transition-colors"
+              >
+                {t.title}
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="mt-3 flex gap-2">
+          <Input
             value={todo}
             onChange={(e) => setTodo(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                submitTodo()
-              }
+              if (e.key === 'Enter') submitTodo()
             }}
-            placeholder="Enter a new todo..."
-            className="w-full px-4 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+            placeholder="Add a todo…"
+            className="flex-1"
           />
-          <button
+          <Button
             type="button"
+            size="sm"
             disabled={todo.trim().length === 0}
             onClick={submitTodo}
-            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors"
           >
-            Add todo
-          </button>
+            Add
+          </Button>
         </div>
       </div>
-    </div>
+    </AdminShell>
   )
 }

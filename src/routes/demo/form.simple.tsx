@@ -1,7 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { FormInput } from 'lucide-react'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { useAppForm } from '@/hooks/demo.form'
+import { AdminShell, PageHeader } from '@/components/admin-shell'
+import { useAppForm } from '@/demo/form/use-app-form'
 
 export const Route = createFileRoute('/demo/form/simple')({
   component: SimpleForm,
@@ -22,44 +25,41 @@ function SimpleForm() {
       onBlur: schema,
     },
     onSubmit: ({ value }) => {
-      console.log(value)
-      // Show success message
-      alert('Form submitted successfully!')
+      toast.success('Form submitted', { description: value.title })
     },
   })
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-white"
-      style={{
-        backgroundImage:
-          'radial-gradient(50% 50% at 5% 40%, #add8e6 0%, #0000ff 70%, #00008b 100%)',
-      }}
-    >
-      <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
+    <AdminShell>
+      <div className="px-6 py-6 max-w-3xl">
+        <PageHeader
+          icon={<FormInput />}
+          title="Simple form"
+          subtitle="TanStack Form with field-level validation"
+        />
         <form
           onSubmit={(e) => {
             e.preventDefault()
             e.stopPropagation()
             form.handleSubmit()
           }}
-          className="space-y-6"
+          className="rounded-md border border-border bg-background p-4 space-y-3"
         >
           <form.AppField name="title">
-            {(field) => <field.TextField label="Title" />}
+            {(field) => <field.TextField label="Title" placeholder="A short title" />}
           </form.AppField>
 
           <form.AppField name="description">
             {(field) => <field.TextArea label="Description" />}
           </form.AppField>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end border-t border-border pt-3">
             <form.AppForm>
               <form.SubscribeButton label="Submit" />
             </form.AppForm>
           </div>
         </form>
       </div>
-    </div>
+    </AdminShell>
   )
 }
