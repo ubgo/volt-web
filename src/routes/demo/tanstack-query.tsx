@@ -1,6 +1,11 @@
 import { useCallback, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { Database } from 'lucide-react'
+
+import { AdminShell, PageHeader } from '@/components/admin-shell'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 export const Route = createFileRoute('/demo/tanstack-query')({
   component: TanStackQueryDemo,
@@ -12,13 +17,13 @@ type Todo = {
 }
 
 function TanStackQueryDemo() {
-  const { data, refetch } = useQuery<Todo[]>({
+  const { data = [], isLoading, refetch } = useQuery<Todo[]>({
     queryKey: ['todos'],
     queryFn: () => fetch('/demo/api/tq-todos').then((res) => res.json()),
     initialData: [],
   })
 
-  const { mutate: addTodo } = useMutation({
+  const { mutate: addTodo, isPending } = useMutation({
     mutationFn: (todo: string) =>
       fetch('/demo/api/tq-todos', {
         method: 'POST',
@@ -30,53 +35,54 @@ function TanStackQueryDemo() {
   const [todo, setTodo] = useState('')
 
   const submitTodo = useCallback(async () => {
+    if (!todo.trim()) return
     await addTodo(todo)
     setTodo('')
   }, [addTodo, todo])
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-gradient-to-br from-red-900 via-red-800 to-black p-4 text-white"
-      style={{
-        backgroundImage:
-          'radial-gradient(50% 50% at 80% 20%, #3B021F 0%, #7B1028 60%, #1A000A 100%)',
-      }}
-    >
-      <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
-        <h1 className="text-2xl mb-4">TanStack Query Todos list</h1>
-        <ul className="mb-4 space-y-2">
-          {data?.map((t) => (
-            <li
-              key={t.id}
-              className="bg-white/10 border border-white/20 rounded-lg p-3 backdrop-blur-sm shadow-md"
-            >
-              <span className="text-lg text-white">{t.name}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-col gap-2">
-          <input
-            type="text"
+    <AdminShell>
+      <div className="px-6 py-6 max-w-3xl">
+        <PageHeader
+          icon={<Database />}
+          title="TanStack Query"
+          subtitle="Async state, caching, and request dedup"
+        />
+        <div className="mb-2 text-[11px] text-muted-foreground tabular-nums">
+          {isLoading ? '…' : `${data.length} todos`}
+        </div>
+        {data.length > 0 && (
+          <div className="rounded-md border border-border bg-background overflow-hidden divide-y divide-border">
+            {data.map((t) => (
+              <div
+                key={t.id}
+                className="px-3 py-(--row-padding-y) text-(length:--row-font-size) text-foreground hover:bg-muted/60 transition-colors"
+              >
+                {t.name}
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="mt-3 flex gap-2">
+          <Input
             value={todo}
             onChange={(e) => setTodo(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                submitTodo()
-              }
+              if (e.key === 'Enter') submitTodo()
             }}
-            placeholder="Enter a new todo..."
-            className="w-full px-4 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+            placeholder="Add a todo…"
+            className="flex-1"
           />
-          <button
+          <Button
             type="button"
-            disabled={todo.trim().length === 0}
+            size="sm"
+            disabled={todo.trim().length === 0 || isPending}
             onClick={submitTodo}
-            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors"
           >
-            Add todo
-          </button>
+            {isPending ? 'Adding…' : 'Add'}
+          </Button>
         </div>
       </div>
-    </div>
+    </AdminShell>
   )
 }

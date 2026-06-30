@@ -1,6 +1,6 @@
 import { useStore } from '@tanstack/react-form'
 
-import { useFieldContext, useFormContext } from '@/hooks/demo.form-context'
+import { useFieldContext, useFormContext } from '@/demo/form/form-context'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -10,13 +10,17 @@ import { Slider as ShadcnSlider } from '@/components/ui/slider'
 import { Switch as ShadcnSwitch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 
+// Field components for the TanStack Form demos. Styled to the project's
+// Polaris-grade density: dense inputs (h-7 from the UI kit), default-weight
+// labels, and quiet 11px destructive error text — NOT oversized headings.
+
 export function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext()
   return (
     <form.Subscribe selector={(state) => state.isSubmitting}>
       {(isSubmitting) => (
-        <Button type="submit" disabled={isSubmitting}>
-          {label}
+        <Button type="submit" size="sm" disabled={isSubmitting}>
+          {isSubmitting ? 'Saving…' : label}
         </Button>
       )}
     </form.Subscribe>
@@ -31,12 +35,12 @@ function ErrorMessages({
   return (
     <>
       {errors.map((error) => (
-        <div
+        <p
           key={typeof error === 'string' ? error : error.message}
-          className="text-red-500 mt-1 font-bold"
+          className="text-[11px] text-destructive"
         >
           {typeof error === 'string' ? error : error.message}
-        </div>
+        </p>
       ))}
     </>
   )
@@ -53,11 +57,10 @@ export function TextField({
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div>
-      <Label htmlFor={label} className="mb-2 text-xl font-bold">
-        {label}
-      </Label>
+    <div className="space-y-1.5">
+      <Label htmlFor={label}>{label}</Label>
       <Input
+        id={label}
         value={field.state.value}
         placeholder={placeholder}
         onBlur={field.handleBlur}
@@ -79,10 +82,8 @@ export function TextArea({
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div>
-      <Label htmlFor={label} className="mb-2 text-xl font-bold">
-        {label}
-      </Label>
+    <div className="space-y-1.5">
+      <Label htmlFor={label}>{label}</Label>
       <ShadcnTextarea
         id={label}
         value={field.state.value}
@@ -108,7 +109,8 @@ export function Select({
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div>
+    <div className="space-y-1.5">
+      <Label htmlFor={label}>{label}</Label>
       <ShadcnSelect.Select
         name={field.name}
         value={field.state.value}
@@ -120,7 +122,6 @@ export function Select({
         <ShadcnSelect.SelectPositioner>
           <ShadcnSelect.SelectContent>
             <ShadcnSelect.SelectGroup>
-              <ShadcnSelect.SelectLabel>{label}</ShadcnSelect.SelectLabel>
               {values.map((value) => (
                 <ShadcnSelect.SelectItem key={value.value} value={value.value}>
                   {value.label}
@@ -140,10 +141,8 @@ export function Slider({ label }: { label: string }) {
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div>
-      <Label htmlFor={label} className="mb-2 text-xl font-bold">
-        {label}
-      </Label>
+    <div className="space-y-1.5">
+      <Label htmlFor={label}>{label}</Label>
       <ShadcnSlider
         id={label}
         onBlur={field.handleBlur}
@@ -162,7 +161,7 @@ export function Switch({ label }: { label: string }) {
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div>
+    <div className="space-y-1.5">
       <div className="flex items-center gap-2">
         <ShadcnSwitch
           id={label}

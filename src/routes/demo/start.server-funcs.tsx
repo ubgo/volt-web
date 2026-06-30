@@ -2,6 +2,11 @@ import fs from 'node:fs'
 import { useCallback, useState } from 'react'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
+import { Server } from 'lucide-react'
+
+import { AdminShell, PageHeader } from '@/components/admin-shell'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 /*
 const loggingMiddleware = createMiddleware().server(
@@ -15,9 +20,14 @@ const loggedServerFunction = createServerFn({ method: "GET" }).middleware([
 ]);
 */
 
+type Todo = {
+  id: number
+  name: string
+}
+
 const TODOS_FILE = 'todos.json'
 
-async function readTodos() {
+async function readTodos(): Promise<Todo[]> {
   return JSON.parse(
     await fs.promises.readFile(TODOS_FILE, 'utf-8').catch(() =>
       JSON.stringify(
@@ -58,54 +68,55 @@ function Home() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: todos reassignment is intentional, not a reactive dependency
   const submitTodo = useCallback(async () => {
+    if (!todo.trim()) return
     todos = await addTodo({ data: todo })
     setTodo('')
     router.invalidate()
   }, [todo, router])
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-gradient-to-br from-zinc-800 to-black p-4 text-white"
-      style={{
-        backgroundImage:
-          'radial-gradient(50% 50% at 20% 60%, #23272a 0%, #18181b 50%, #000000 100%)',
-      }}
-    >
-      <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
-        <h1 className="text-2xl mb-4">Start Server Functions - Todo Example</h1>
-        <ul className="mb-4 space-y-2">
-          {todos?.map((t) => (
-            <li
-              key={t.id}
-              className="bg-white/10 border border-white/20 rounded-lg p-3 backdrop-blur-sm shadow-md"
-            >
-              <span className="text-lg text-white">{t.name}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-col gap-2">
-          <input
-            type="text"
+    <AdminShell>
+      <div className="px-6 py-6 max-w-3xl">
+        <PageHeader
+          icon={<Server />}
+          title="Server functions"
+          subtitle="Type-safe server-side calls invoked straight from the client"
+        />
+        <div className="mb-2 text-[11px] text-muted-foreground tabular-nums">
+          {todos?.length ?? 0} todos
+        </div>
+        {todos && todos.length > 0 && (
+          <div className="rounded-md border border-border bg-background overflow-hidden divide-y divide-border">
+            {todos.map((t: Todo) => (
+              <div
+                key={t.id}
+                className="px-3 py-(--row-padding-y) text-(length:--row-font-size) text-foreground hover:bg-muted/60 transition-colors"
+              >
+                {t.name}
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="mt-3 flex gap-2">
+          <Input
             value={todo}
             onChange={(e) => setTodo(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                submitTodo()
-              }
+              if (e.key === 'Enter') submitTodo()
             }}
-            placeholder="Enter a new todo..."
-            className="w-full px-4 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+            placeholder="Add a todo…"
+            className="flex-1"
           />
-          <button
+          <Button
             type="button"
+            size="sm"
             disabled={todo.trim().length === 0}
             onClick={submitTodo}
-            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors"
           >
-            Add todo
-          </button>
+            Add
+          </Button>
         </div>
       </div>
-    </div>
+    </AdminShell>
   )
 }

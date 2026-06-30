@@ -1,7 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useStore } from '@tanstack/react-store'
+import { Boxes } from 'lucide-react'
 
-import { fullName, store } from '@/lib/demo-store'
+import { AdminShell, PageHeader } from '@/components/admin-shell'
+import { ReadonlyValue } from '@/demo/form/form-kit'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { fullName, store } from '@/demo/data/store'
 
 export const Route = createFileRoute('/demo/store')({
   component: DemoStore,
@@ -10,13 +15,12 @@ export const Route = createFileRoute('/demo/store')({
 function FirstName() {
   const firstName = useStore(store, (state) => state.firstName)
   return (
-    <input
-      type="text"
+    <Input
+      id="firstName"
       value={firstName}
       onChange={(e) =>
         store.setState((state) => ({ ...state, firstName: e.target.value }))
       }
-      className="bg-white/10 rounded-lg px-4 py-2 outline-none border border-white/20 hover:border-white/40 focus:border-white/60 transition-colors duration-200 placeholder-white/40"
     />
   )
 }
@@ -24,13 +28,12 @@ function FirstName() {
 function LastName() {
   const lastName = useStore(store, (state) => state.lastName)
   return (
-    <input
-      type="text"
+    <Input
+      id="lastName"
       value={lastName}
       onChange={(e) =>
         store.setState((state) => ({ ...state, lastName: e.target.value }))
       }
-      className="bg-white/10 rounded-lg px-4 py-2 outline-none border border-white/20 hover:border-white/40 focus:border-white/60 transition-colors duration-200 placeholder-white/40"
     />
   )
 }
@@ -38,27 +41,34 @@ function LastName() {
 function FullName() {
   const fName = useStore(fullName)
   return (
-    <div className="bg-white/10 rounded-lg px-4 py-2 outline-none ">
-      {fName}
-    </div>
+    <ReadonlyValue>{fName || '—'}</ReadonlyValue>
   )
 }
 
 function DemoStore() {
   return (
-    <div
-      className="min-h-[calc(100vh-32px)] text-white p-8 flex items-center justify-center w-full h-full"
-      style={{
-        backgroundImage:
-          'radial-gradient(50% 50% at 80% 80%, #f4a460 0%, #8b4513 70%, #1a0f0a 100%)',
-      }}
-    >
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-8 shadow-lg flex flex-col gap-4 text-3xl min-w-1/2">
-        <h1 className="text-4xl font-bold mb-5">Store Example</h1>
-        <FirstName />
-        <LastName />
-        <FullName />
+    <AdminShell>
+      <div className="px-6 py-6 max-w-3xl">
+        <PageHeader
+          icon={<Boxes />}
+          title="Store"
+          subtitle="Reactive client state with TanStack Store — full name derives live"
+        />
+        <div className="rounded-md border border-border bg-background p-4 space-y-3 max-w-md">
+          <div className="space-y-1.5">
+            <Label htmlFor="firstName">First name</Label>
+            <FirstName />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="lastName">Last name</Label>
+            <LastName />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Full name (derived)</Label>
+            <FullName />
+          </div>
+        </div>
       </div>
-    </div>
+    </AdminShell>
   )
 }

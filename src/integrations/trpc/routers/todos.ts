@@ -2,6 +2,7 @@ import type { TRPCRouterRecord } from '@trpc/server'
 import { publicProcedure } from '../procedures'
 import {
   addTodoInputSchema,
+  updateTodoInputSchema,
   toggleTodoInputSchema,
   deleteTodoInputSchema,
 } from './schema/todos'
@@ -23,6 +24,15 @@ export const todosRouter = {
       const newTodo = { id: nextId++, name: input.name, completed: false }
       todos.push(newTodo)
       return newTodo
+    }),
+
+  update: publicProcedure
+    .input(updateTodoInputSchema)
+    .mutation(({ input }) => {
+      const todo = todos.find((t) => t.id === input.id)
+      if (!todo) throw new Error('Todo not found')
+      todo.name = input.name
+      return todo
     }),
 
   toggle: publicProcedure

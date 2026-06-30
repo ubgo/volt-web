@@ -1,6 +1,6 @@
-import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
+import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Switch({ className, children, ...props }: SwitchPrimitive.Root.Props) {
   return (
@@ -14,7 +14,7 @@ function Switch({ className, children, ...props }: SwitchPrimitive.Root.Props) {
     >
       {children ?? <SwitchThumb />}
     </SwitchPrimitive.Root>
-  )
+  );
 }
 
 function SwitchThumb({ className, ...props }: SwitchPrimitive.Thumb.Props) {
@@ -27,7 +27,7 @@ function SwitchThumb({ className, ...props }: SwitchPrimitive.Thumb.Props) {
       )}
       {...props}
     />
-  )
+  );
 }
 
-export { Switch, SwitchThumb }
+export { Switch, SwitchThumb };
