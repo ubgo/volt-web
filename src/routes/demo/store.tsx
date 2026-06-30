@@ -6,7 +6,7 @@ import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { ReadonlyValue } from '@/demo/form/form-kit'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { fullName, store } from '@/demo/data/store'
+import { deriveFullName, store } from '@/demo/data/store'
 
 export const Route = createFileRoute('/demo/store')({
   component: DemoStore,
@@ -39,7 +39,7 @@ function LastName() {
 }
 
 function FullName() {
-  const fName = useStore(fullName)
+  const fName = useStore(store, deriveFullName)
   return (
     <ReadonlyValue>{fName || '—'}</ReadonlyValue>
   )
