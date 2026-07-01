@@ -1,6 +1,15 @@
-# TanStack Start Boilerplate
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./public/logo-white.svg" />
+    <img src="./public/logo.svg" alt="Volt" width="360" />
+  </picture>
+</p>
 
-A batteries-included starter for quickly bootstrapping a **server-side-rendered React app** with [TanStack Start](https://tanstack.com/start). It ships with a token-driven design system, a dashboard shell, light/dark theming, two RPC layers, a database, typesafe env, and a full gallery of demo pages — so you can delete the demos and start building your actual app in minutes.
+# Volt ⚡
+
+**Volt** is a batteries-included starter for quickly bootstrapping a **server-side-rendered React app** with [TanStack Start](https://tanstack.com/start). It ships with a token-driven design system, a dashboard shell, light/dark theming, two RPC layers, a typed GraphQL SDK, a database, typesafe env, and a full gallery of demo pages — so you can delete the demos and start building your actual app in minutes.
+
+> Volt is the web half of a full-stack family — pair it with **Volt API** (the Go backend starter) for an end-to-end stack. Handle: `usevolt` (`@usevolt/web`, `@usevolt/api`).
 
 > Everything demo/showcase-related lives under `/demo` (routes) and `src/demo/` (helpers). Delete those two, swap the `/` redirect, and you have a clean, opinionated foundation.
 
@@ -17,6 +26,7 @@ A batteries-included starter for quickly bootstrapping a **server-side-rendered 
 | Tables | TanStack Table **and** a bespoke `ServerDataTable` (filters, sort, cursor pagination, saved views, URL state) |
 | Client state | TanStack Store |
 | RPC | tRPC v11 **and** oRPC — both wired end-to-end |
+| GraphQL | [gqlkit](https://github.com/ubgo/gqlkit) — typed SDK generated from your schema (no graphql-codegen) |
 | Database | Drizzle ORM + PostgreSQL |
 | UI kit | Base UI (`@base-ui/react`) via [basecn](https://basecn.dev) — 34 components |
 | Styling | Tailwind CSS v4 (config-in-CSS) + design tokens |
@@ -102,8 +112,9 @@ src/
 │   ├── admin-shell.tsx     # Dashboard layout (sidebar, PageHeader, Surface…)
 │   └── theme-toggle.tsx
 ├── demo/                   # 🎯 Demo-only helpers (form kit, mock data) — delete for a real app
-├── integrations/           # drizzle · trpc · orpc · tanstack-query · sentry · graphql-codegen
-├── lib/                    # utils, theme, seo, and reusable helpers
+├── integrations/           # drizzle · trpc · orpc · tanstack-query · sentry
+├── generated/sdk/          # gqlkit typed GraphQL SDK (generated — `task gqlkit:all`)
+├── lib/                    # utils, theme, seo, gql-clients, and reusable helpers
 ├── env/                    # Typesafe client + server env
 └── styles.css              # Tailwind v4 + design tokens (colors, density, dark mode)
 ```
@@ -134,8 +145,9 @@ The demo is deliberately isolated so removing it is trivial:
 1. Delete `src/routes/demo/` and `src/demo/`.
 2. Replace the redirect in `src/routes/index.tsx` with your own landing route.
 3. Edit `NAV_SECTIONS` in `src/components/admin-shell.tsx` for your app's navigation.
+4. **Rebrand** — drop your square logo at `public/logo-source.png`, run `task branding:gen`, update `public/manifest.json` + `SITE_NAME` in `src/lib/seo.ts`. The **`/demo/branding`** page documents every icon and where it's wired.
 
-What remains — the UI kit, dashboard shell, theming, RPC/DB integrations, and env setup — is your foundation.
+What remains — the UI kit, dashboard shell, theming, RPC/DB/GraphQL integrations, and env setup — is your foundation.
 
 ---
 

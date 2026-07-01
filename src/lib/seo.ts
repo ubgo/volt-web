@@ -3,7 +3,7 @@
 // fully type-checked. The deepest matched route's title wins, so per-route
 // titles override the root default.
 
-const SITE_NAME = "Boilerplate"
+const SITE_NAME = "Volt"
 
 export function seo({
 	title,

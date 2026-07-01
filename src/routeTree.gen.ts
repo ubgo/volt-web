@@ -21,6 +21,7 @@ import { Route as DemoOrpcTodoRouteImport } from './routes/demo/orpc-todo'
 import { Route as DemoMcpTodosRouteImport } from './routes/demo/mcp-todos'
 import { Route as DemoGqlkitRouteImport } from './routes/demo/gqlkit'
 import { Route as DemoComponentsRouteImport } from './routes/demo/components'
+import { Route as DemoBrandingRouteImport } from './routes/demo/branding'
 import { Route as ApiVersionRouteImport } from './routes/api.version'
 import { Route as ApiHealthRouteImport } from './routes/api.health'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
@@ -100,6 +101,11 @@ const DemoGqlkitRoute = DemoGqlkitRouteImport.update({
 const DemoComponentsRoute = DemoComponentsRouteImport.update({
   id: '/demo/components',
   path: '/demo/components',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoBrandingRoute = DemoBrandingRouteImport.update({
+  id: '/demo/branding',
+  path: '/demo/branding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiVersionRoute = ApiVersionRouteImport.update({
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/api/health': typeof ApiHealthRoute
   '/api/version': typeof ApiVersionRoute
+  '/demo/branding': typeof DemoBrandingRoute
   '/demo/components': typeof DemoComponentsRoute
   '/demo/gqlkit': typeof DemoGqlkitRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
@@ -242,6 +249,7 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/api/health': typeof ApiHealthRoute
   '/api/version': typeof ApiVersionRoute
+  '/demo/branding': typeof DemoBrandingRoute
   '/demo/components': typeof DemoComponentsRoute
   '/demo/gqlkit': typeof DemoGqlkitRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
@@ -277,6 +285,7 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/api/health': typeof ApiHealthRoute
   '/api/version': typeof ApiVersionRoute
+  '/demo/branding': typeof DemoBrandingRoute
   '/demo/components': typeof DemoComponentsRoute
   '/demo/gqlkit': typeof DemoGqlkitRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
@@ -313,6 +322,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/api/health'
     | '/api/version'
+    | '/demo/branding'
     | '/demo/components'
     | '/demo/gqlkit'
     | '/demo/mcp-todos'
@@ -347,6 +357,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/api/health'
     | '/api/version'
+    | '/demo/branding'
     | '/demo/components'
     | '/demo/gqlkit'
     | '/demo/mcp-todos'
@@ -381,6 +392,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/api/health'
     | '/api/version'
+    | '/demo/branding'
     | '/demo/components'
     | '/demo/gqlkit'
     | '/demo/mcp-todos'
@@ -416,6 +428,7 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiVersionRoute: typeof ApiVersionRoute
+  DemoBrandingRoute: typeof DemoBrandingRoute
   DemoComponentsRoute: typeof DemoComponentsRoute
   DemoGqlkitRoute: typeof DemoGqlkitRoute
   DemoMcpTodosRoute: typeof DemoMcpTodosRoute
@@ -530,6 +543,13 @@ declare module '@tanstack/react-router' {
       path: '/demo/components'
       fullPath: '/demo/components'
       preLoaderRoute: typeof DemoComponentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/branding': {
+      id: '/demo/branding'
+      path: '/demo/branding'
+      fullPath: '/demo/branding'
+      preLoaderRoute: typeof DemoBrandingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/version': {
@@ -680,6 +700,7 @@ const rootRouteChildren: RootRouteChildren = {
   McpRoute: McpRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiVersionRoute: ApiVersionRoute,
+  DemoBrandingRoute: DemoBrandingRoute,
   DemoComponentsRoute: DemoComponentsRoute,
   DemoGqlkitRoute: DemoGqlkitRoute,
   DemoMcpTodosRoute: DemoMcpTodosRoute,

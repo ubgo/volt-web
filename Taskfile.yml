@@ -78,6 +78,23 @@ tasks:
     cmds:
       - pnpm build
 
+  # ── branding: regenerate the PWA/favicon icon set from one source image ───
+  # Drop a square source (≥512×512) at public/logo-source.png, then run this.
+  # See /demo/branding in the app for the full replace-the-branding guide.
+  branding:gen:
+    desc: Generate public/images/icon-{192,512,180x180}.png from public/logo-source.png
+    cmds:
+      - |
+        SRC="public/logo-source.png"
+        if [ ! -f "$SRC" ]; then
+          echo "Missing $SRC — put a square image (>=512x512) there first." >&2
+          exit 1
+        fi
+        sips -z 192 192 "$SRC" --out public/images/icon-192.png
+        sips -z 512 512 "$SRC" --out public/images/icon-512.png
+        sips -z 180 180 "$SRC" --out public/images/icon-180x180.png
+        echo "Generated icon-192 / icon-512 / icon-180x180 in public/images/"
+
   # ── gqlkit: typed GraphQL SDK codegen (replaces graphql-codegen) ──────────
   # The `gqlkit` + `gqlkit-sdl` Go binaries must be on PATH.
   # Install: curl -sL https://raw.githubusercontent.com/khanakia/gqlkit/main/gqlkit/install.sh | sh
