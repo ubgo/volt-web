@@ -38,13 +38,27 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "Boilerplate",
+				title: "Volt",
 			},
 		],
 		links: [
 			{
 				rel: "stylesheet",
 				href: appCss,
+			},
+			{
+				rel: "icon",
+				type: "image/x-icon",
+				href: "/images/favicon.ico",
+			},
+			{
+				rel: "apple-touch-icon",
+				sizes: "180x180",
+				href: "/images/icon-180x180.png",
+			},
+			{
+				rel: "manifest",
+				href: "/manifest.json",
 			},
 		],
 	}),

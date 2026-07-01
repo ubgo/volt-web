@@ -18,6 +18,7 @@ import {
 	type LucideIcon,
 	Network,
 	PackagePlus,
+	Palette,
 	Server,
 	Settings,
 	ShieldAlert,
@@ -65,6 +66,7 @@ const NAV_SECTIONS: NavSection[] = [
 		items: [
 			{ to: "/demo", label: "Dashboard", icon: LayoutDashboard, exact: true },
 			{ to: "/demo/components", label: "Components", icon: LayoutGrid },
+			{ to: "/demo/branding", label: "Branding & favicon", icon: Palette },
 		],
 	},
 	{
@@ -127,16 +129,16 @@ export function AdminShell({ children }: { children: ReactNode }) {
 				<aside className="hidden md:flex w-[248px] shrink-0 flex-col border-r border-border bg-background h-screen sticky top-0 self-start">
 					<div className="h-[60px] flex items-center gap-2.5 px-4 border-b border-border shrink-0">
 						<img
-							src="/tanstack-circle-logo.png"
-							alt="Boilerplate"
+							src="/icon.svg"
+							alt="Volt"
 							className="size-8 rounded-lg shadow-sm"
 						/>
 						<div className="leading-tight">
 							<div className="text-sm font-semibold tracking-tight">
-								Boilerplate
+								Volt
 							</div>
 							<div className="text-[11px] text-muted-foreground">
-								TanStack Start
+								React starter
 							</div>
 						</div>
 						<div className="ml-auto">
