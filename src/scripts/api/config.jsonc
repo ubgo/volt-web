@@ -1,0 +1,15 @@
+{
+	// gqlkit generate-ts config — maps custom GraphQL scalars to TypeScript
+	// types. This is the ONLY generator config; the endpoint/auth live at
+	// runtime in src/lib/gql-clients.ts, not here.
+	"bindings": {
+		"Cursor": "string",
+		"Time": "string",
+		"JSON": "Record<string, unknown>",
+		"JsonSlice": "unknown",
+		"Map": "Record<string, unknown>",
+		"Password": "string",
+		"Uint": "number",
+		"Uint64": "string"
+	}
+}

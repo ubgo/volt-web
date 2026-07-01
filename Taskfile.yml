@@ -14,9 +14,6 @@ includes:
   db:
     taskfile: src/integrations/drizzle/Taskfile.yml
     dir: .
-  gql:
-    taskfile: src/integrations/graphql-codegen/Taskfile.yml
-    dir: .
 
 tasks:
   dev:
@@ -80,3 +77,22 @@ tasks:
     desc: production build (vite + nitro), regenerates the route tree
     cmds:
       - pnpm build
+
+  # ── gqlkit: typed GraphQL SDK codegen (replaces graphql-codegen) ──────────
+  # The `gqlkit` + `gqlkit-sdl` Go binaries must be on PATH.
+  # Install: curl -sL https://raw.githubusercontent.com/khanakia/gqlkit/main/gqlkit/install.sh | sh
+  gqlkit:fetch:
+    desc: Fetch the GraphQL SDL from the live API via introspection → src/scripts/api/schema-introspected.graphql
+    cmds:
+      - gqlkit-sdl fetch --url "${VITE_API_URL:-https://sync-api.localhost}/api/admin/v1/query_playground?pkey=${GQL_PKEY:-1234}" -o src/scripts/api/schema-introspected.graphql
+
+  gqlkit:gen:
+    desc: Generate the typed TypeScript SDK at src/generated/sdk from the fetched SDL
+    cmds:
+      - gqlkit generate-ts --schema src/scripts/api/schema-introspected.graphql --output src/generated/sdk --config src/scripts/api/config.jsonc
+
+  gqlkit:all:
+    desc: Fetch schema then regenerate the SDK in one shot (the codegen entrypoint)
+    cmds:
+      - task: gqlkit:fetch
+      - task: gqlkit:gen
