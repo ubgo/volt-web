@@ -1,6 +1,0 @@
-# Example GraphQL operations.
-# Replace with your actual queries and mutations.
-
-query Hello {
-  hello
-}

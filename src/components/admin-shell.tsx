@@ -93,6 +93,7 @@ const NAV_SECTIONS: NavSection[] = [
 			{ to: "/demo/start/api-request", label: "API request", icon: Network },
 			{ to: "/demo/trpc-todo", label: "tRPC todos", icon: Code2 },
 			{ to: "/demo/orpc-todo", label: "oRPC todos", icon: ArrowLeftRight },
+			{ to: "/demo/gqlkit", label: "GraphQL (gqlkit)", icon: Database },
 			{ to: "/demo/mcp-todos", label: "MCP todos", icon: Sparkles },
 		],
 	},
