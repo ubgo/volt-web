@@ -1,0 +1,52 @@
+Volt Commercial License
+
+Copyright (c) 2026 khanakia. All rights reserved.
+
+This software and its source code ("Volt") are proprietary and confidential.
+Access is granted only to holders of a valid, paid license.
+
+1. Grant of license
+   Subject to payment of the applicable fee and continued compliance with these
+   terms, you are granted a non-exclusive, non-transferable, worldwide license
+   to use, modify, and incorporate Volt as the foundation of your own software
+   applications ("Your Applications"), and to deploy and distribute Your
+   Applications to your end users.
+
+2. Permitted use
+   - Use Volt to build an unlimited number of Your Applications, personal or
+     commercial.
+   - Modify the source code as needed for Your Applications.
+   - Deploy Your Applications, including their compiled/bundled output.
+
+3. Restrictions
+   You may NOT:
+   - Redistribute, resell, sublicense, publish, or share Volt's source code, in
+     whole or in substantial part, whether modified or unmodified.
+   - Distribute Volt (or a derivative of it) as a template, boilerplate,
+     starter kit, or component library — i.e. any product whose primary value
+     is Volt itself rather than an application built with it.
+   - Remove or obscure this license or the copyright notice from the source.
+
+4. Ownership
+   Volt is licensed, not sold. All right, title, and interest in and to Volt
+   remain with the copyright holder. This license grants no rights to any
+   trademark, service mark, or logo.
+
+5. No warranty
+   VOLT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+   PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+6. Limitation of liability
+   IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR
+   OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE,
+   ARISING FROM, OUT OF, OR IN CONNECTION WITH VOLT OR THE USE OR OTHER DEALINGS
+   IN VOLT.
+
+7. Termination
+   This license terminates automatically if you breach any of its terms. On
+   termination you must cease all use of Volt and destroy all copies of its
+   source code in your possession. Your Applications already deployed are not
+   affected, provided they do not expose Volt's source.
+
+For licensing inquiries, contact khanakia@gmail.com.

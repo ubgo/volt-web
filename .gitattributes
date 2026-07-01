@@ -1,0 +1,13 @@
+# Normalize line endings to LF on checkin
+* text=auto eol=lf
+
+# Binary assets — never diff or normalize
+*.png binary
+*.ico binary
+*.jpg binary
+*.woff2 binary
+
+# Generated / vendored — collapse in diffs and exclude from language stats
+src/generated/** linguist-generated=true
+src/routeTree.gen.ts linguist-generated=true
+pnpm-lock.yaml linguist-generated=true

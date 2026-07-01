@@ -1,0 +1,68 @@
+{
+  "name": "volt",
+  "tagline": "The batteries-included TanStack Start starter.",
+  "description": "Volt is a production-ready TanStack Start boilerplate for building server-side-rendered React apps — a token-driven design system, a dashboard shell, dual RPC (tRPC + oRPC), Drizzle + PostgreSQL, a typed GraphQL SDK via gqlkit, light/dark theming, and typesafe env, all wired end-to-end.",
+  "repo": "khanakia/boilerplate-tanstack",
+  "homepage": "",
+  "language": "typescript",
+  "kind": "web-app",
+  "license": "LicenseRef-Proprietary",
+  "distribution": "commercial-private",
+  "author": {
+    "name": "khanakia",
+    "email": "khanakia@gmail.com",
+    "github": "khanakia"
+  },
+  "brand": {
+    "concept": "lightning-bolt",
+    "color": "violet",
+    "tile": ["#6366F1", "#8B5CF6"],
+    "fg": "#FFFFFF",
+    "accent": "#7C3AED",
+    "radius": 112
+  },
+  "fonts": {
+    "display": "Space Grotesk",
+    "sans": "Inter",
+    "mono": "JetBrains Mono"
+  },
+  "topics": [
+    "react",
+    "tanstack",
+    "tanstack-start",
+    "tanstack-router",
+    "ssr",
+    "boilerplate",
+    "starter-kit",
+    "typescript",
+    "trpc",
+    "orpc",
+    "drizzle",
+    "tailwindcss",
+    "dashboard",
+    "vite",
+    "graphql"
+  ],
+  "positioning": {
+    "category": "TanStack Start boilerplate / React SSR starter kit",
+    "audience": "Solo developers and teams building full-stack React apps",
+    "wedge": "Everything is wired end-to-end — design system, dual RPC, database, GraphQL, theming, and typesafe env — so you start on feature work in minutes, not plumbing.",
+    "alternatives": [],
+    "differentiators": [
+      "Token-driven design system — density and full color palette are CSS variables in one file; retheme or rescale the whole UI by changing tokens",
+      "Two RPC layers wired side by side (tRPC v11 and oRPC) plus a typed GraphQL SDK via gqlkit",
+      "A polished dashboard shell (sidebar, PageHeader, Surface, StatusBadge, user menu, theme toggle) out of the box",
+      "34 Base UI components via basecn, tuned to a compact consistent density",
+      "Typesafe everything — routes, RPC, forms, env, and per-route document titles are compile-checked",
+      "Demo isolation — the entire showcase is quarantined under /demo so your real app starts clean"
+    ]
+  },
+  "install": {
+    "script": "git clone git@github.com:khanakia/boilerplate-tanstack.git && pnpm install"
+  },
+  "khanakia": {
+    "addToApps": false,
+    "badges": ["beta"],
+    "techStack": ["TanStack Start", "React 19", "TypeScript", "Tailwind CSS v4", "Drizzle", "PostgreSQL"]
+  }
+}
