@@ -17,8 +17,12 @@ import type { ReactNode } from "react"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import { seo } from "@/lib/seo"
 
-export const Route = createFileRoute("/demo/")({ component: Dashboard })
+export const Route = createFileRoute("/demo/")({
+	component: Dashboard,
+	head: () => seo({ title: "Dashboard" }),
+})
 
 function Dashboard() {
 	return (

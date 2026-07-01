@@ -5,6 +5,7 @@ import { Sparkles } from 'lucide-react'
 import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { seo } from '@/lib/seo'
 
 type Todo = {
   id: number
@@ -13,6 +14,7 @@ type Todo = {
 
 export const Route = createFileRoute('/demo/mcp-todos')({
   component: MCPTodos,
+  head: () => seo({ title: 'MCP todos' }),
 })
 
 function MCPTodos() {

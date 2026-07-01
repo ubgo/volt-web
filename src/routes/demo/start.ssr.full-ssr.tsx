@@ -2,9 +2,11 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Zap } from 'lucide-react'
 import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { getPunkSongs } from '@/demo/data/punk-songs'
+import { seo } from '@/lib/seo'
 
 export const Route = createFileRoute('/demo/start/ssr/full-ssr')({
   component: RouteComponent,
+  head: () => seo({ title: 'Full SSR' }),
   loader: async () => await getPunkSongs(),
 })
 

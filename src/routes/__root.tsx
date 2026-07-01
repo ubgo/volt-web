@@ -38,7 +38,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "TanStack Start Starter",
+				title: "Boilerplate",
 			},
 		],
 		links: [
@@ -77,7 +77,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<head>
 				{/* Set the .dark class before paint to avoid a light→dark flash. */}
 				{/* biome-ignore lint/security/noDangerouslySetInnerHtml: trusted inline theme bootstrap */}

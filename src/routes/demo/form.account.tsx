@@ -3,6 +3,7 @@ import { UserCircle } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
+import { seo } from "@/lib/seo"
 import {
 	Field,
 	FormActions,
@@ -27,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea"
 
 export const Route = createFileRoute("/demo/form/account")({
 	component: AccountForm,
+	head: () => seo({ title: "Account" }),
 })
 
 const LANGUAGES = [

@@ -5,9 +5,11 @@ import { z } from 'zod'
 
 import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { useAppForm } from '@/demo/form/use-app-form'
+import { seo } from '@/lib/seo'
 
 export const Route = createFileRoute('/demo/form/simple')({
   component: SimpleForm,
+  head: () => seo({ title: 'Simple form' }),
 })
 
 const schema = z.object({

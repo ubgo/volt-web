@@ -7,6 +7,7 @@ import { Server } from 'lucide-react'
 import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { seo } from '@/lib/seo'
 
 /*
 const loggingMiddleware = createMiddleware().server(
@@ -57,6 +58,7 @@ const addTodo = createServerFn({ method: 'POST' })
 
 export const Route = createFileRoute('/demo/start/server-funcs')({
   component: Home,
+  head: () => seo({ title: 'Server functions' }),
   loader: async () => await getTodos(),
 })
 

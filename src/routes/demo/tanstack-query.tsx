@@ -6,9 +6,11 @@ import { Database } from 'lucide-react'
 import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { seo } from '@/lib/seo'
 
 export const Route = createFileRoute('/demo/tanstack-query')({
   component: TanStackQueryDemo,
+  head: () => seo({ title: 'TanStack Query' }),
 })
 
 type Todo = {
