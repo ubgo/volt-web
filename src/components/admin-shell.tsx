@@ -64,6 +64,7 @@ const NAV_SECTIONS: NavSection[] = [
 		label: "Overview",
 		items: [
 			{ to: "/demo", label: "Dashboard", icon: LayoutDashboard, exact: true },
+			{ to: "/demo/components", label: "Components", icon: LayoutGrid },
 		],
 	},
 	{

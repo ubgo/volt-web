@@ -151,4 +151,21 @@ code {
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Interactive elements show the hand cursor so they read as clickable.
+     Base UI renders triggers as native <button>/role elements, which default
+     to the arrow cursor — this restores the pointer app-wide. */
+  button:not(:disabled),
+  [role="button"]:not([data-disabled]):not([aria-disabled="true"]),
+  [role="tab"]:not([data-disabled]),
+  [role="menuitem"]:not([data-disabled]),
+  [role="menuitemcheckbox"]:not([data-disabled]),
+  [role="option"]:not([data-disabled]),
+  [role="switch"]:not(:disabled),
+  [role="checkbox"]:not(:disabled),
+  [role="radio"]:not(:disabled),
+  label[for],
+  summary {
+    cursor: pointer;
+  }
 }
