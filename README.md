@@ -28,7 +28,9 @@
 - [Why Volt?](#why-volt)
 - [What's inside](#whats-inside)
 - [Features](#features)
+- [Prerequisites](#prerequisites)
 - [Quick start](#quick-start)
+- [Local development (portless)](#local-development-portless)
 - [Scripts & tasks](#scripts--tasks)
 - [Project structure](#project-structure)
 - [Design system](#design-system)
@@ -82,25 +84,97 @@ Most starters give you a framework and a blank page. The hard part — wiring a 
 - **Typesafe everything** — routes, RPC, forms, env, and per-route document titles are all compile-checked.
 - **Demo isolation** — the entire showcase is quarantined so your real app starts clean.
 
+## Prerequisites
+
+Install these before you start. Only the first three are strictly required; **Task** and **portless** make day-to-day dev much nicer, and **gqlkit** is only needed if you regenerate the GraphQL SDK.
+
+| Tool | Why you need it | Install |
+|---|---|---|
+| **Node.js 20+** | Runtime (Volt is built on TanStack Start / Vite). | [nodejs.org](https://nodejs.org) — or `nvm install 20` |
+| **pnpm** | Package manager (version is pinned via `packageManager`). | `corepack enable` (ships with Node), or [pnpm.io/installation](https://pnpm.io/installation) |
+| **PostgreSQL** | Database for the Drizzle demos. | [postgresql.org/download](https://www.postgresql.org/download/), Postgres.app, or `docker run -e POSTGRES_PASSWORD=pass -p 5432:5432 postgres` |
+| **Task** | Runs the shortcut commands in `Taskfile.yml` (`task dev:guard`, `task db:push`, …). | [taskfile.dev/installation](https://taskfile.dev/installation/) — e.g. `brew install go-task` |
+| **portless** _(recommended)_ | Serves the app at a **stable HTTPS URL** (`https://app.localhost`) instead of a random `http://localhost:PORT`. | `npm install -g portless` — [github.com/vercel-labs/portless](https://github.com/vercel-labs/portless) |
+| **gqlkit** _(optional)_ | Regenerates the typed GraphQL SDK from a schema (`task gqlkit:all`). Not needed to run the app — the SDK is checked in. | [github.com/khanakia/gqlkit](https://github.com/khanakia/gqlkit) — see [docs/GQLKIT.md](docs/GQLKIT.md) |
+
 ## Quick start
 
-**Prerequisites:** Node 20+, [pnpm](https://pnpm.io), and a PostgreSQL database. [Task](https://taskfile.dev) is recommended for the shortcut commands but optional.
-
 ```bash
-# 1. Install
+# 1. Install dependencies
 pnpm install
 
-# 2. Configure env (copy the example and fill in values, incl. DATABASE_URL)
+# 2. Configure env — copy the example and fill in values
 cp .env.example .env
+#    Required:  DATABASE_URL (your Postgres connection string)
+#    Recommended: INTERNAL_KEY (any random string, protects /api/i/*)
+#    Optional:  VITE_SENTRY_DSN, gqlkit VITE_GRAPHQL_URL
 
 # 3. Push the schema to your database
-task db:push        # or: pnpm drizzle-kit push
+task db:push          # or: pnpm drizzle-kit push
 
-# 4. Run the dev server
-pnpm dev            # http://localhost:3000
+# 4. Run the dev server — pick one:
+task dev:guard        # ★ recommended → https://app.localhost  (needs portless — see below)
+pnpm dev              # simplest, zero extra tools → http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) — you'll land on the demo dashboard.
+Open the URL your chosen command prints — **[https://app.localhost](https://app.localhost)** with `task dev:guard`, or [http://localhost:3000](http://localhost:3000) with `pnpm dev` — and you'll land on the demo dashboard.
+
+The recommended workflow is **portless** (`task dev:guard`) for a stable HTTPS URL and crash-resilient restarts — set it up in [Local development](#local-development-portless) below.
+
+## Local development (portless)
+
+Volt supports two ways to run the dev server:
+
+| Command | URL | Notes |
+|---|---|---|
+| `pnpm dev` | `http://localhost:3000` | Simple, no extra tools. Fixed port `3000`. |
+| `task dev:guard` | `https://app.localhost` | **Recommended.** Stable HTTPS URL via [portless](https://github.com/vercel-labs/portless), auto-restarts on crashes. |
+
+**Why portless?** It gives your dev server a fixed, memorable HTTPS URL (`https://app.localhost`) instead of a random port — no port conflicts, no cookie/storage clashes, and real HTTPS locally (needed for secure cookies, service workers, etc.). It runs a small proxy on port 443 and injects the actual port into Vite for you.
+
+### One-time setup
+
+```bash
+npm install -g portless    # if not already installed
+task portless:trust        # install portless' local CA into your system trust store (needs sudo)
+```
+
+`portless:trust` is what makes `https://app.localhost` load with **no browser warning** — it adds a locally-generated certificate authority to your trust store. You only do this once per machine.
+
+### Every day
+
+```bash
+task portless:up           # start the HTTPS proxy daemon on :443 (once per boot; auto-elevates with sudo)
+task dev:guard             # start Volt at https://app.localhost, auto-restarting on crashes
+```
+
+Then open **[https://app.localhost](https://app.localhost)**. Press **Ctrl-C** to stop `dev:guard`.
+
+`dev:guard` is a supervisor (`dev-guard.sh`): if a bad edit crashes the dev server — an undefined import, a syntax error, an SSR blowup — it restarts automatically (with exponential backoff), so you and your AI agent can keep working without babysitting the terminal. If you don't want auto-restart, use `task dev:portless` instead.
+
+### Changing the dev URL
+
+The URL comes from **`portless.json`** at the repo root:
+
+```json
+{ "name": "app", "script": "dev:vite" }
+```
+
+The `name` field is the subdomain: `name: "app"` → `https://app.localhost`. To change it (e.g. to `https://volt.localhost`), edit `name` to `"volt"` and restart the dev server. Print the current URL any time with `task portless:url`.
+
+> If your app reads its own URL from env, also update `VITE_APP_URL` in `.env` to `https://app.localhost` (it defaults to `http://localhost:3000` for the `pnpm dev` path).
+
+### portless helper tasks
+
+| Task | Command | What it does |
+|---|---|---|
+| `task portless:trust` | `portless trust` | Install the local CA (one-time, sudo). |
+| `task portless:up` | `portless proxy start` | Start the HTTPS proxy daemon (port 443). |
+| `task portless:down` | `portless proxy stop` | Stop the proxy daemon. |
+| `task portless:url` | `portless get app` | Print this app's dev URL. |
+| `task portless:list` | `portless list` | Show all active portless routes. |
+| `task portless:prune` | `portless prune` | Kill orphaned dev servers from crashed sessions. |
+| `task portless:clean` | `portless clean` | Full reset — remove portless state, CA, and hosts entries. |
 
 ## Scripts & tasks
 
