@@ -4,9 +4,11 @@ import { toast } from 'sonner'
 
 import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { useAppForm } from '@/demo/form/use-app-form'
+import { seo } from '@/lib/seo'
 
 export const Route = createFileRoute('/demo/form/address')({
   component: AddressForm,
+  head: () => seo({ title: 'Address form' }),
 })
 
 function SectionHeader({ title }: { title: string }) {

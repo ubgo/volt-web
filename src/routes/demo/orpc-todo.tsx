@@ -13,6 +13,7 @@ import { type FormEvent, useState } from "react"
 import { toast } from "sonner"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
 import { StatusBadge } from "@/demo/form/form-kit"
+import { seo } from "@/lib/seo"
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -34,6 +35,7 @@ import { Label } from "@/components/ui/label"
 
 export const Route = createFileRoute("/demo/orpc-todo")({
 	component: ORPCTodoPage,
+	head: () => seo({ title: "Todos (oRPC)" }),
 	loader: async ({ context }) => {
 		await context.queryClient.prefetchQuery(
 			context.orpc.todos.list.queryOptions(),

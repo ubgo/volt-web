@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Zap } from 'lucide-react'
 import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { getPunkSongs } from '@/demo/data/punk-songs'
+import { seo } from '@/lib/seo'
 
 type Song = {
   id: number
@@ -13,6 +14,7 @@ type Song = {
 export const Route = createFileRoute('/demo/start/ssr/spa-mode')({
   ssr: false,
   component: RouteComponent,
+  head: () => seo({ title: 'SPA mode' }),
 })
 
 function RouteComponent() {

@@ -26,9 +26,11 @@ import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { FormSection, StatusBadge } from '@/demo/form/form-kit'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { seo } from '@/lib/seo'
 
 export const Route = createFileRoute('/demo/sentry/testing')({
   component: RouteComponent,
+  head: () => seo({ title: 'Sentry test' }),
   errorComponent: ({ error }) => {
     useEffect(() => {
       Sentry.captureException(error)

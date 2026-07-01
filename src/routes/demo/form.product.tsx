@@ -3,6 +3,7 @@ import { Package } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
+import { seo } from "@/lib/seo"
 import {
 	DateField,
 	Field,
@@ -27,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea"
 
 export const Route = createFileRoute("/demo/form/product")({
 	component: ProductForm,
+	head: () => seo({ title: "New product" }),
 })
 
 const BRANDS = [

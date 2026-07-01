@@ -11,9 +11,11 @@ import {
 	ServerDataTable,
 } from "@/components/ui/server-data-table"
 import { clientConnection } from "@/lib/client-datatable"
+import { seo } from "@/lib/seo"
 
 export const Route = createFileRoute("/demo/server-table")({
 	component: ServerTableDemo,
+	head: () => seo({ title: "Server data table" }),
 })
 
 // ──────────────────────────────────────────────────────────────────────────

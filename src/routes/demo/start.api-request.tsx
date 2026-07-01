@@ -4,6 +4,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Network } from 'lucide-react'
 
 import { AdminShell, PageHeader } from '@/components/admin-shell'
+import { seo } from '@/lib/seo'
 
 function getNames() {
   return fetch('/demo/api/names').then((res) => res.json() as Promise<string[]>)
@@ -11,6 +12,7 @@ function getNames() {
 
 export const Route = createFileRoute('/demo/start/api-request')({
   component: Home,
+  head: () => seo({ title: 'API request' }),
 })
 
 function Home() {

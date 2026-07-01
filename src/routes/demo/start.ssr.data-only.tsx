@@ -2,10 +2,12 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Zap } from 'lucide-react'
 import { AdminShell, PageHeader } from '@/components/admin-shell'
 import { getPunkSongs } from '@/demo/data/punk-songs'
+import { seo } from '@/lib/seo'
 
 export const Route = createFileRoute('/demo/start/ssr/data-only')({
   ssr: 'data-only',
   component: RouteComponent,
+  head: () => seo({ title: 'Data only' }),
   loader: async () => await getPunkSongs(),
 })
 

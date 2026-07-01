@@ -7,9 +7,11 @@ import { ReadonlyValue } from '@/demo/form/form-kit'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { deriveFullName, store } from '@/demo/data/store'
+import { seo } from '@/lib/seo'
 
 export const Route = createFileRoute('/demo/store')({
   component: DemoStore,
+  head: () => seo({ title: 'Store' }),
 })
 
 function FirstName() {

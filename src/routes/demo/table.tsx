@@ -29,6 +29,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PageSizeSelect } from '@/components/ui/server-data-table/pagination/PageSizeSelect'
 import { cn } from '@/lib/utils'
+import { seo } from '@/lib/seo'
 import { makeData } from '@/demo/data/table-data'
 
 import type { ColumnDef, FilterFn, SortingFn } from '@tanstack/react-table'
@@ -37,6 +38,7 @@ import type { Person } from '@/demo/data/table-data'
 
 export const Route = createFileRoute('/demo/table')({
   component: TableDemo,
+  head: () => seo({ title: 'Data table' }),
 })
 
 declare module '@tanstack/react-table' {

@@ -13,6 +13,7 @@ import { type FormEvent, useState } from "react"
 import { toast } from "sonner"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
 import { StatusBadge } from "@/demo/form/form-kit"
+import { seo } from "@/lib/seo"
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -35,6 +36,7 @@ import { useTRPC } from "@/integrations/trpc/react"
 
 export const Route = createFileRoute("/demo/trpc-todo")({
 	component: TRPCTodos,
+	head: () => seo({ title: "Todos (tRPC)" }),
 	loader: async ({ context }) => {
 		await context.queryClient.prefetchQuery(
 			context.trpc.todos.list.queryOptions(),

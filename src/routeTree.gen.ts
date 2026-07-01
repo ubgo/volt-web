@@ -19,6 +19,7 @@ import { Route as DemoStoreRouteImport } from './routes/demo/store'
 import { Route as DemoServerTableRouteImport } from './routes/demo/server-table'
 import { Route as DemoOrpcTodoRouteImport } from './routes/demo/orpc-todo'
 import { Route as DemoMcpTodosRouteImport } from './routes/demo/mcp-todos'
+import { Route as DemoComponentsRouteImport } from './routes/demo/components'
 import { Route as ApiVersionRouteImport } from './routes/api.version'
 import { Route as ApiHealthRouteImport } from './routes/api.health'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
@@ -88,6 +89,11 @@ const DemoOrpcTodoRoute = DemoOrpcTodoRouteImport.update({
 const DemoMcpTodosRoute = DemoMcpTodosRouteImport.update({
   id: '/demo/mcp-todos',
   path: '/demo/mcp-todos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoComponentsRoute = DemoComponentsRouteImport.update({
+  id: '/demo/components',
+  path: '/demo/components',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiVersionRoute = ApiVersionRouteImport.update({
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/api/health': typeof ApiHealthRoute
   '/api/version': typeof ApiVersionRoute
+  '/demo/components': typeof DemoComponentsRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
   '/demo/orpc-todo': typeof DemoOrpcTodoRoute
   '/demo/server-table': typeof DemoServerTableRoute
@@ -228,6 +235,7 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/api/health': typeof ApiHealthRoute
   '/api/version': typeof ApiVersionRoute
+  '/demo/components': typeof DemoComponentsRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
   '/demo/orpc-todo': typeof DemoOrpcTodoRoute
   '/demo/server-table': typeof DemoServerTableRoute
@@ -261,6 +269,7 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/api/health': typeof ApiHealthRoute
   '/api/version': typeof ApiVersionRoute
+  '/demo/components': typeof DemoComponentsRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
   '/demo/orpc-todo': typeof DemoOrpcTodoRoute
   '/demo/server-table': typeof DemoServerTableRoute
@@ -295,6 +304,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/api/health'
     | '/api/version'
+    | '/demo/components'
     | '/demo/mcp-todos'
     | '/demo/orpc-todo'
     | '/demo/server-table'
@@ -327,6 +337,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/api/health'
     | '/api/version'
+    | '/demo/components'
     | '/demo/mcp-todos'
     | '/demo/orpc-todo'
     | '/demo/server-table'
@@ -359,6 +370,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/api/health'
     | '/api/version'
+    | '/demo/components'
     | '/demo/mcp-todos'
     | '/demo/orpc-todo'
     | '/demo/server-table'
@@ -392,6 +404,7 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiVersionRoute: typeof ApiVersionRoute
+  DemoComponentsRoute: typeof DemoComponentsRoute
   DemoMcpTodosRoute: typeof DemoMcpTodosRoute
   DemoOrpcTodoRoute: typeof DemoOrpcTodoRoute
   DemoServerTableRoute: typeof DemoServerTableRoute
@@ -490,6 +503,13 @@ declare module '@tanstack/react-router' {
       path: '/demo/mcp-todos'
       fullPath: '/demo/mcp-todos'
       preLoaderRoute: typeof DemoMcpTodosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/components': {
+      id: '/demo/components'
+      path: '/demo/components'
+      fullPath: '/demo/components'
+      preLoaderRoute: typeof DemoComponentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/version': {
@@ -640,6 +660,7 @@ const rootRouteChildren: RootRouteChildren = {
   McpRoute: McpRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiVersionRoute: ApiVersionRoute,
+  DemoComponentsRoute: DemoComponentsRoute,
   DemoMcpTodosRoute: DemoMcpTodosRoute,
   DemoOrpcTodoRoute: DemoOrpcTodoRoute,
   DemoServerTableRoute: DemoServerTableRoute,

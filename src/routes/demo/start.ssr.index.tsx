@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { ArrowRight, Zap } from 'lucide-react'
 import { AdminShell, PageHeader } from '@/components/admin-shell'
+import { seo } from '@/lib/seo'
 
 export const Route = createFileRoute('/demo/start/ssr/')({
   component: RouteComponent,
+  head: () => seo({ title: 'Rendering modes' }),
 })
 
 function RouteComponent() {
