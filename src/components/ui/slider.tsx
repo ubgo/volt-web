@@ -30,16 +30,16 @@ function Slider({
       value={value}
       min={min}
       max={max}
+      // Inset the thumb so its edge (not its center) aligns with the track
+      // ends — keeps the knob within bounds at 0%/100% instead of overhanging.
+      thumbAlignment="edge"
       className={cn(
-        // px-2 = thumb radius (size-4 → 8px). Insets the track by half the
-        // thumb so the thumb's edge stays flush with the field's left/right
-        // bounds at 0%/100% instead of overhanging into the layout.
-        "relative flex w-full touch-none items-center select-none px-2 data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:px-0 data-[orientation=vertical]:py-2",
+        "relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
         className
       )}
       {...props}
     >
-      <SliderPrimitive.Control className="relative grid grow data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5">
+      <SliderPrimitive.Control className="grid grow data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5">
         <SliderPrimitive.Track
           data-slot="slider-track"
           className={cn(
