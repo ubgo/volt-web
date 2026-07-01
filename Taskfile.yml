@@ -63,6 +63,46 @@ tasks:
       - mkdir -p tmp
       - portless 2>&1 | tee tmp/dev.log
 
+  dev:guard:
+    desc: "run portless dev with auto-restart on crash (Ctrl-C to stop). USE THIS day-to-day."
+    cmds:
+      - bash dev-guard.sh
+
+  portless:trust:
+    desc: "install portless local CA into the system trust store (one-time, needs sudo)"
+    cmds:
+      - portless trust
+
+  portless:up:
+    desc: "start the portless HTTPS proxy daemon (port 443, auto-elevates with sudo)"
+    cmds:
+      - portless proxy start
+
+  portless:down:
+    desc: stop the portless HTTPS proxy daemon
+    cmds:
+      - portless proxy stop
+
+  portless:url:
+    desc: "print the fixed dev URL for this app (https://app.localhost)"
+    cmds:
+      - portless get app
+
+  portless:list:
+    desc: show active portless routes
+    cmds:
+      - portless list
+
+  portless:prune:
+    desc: kill orphaned dev servers left behind by crashed sessions
+    cmds:
+      - portless prune
+
+  portless:clean:
+    desc: "remove portless state, trust entry, and hosts block (full reset)"
+    cmds:
+      - portless clean
+
   typecheck:
     desc: type-check the whole project with tsc (no emit)
     cmds:
