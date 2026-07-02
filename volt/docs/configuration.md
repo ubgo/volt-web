@@ -85,7 +85,7 @@ This is a hard rule in Volt: **always go through the typed env object** (`env` f
 There are two ways to run the dev server, and they imply different values for `VITE_APP_URL`:
 
 - Plain `pnpm dev` serves the app at `http://localhost:3000` — set `VITE_APP_URL=http://localhost:3000`.
-- `task dev:guard` runs it through portless at a stable HTTPS URL like `https://app.localhost` (derived from `portless.json`).
+- `task dev:guard` runs it through portless at a stable HTTPS URL like `https://volt.localhost` (derived from `portless.json`).
 
 If a feature depends on the app's own origin, make sure `VITE_APP_URL` matches whichever mode you're running. The full explanation is in [getting-started.md](getting-started.md).
 

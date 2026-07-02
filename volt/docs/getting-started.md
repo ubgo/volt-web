@@ -12,7 +12,7 @@ Install these before you start. **Node** and **pnpm** are required. **PostgreSQL
 | **pnpm** | Required | Package manager (the exact version is pinned via `packageManager` in `package.json`). | `corepack enable` (ships with Node), or [pnpm.io/installation](https://pnpm.io/installation) |
 | **PostgreSQL** | Optional | Only if you use the built-in Drizzle database (powers the DB demos). Skip it for an SPA or an API-only app. | [postgresql.org/download](https://www.postgresql.org/download/), Postgres.app, or `docker run -e POSTGRES_PASSWORD=pass -p 5432:5432 postgres` |
 | **Task** | Recommended | Runs the shortcut commands in `Taskfile.yml` (`task dev:guard`, `task db:push`, …) that these docs use throughout. | [taskfile.dev/installation](https://taskfile.dev/installation/) — e.g. `brew install go-task` |
-| **portless** | Recommended | Serves the app at a stable HTTPS URL (`https://app.localhost`) instead of a random `http://localhost:PORT`. | `npm install -g portless` — [github.com/vercel-labs/portless](https://github.com/vercel-labs/portless) |
+| **portless** | Recommended | Serves the app at a stable HTTPS URL (`https://volt.localhost`) instead of a random `http://localhost:PORT`. | `npm install -g portless` — [github.com/vercel-labs/portless](https://github.com/vercel-labs/portless) |
 | **gqlkit** | Optional | Regenerates the typed GraphQL SDK from a schema (`task gqlkit:all`). Not needed to run the app — the SDK is checked in. | [github.com/khanakia/gqlkit](https://github.com/khanakia/gqlkit) — see [data/graphql.md](data/graphql.md) |
 
 ## 1. Install dependencies
@@ -58,7 +58,7 @@ Drizzle is an **optional** integration. If your app has no database, don't set `
 
 Pick one of two paths.
 
-### Recommended: portless at `https://app.localhost`
+### Recommended: portless at `https://volt.localhost`
 
 This gives you a stable HTTPS URL with a trusted certificate — no random ports, no browser warnings, and real HTTPS locally (which secure cookies and service workers need).
 
@@ -73,10 +73,10 @@ Then, day to day:
 
 ```bash
 task portless:up           # start the HTTPS proxy daemon on :443 (once per boot; auto-elevates with sudo)
-task dev:guard             # start Volt at https://app.localhost, auto-restarting on crash
+task dev:guard             # start Volt at https://volt.localhost, auto-restarting on crash
 ```
 
-Open **https://app.localhost** and press **Ctrl-C** to stop `dev:guard`.
+Open **https://volt.localhost** and press **Ctrl-C** to stop `dev:guard`.
 
 `dev:guard` is a supervisor: if a bad edit crashes the dev server (an undefined import, a syntax error, an SSR blowup), it restarts automatically with backoff, so you and your AI agent can keep working without babysitting the terminal. If you don't want auto-restart, use `task dev:portless` instead. The full portless workflow, changing the dev URL, and the helper tasks are covered in [configuration.md](configuration.md).
 

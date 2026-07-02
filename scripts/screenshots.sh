@@ -3,7 +3,7 @@
 # Run from the repo root (the `task screenshots` task does this):
 #   bash scripts/screenshots.sh
 #
-# The dev server must be running first (e.g. `task dev:guard` → https://app.localhost).
+# The dev server must be running first (e.g. `task dev:guard` → https://volt.localhost).
 #
 # It launches a VISIBLE Chrome window and drives it over the DevTools Protocol
 # (a visible window can't use Chrome's headless-only --screenshot flag), so you

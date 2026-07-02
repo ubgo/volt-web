@@ -857,7 +857,7 @@ The demo/showcase is fully quarantined: routes under `src/routes/demo/` + compon
 
 ### Portless dev workflow
 
-Day-to-day dev runs through **portless** for a stable HTTPS URL. `task dev:guard` runs portless with auto-restart on crash → **https://app.localhost** (the `name` in `portless.json` maps to `https://<name>.localhost`). One-time: `task portless:trust` (installs the local CA, needs sudo) and `task portless:up` (starts the :443 proxy). Plain `pnpm dev` still serves `http://localhost:3000`. See `volt/docs/getting-started.md`.
+Day-to-day dev runs through **portless** for a stable HTTPS URL. `task dev:guard` runs portless with auto-restart on crash → **https://volt.localhost** (the `name` in `portless.json` maps to `https://<name>.localhost`). One-time: `task portless:trust` (installs the local CA, needs sudo) and `task portless:up` (starts the :443 proxy). Plain `pnpm dev` still serves `http://localhost:3000`. See `volt/docs/getting-started.md`.
 
 ### Dual RPC (tRPC + oRPC side by side)
 

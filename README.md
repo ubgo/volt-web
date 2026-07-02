@@ -99,7 +99,7 @@ More in [volt/docs/README.md](volt/docs/README.md) — the dashboard, basecn com
 pnpm install
 cp .env.example .env      # set DATABASE_URL (+ INTERNAL_KEY)
 task db:push             # push the Drizzle schema
-task dev:guard           # ★ https://app.localhost  (or: pnpm dev → http://localhost:3000)
+task dev:guard           # ★ https://volt.localhost  (or: pnpm dev → http://localhost:3000)
 ```
 
 That's the short path. For the full setup — **prerequisites** (Node, pnpm, Postgres, Task, portless, gqlkit), the **portless HTTPS dev workflow**, **project structure**, **data & APIs**, how to **start your real app**, and **deployment** — see **[volt/docs/](volt/docs/README.md)**, starting with [Getting started](volt/docs/getting-started.md).
