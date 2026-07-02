@@ -2,7 +2,7 @@
   "name": "volt",
   "tagline": "The batteries-included TanStack Start starter.",
   "description": "Volt is a production-ready TanStack Start boilerplate for building server-side-rendered React apps — a token-driven design system, a dashboard shell, dual RPC (tRPC + oRPC), Drizzle + PostgreSQL, a typed GraphQL SDK via gqlkit, light/dark theming, and typesafe env, all wired end-to-end.",
-  "repo": "khanakia/boilerplate-tanstack",
+  "repo": "khanakia/volt-web",
   "homepage": "",
   "language": "typescript",
   "kind": "web-app",
@@ -58,7 +58,7 @@
     ]
   },
   "install": {
-    "script": "git clone git@github.com:khanakia/boilerplate-tanstack.git && pnpm install"
+    "script": "git clone git@github.com:khanakia/volt-web.git && pnpm install"
   },
   "khanakia": {
     "addToApps": false,
