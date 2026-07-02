@@ -1,5 +1,7 @@
 # Docker Multi-Stage Deployment & DevOps Infrastructure
 
+> This is the deep DevOps reference — the full container, secrets, and CI/CD plan. For the practical build-and-deploy guide (build, run, env vars, deploy targets), see [../deployment.md](../deployment.md).
+
 ## Context
 
 The project needs production-grade deployment infrastructure adapted from the Go project at `thewildai_chat_go`. Currently has basic Docker setup (`.docker/`) but lacks: secrets management, GitHub Actions CI/CD, review deployments for branch testing, `act` integration, and a `_keys` directory for credential files.

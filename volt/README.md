@@ -5,7 +5,7 @@
   keep or delete this whole volt/ folder as you like.
 -->
 
-> **This is the original README for [Volt](https://github.com/khanakia/boilerplate-tanstack)** — the TanStack Start boilerplate this project was built on. It's preserved here on purpose: once you replace the root `README.md` with your own app's README, this file keeps the Volt reference (features, setup pointers, license) available. Setup lives in [CONTRIBUTING.md](CONTRIBUTING.md).
+> **This is the original README for [Volt](https://github.com/khanakia/boilerplate-tanstack)** — the TanStack Start boilerplate this project was built on. It's preserved here on purpose: once you replace the root `README.md` with your own app's README, this file keeps the Volt reference (features, setup pointers, license) available. Setup lives in [docs/getting-started.md](docs/getting-started.md).
 
 <p align="center">
   <img src="brand/png/icon-512.png" alt="Volt logo — a lightning bolt on a violet tile" width="72" height="72" />
@@ -30,7 +30,7 @@
 
 > Volt is the web half of a full-stack family — pair it with **Volt API** (the Go backend starter) for an end-to-end stack.
 
-> **Setting up or running Volt?** All technical docs — prerequisites, install, the portless HTTPS dev workflow, scripts, project structure, and deployment — live in **[CONTRIBUTING.md](CONTRIBUTING.md)**.
+> **Setting up or running Volt?** The full documentation — prerequisites, install, the portless HTTPS dev workflow, project structure, data & APIs, and deployment — lives in **[docs/](docs/README.md)** (start at [Getting started](docs/getting-started.md)).
 
 ## Contents
 
@@ -109,7 +109,7 @@ task db:push             # push the Drizzle schema
 task dev:guard           # ★ https://app.localhost  (or: pnpm dev → http://localhost:3000)
 ```
 
-That's the short path. For the full setup — **prerequisites** (Node, pnpm, Postgres, Task, portless, gqlkit), the **portless HTTPS dev workflow** (`task dev:guard`, changing the dev URL), all **scripts & tasks**, the **project structure**, how to **start your real app**, and **deployment** — see **[CONTRIBUTING.md](CONTRIBUTING.md)**. Per-module docs (Drizzle, gqlkit, Sentry, SPA mode) are in [`docs/`](docs/).
+That's the short path. For the full setup — **prerequisites** (Node, pnpm, Postgres, Task, portless, gqlkit), the **portless HTTPS dev workflow** (`task dev:guard`, changing the dev URL), all **scripts & tasks**, the **project structure**, how to **start your real app**, and **deployment** — see **[docs/](docs/README.md)**, starting with [Getting started](docs/getting-started.md).
 
 ## FAQ
 

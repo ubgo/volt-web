@@ -21,7 +21,7 @@
 
 > Volt is the web half of a full-stack family — pair it with **Volt API** (the Go backend starter) for an end-to-end stack.
 
-> **Setting up or running Volt?** All technical docs — prerequisites, install, the portless HTTPS dev workflow, scripts, project structure, and deployment — live in **[volt/CONTRIBUTING.md](volt/CONTRIBUTING.md)**.
+> **Setting up or running Volt?** The full documentation — prerequisites, install, the portless HTTPS dev workflow, project structure, data & APIs, and deployment — lives in **[volt/docs/](volt/docs/README.md)** (start at [Getting started](volt/docs/getting-started.md)).
 
 > Everything Volt-specific (this pitch, the setup guide, brand kit, and docs) lives in the [`volt/`](volt/) folder. Building your own app? Replace this `README.md` and `LICENSE`, then keep or delete `volt/` as you like.
 
@@ -102,7 +102,7 @@ task db:push             # push the Drizzle schema
 task dev:guard           # ★ https://app.localhost  (or: pnpm dev → http://localhost:3000)
 ```
 
-That's the short path. For the full setup — **prerequisites** (Node, pnpm, Postgres, Task, portless, gqlkit), the **portless HTTPS dev workflow** (`task dev:guard`, changing the dev URL), all **scripts & tasks**, the **project structure**, how to **start your real app**, and **deployment** — see **[volt/CONTRIBUTING.md](volt/CONTRIBUTING.md)**. Per-module docs (Drizzle, gqlkit, Sentry, SPA mode) are in [`volt/docs/`](volt/docs/).
+That's the short path. For the full setup — **prerequisites** (Node, pnpm, Postgres, Task, portless, gqlkit), the **portless HTTPS dev workflow**, **project structure**, **data & APIs**, how to **start your real app**, and **deployment** — see **[volt/docs/](volt/docs/README.md)**, starting with [Getting started](volt/docs/getting-started.md).
 
 ## FAQ
 
