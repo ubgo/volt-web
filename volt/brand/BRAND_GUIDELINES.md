@@ -108,7 +108,7 @@ Everything is generated from one script so a color/name change reflows the whole
 Regenerate everything:
 
 ```bash
-task -t brand/Taskfile.yml all      # gen SVGs + tokens, then rasterize
+task -t volt/brand/Taskfile.yml all      # gen SVGs + tokens, then rasterize
 # needs: node, rsvg-convert (or magick/inkscape/cairosvg), and ImageMagick for the .ico
 ```
 
@@ -119,7 +119,7 @@ The fastest, most consistent path — copy the generator, change only the name:
 1. **Copy the `brand/` directory** into the backend repo.
 2. In `brand/brand.json`, change `name` (e.g. `"volt-api"`), `repo`, `language: "go"`, `kind: "service"`, and the tagline/description/topics for the backend. **Keep the `brand` (colors) and `fonts` blocks identical.**
 3. In `brand/gen-brand.mjs`, keep the `M` manifest colors/fonts and the **bolt `GLYPH()` body identical**; only the `name` differs. (If the backend wants a distinguishing accent, add a small secondary mark — but keep the bolt + violet tile so it reads as the same family.)
-4. Run `task -t brand/Taskfile.yml all` to emit the backend's own icon/favicon/OG set in the same identity.
+4. Run `task -t volt/brand/Taskfile.yml all` to emit the backend's own icon/favicon/OG set in the same identity.
 
 If you don't want the generator, the minimum to match by hand:
 

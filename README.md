@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="brand/png/icon-512.png" alt="Volt logo — a lightning bolt on a violet tile" width="72" height="72" />
+  <img src="volt/brand/png/icon-512.png" alt="Volt logo — a lightning bolt on a violet tile" width="72" height="72" />
 </p>
 
 <h1 align="center">Volt ⚡</h1>
@@ -21,13 +21,16 @@
 
 > Volt is the web half of a full-stack family — pair it with **Volt API** (the Go backend starter) for an end-to-end stack.
 
-> **Setting up or running Volt?** All technical docs — prerequisites, install, the portless HTTPS dev workflow, scripts, project structure, and deployment — live in **[CONTRIBUTING.md](CONTRIBUTING.md)**.
+> **Setting up or running Volt?** All technical docs — prerequisites, install, the portless HTTPS dev workflow, scripts, project structure, and deployment — live in **[volt/CONTRIBUTING.md](volt/CONTRIBUTING.md)**.
+
+> Everything Volt-specific (this pitch, the setup guide, brand kit, and docs) lives in the [`volt/`](volt/) folder. Building your own app? Replace this `README.md` and `LICENSE`, then keep or delete `volt/` as you like.
 
 ## Contents
 
 - [Why Volt?](#why-volt)
 - [What's inside](#whats-inside)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Getting started](#getting-started)
 - [FAQ](#faq)
 - [License](#license)
@@ -77,6 +80,19 @@ Most starters give you a framework and a blank page. The hard part — wiring a 
 - **Typesafe everything** — routes, RPC, forms, env, and per-route document titles are all compile-checked.
 - **Demo isolation** — the entire showcase is quarantined so your real app starts clean.
 
+## Screenshots
+
+<p align="center">
+  <img src="volt/screenshots/dashboard.png" alt="Volt dashboard shell" width="49%" />
+  <img src="volt/screenshots/components.png" alt="Volt component gallery" width="49%" />
+</p>
+<p align="center">
+  <img src="volt/screenshots/server-table.png" alt="Volt server data table" width="49%" />
+  <img src="volt/screenshots/form-field-showcase.png" alt="Volt form field showcase" width="49%" />
+</p>
+
+More in [volt/docs/README.md](volt/docs/README.md) — the dashboard, basecn component gallery, `ServerDataTable`, and form field showcase (light + dark).
+
 ## Getting started
 
 ```bash
@@ -86,7 +102,7 @@ task db:push             # push the Drizzle schema
 task dev:guard           # ★ https://app.localhost  (or: pnpm dev → http://localhost:3000)
 ```
 
-That's the short path. For the full setup — **prerequisites** (Node, pnpm, Postgres, Task, portless, gqlkit), the **portless HTTPS dev workflow** (`task dev:guard`, changing the dev URL), all **scripts & tasks**, the **project structure**, how to **start your real app**, and **deployment** — see **[CONTRIBUTING.md](CONTRIBUTING.md)**. Per-module docs (Drizzle, gqlkit, Sentry, SPA mode) are in [`docs/`](docs/).
+That's the short path. For the full setup — **prerequisites** (Node, pnpm, Postgres, Task, portless, gqlkit), the **portless HTTPS dev workflow** (`task dev:guard`, changing the dev URL), all **scripts & tasks**, the **project structure**, how to **start your real app**, and **deployment** — see **[volt/CONTRIBUTING.md](volt/CONTRIBUTING.md)**. Per-module docs (Drizzle, gqlkit, Sentry, SPA mode) are in [`volt/docs/`](volt/docs/).
 
 ## FAQ
 

@@ -118,6 +118,11 @@ tasks:
     cmds:
       - pnpm build
 
+  screenshots:
+    desc: "capture demo screenshots → volt/screenshots (start the app first, e.g. task dev:guard)"
+    cmds:
+      - bash scripts/screenshots.sh
+
   # ── branding: regenerate the PWA/favicon icon set from one source image ───
   # Drop a square source (≥512×512) at public/logo-source.png, then run this.
   # See /demo/branding in the app for the full replace-the-branding guide.
