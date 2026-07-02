@@ -3,7 +3,7 @@
 version: "3"
 
 vars:
-  PROJECT_NAME: boilerplate-tanstack
+  PROJECT_NAME: volt-web
   PROD_IMAGE: "{{.PROJECT_NAME}}:latest"
   REVIEW_PREFIX: "review-"
 
