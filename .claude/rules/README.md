@@ -1,34 +1,13 @@
-# Context-Specific Rules
+# Your project rules
 
-Rules in this directory are read **on-demand** by LLMs only when performing specific actions.
+This folder is **your** space for context-specific rules — read on-demand by AI agents before a matching action (keeps them out of every prompt). Nothing here ships from Volt, so Volt updates never touch it.
 
-## Purpose
+## How to use
 
-- **Token optimization:** LLM only loads rules when needed
-- **Focused context:** Each rule file contains only relevant instructions
-- **Maintainability:** Rules are modular and easy to update
+1. Add `[action-name].md` here (e.g. `pr-creation.md`, `testing.md`).
+2. Reference it from the root `CLAUDE.md` — add a line after the `@volt/CLAUDE.md` import so agents know when to read it.
+3. Keep each rule focused: a clear title, a "read this before…" line, and required/forbidden sections.
 
-## Usage
+## Volt's own rules
 
-LLMs should read the appropriate rule file before performing the action:
-
-| File | Read Before |
-|------|-------------|
-| `code-standards.md` | Writing or editing any code (the standing engineering bar) |
-| `git-commit.md` | Running `git commit` |
-
-The full agent/developer guide is [`../../volt/CLAUDE.md`](../../volt/CLAUDE.md) (imported by the root `CLAUDE.md`); these rule files are the on-demand deep-dives it points to.
-
-## Adding New Rules
-
-1. Create `[action-name].md` in this directory
-2. Add a row to the table above (and reference it from `volt/CLAUDE.md` if it's always-relevant)
-3. Keep rules focused and concise
-
-## Format
-
-Each rule file should have:
-- Clear title
-- "Read this before..." instruction
-- Required/Forbidden sections
-- Examples where helpful
+Volt ships its baseline rules — **code standards** and **git-commit conventions** — in [`../../volt/rules/`](../../volt/rules/), referenced by `volt/CLAUDE.md`. Edit those to change Volt's defaults, or override them with your own rule here (yours wins on conflict if you say so in `CLAUDE.md`).

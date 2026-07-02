@@ -12,11 +12,12 @@ Volt is a commercial TanStack Start boilerplate (SSR React) with a token-driven 
 - `src/lib/` — utils, theme, `seo`, `gql-clients`.
 - `src/styles.css` — Tailwind v4 + design tokens (colors + control density). Dark mode is the `.dark` class.
 - `public/` — runtime assets (favicon, PWA icons, logo). App-facing, not the brand kit.
-- `volt/` — everything Volt-specific (this guide, `README.md`, `CONTRIBUTING.md`, brand kit, docs). Deletable when you make the repo your own.
+- `volt/` — everything Volt-specific (this guide, `README.md`, `CONTRIBUTING.md`, `rules/`, `brand/`, `docs/`). Updated as one unit; deletable when you make the repo your own.
+- `.claude/rules/` — **your** project rules (Volt never writes there); Volt's baseline rules live in `volt/rules/`.
 
 ## Code standards
 
-Before writing or editing code, read **`.claude/rules/code-standards.md`** — the standing engineering bar (full type safety, zero hardcoded strings for closed-set values, context-dense comments, modular/no-slop structure) plus pre/post-flight checklists. The stack-specific rules below are the short version; that file is the full one.
+Before writing or editing code, read **`volt/rules/code-standards.md`** — the standing engineering bar (full type safety, zero hardcoded strings for closed-set values, context-dense comments, modular/no-slop structure) plus pre/post-flight checklists. The stack-specific rules below are the short version; that file is the full one.
 
 ## Conventions (do / don't)
 
@@ -36,7 +37,7 @@ Before writing or editing code, read **`.claude/rules/code-standards.md`** — t
 
 ## Git
 
-- Conventional commits: `type(scope): description`. See `.claude/rules/git-commit.md`.
+- Conventional commits: `type(scope): description`. See `volt/rules/git-commit.md`.
 - Never include AI attribution — no "Generated with Claude Code", no "Co-Authored-By: Claude".
 
 ## Docs
