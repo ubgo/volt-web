@@ -19,6 +19,8 @@ Volt is a commercial TanStack Start boilerplate (SSR React) with a token-driven 
 
 Before writing or editing code, read **`volt/rules/code-standards.md`** — the standing engineering bar (full type safety, zero hardcoded strings for closed-set values, context-dense comments, modular/no-slop structure) plus pre/post-flight checklists. The stack-specific rules below are the short version; that file is the full one.
 
+For any React / TSX / styling work, also read **`volt/rules/frontend.md`** — the full concrete frontend ruleset (the commandments, design tokens, components, forms, data fetching, routing, dialogs, tables, SSR safety, and verbatim-className UI patterns).
+
 ## Conventions (do / don't)
 
 - **Never use `process.env` directly.** Use the typesafe env objects: `env` from `@/env/server`, `drizzleEnv` from `@/integrations/drizzle/env`. Raw access bypasses validation and loses type safety.

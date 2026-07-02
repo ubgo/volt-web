@@ -7,6 +7,7 @@ Volt's baseline engineering rules, read **on-demand** before the matching action
 | File | Read before |
 |------|-------------|
 | [code-standards.md](code-standards.md) | Writing or editing any code (the standing engineering bar) |
+| [frontend.md](frontend.md) | Writing or editing any React / TSX / styling code (the full concrete frontend ruleset) |
 | [git-commit.md](git-commit.md) | Running `git commit` |
 
 ## Yours vs Volt's

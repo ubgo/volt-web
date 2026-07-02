@@ -59,6 +59,8 @@
 
 The pillars above are the floor; these are the specifics for this TanStack Start / TypeScript / React codebase. On conflict, `CLAUDE.md` / `volt/CLAUDE.md` win.
 
+For React / TSX / styling work, the full concrete frontend ruleset — commandments, design tokens, components, forms, data fetching, routing, dialogs, tables, SSR safety, and the verbatim-className UI patterns — lives in [frontend.md](frontend.md). Read it before touching any `.tsx` or styling code; the lines below are the short version.
+
 - **Env:** never read `process.env` directly. Use the typesafe objects — `env` from `@/env/server` (server) and the client env, `drizzleEnv` from `@/integrations/drizzle/env`. New env vars are declared in the schema (`@t3-oss/env-core` + Zod), never accessed raw.
 - **Generated code is read-only:** never hand-edit `src/generated/**` (gqlkit SDK) or `src/routeTree.gen.ts`. Regenerate (`task gqlkit:all`; the router plugin regenerates the tree).
 - **Styling is token-first:** density (height/padding/font) and colors are CSS variables in `src/styles.css`, with a `.dark` value for every token. Change tokens, don't hardcode per-component sizing. Dark mode = the `.dark` class.
