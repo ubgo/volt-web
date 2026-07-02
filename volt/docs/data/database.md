@@ -2,6 +2,8 @@
 
 Volt ships with [Drizzle ORM](https://orm.drizzle.team/) over PostgreSQL, packaged as a self-contained module under `src/integrations/drizzle/`. Everything the database needs — its schema, client, migrations, env validation, and task commands — lives in that one folder, so you can adopt or remove it without touching the rest of the app.
 
+> **Drizzle is optional.** Building an SPA or an app that only talks to an external API? Skip it: don't set `DATABASE_URL`, skip `task db:push`, and the app still builds (the central env leaves `drizzleEnv` out of its `extends` by default — see [../configuration.md](../configuration.md)). To strip it out completely, jump to [Removing the module](#removing-the-module).
+
 ## What you get
 
 The module is small and readable. These are the files you'll actually work with:
