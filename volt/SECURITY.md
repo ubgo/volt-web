@@ -27,7 +27,7 @@ task hooks:install
 - **Layer 1 — [gitleaks](https://github.com/gitleaks/gitleaks):** scans the staged diff against `.gitleaks.toml` (default ruleset + project rules).
 - **Layer 2 — regex fallback:** `.githooks/pre-commit` runs even without gitleaks installed.
 
-Manual scans: `task secrets:scan` (full history) · `task secrets:scan:staged` (staged only). If a real secret ever reaches a commit, rotate it immediately — scrubbing history alone is not enough once it's been pushed. The full workflow (false positives, allowlisting, bypass) is in [docs/getting-started.md](docs/getting-started.md#secret-scanning).
+There's also a **GitHub Actions backstop** (`.github/workflows/gitleaks.yml`) that scans every push and PR — it can't be bypassed. Manual scans: `task secrets:scan` (full history) · `task secrets:scan:staged` (staged only). If a real secret ever reaches a commit, rotate it immediately — scrubbing history alone is not enough once it's been pushed. The full workflow (CI, false positives, allowlisting, bypass) is in [docs/secret-scanning.md](docs/secret-scanning.md).
 
 ## Scope
 

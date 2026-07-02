@@ -47,5 +47,5 @@ For any React / TSX / styling work, also read **`volt/rules/frontend.md`** — t
 
 - Documentation home (navigable index): `volt/docs/README.md`.
 - Setup + dev workflow: `volt/docs/getting-started.md`; project map: `volt/docs/project-structure.md`; env: `volt/docs/configuration.md`.
-- Guides: `volt/docs/design-system.md`, `building-a-page.md`, `data/{database,rpc,graphql}.md`, `rendering.md`, `monitoring.md`, `branding.md`, `deployment.md`, `making-it-yours.md`; postmortems in `volt/docs/incidents/`.
+- Guides: `volt/docs/design-system.md`, `building-a-page.md`, `data/{database,rpc,graphql}.md`, `rendering.md`, `monitoring.md`, `branding.md`, `deployment.md`, `secret-scanning.md`, `making-it-yours.md`; postmortems in `volt/docs/incidents/`.
 - Brand identity (for reuse across the family, e.g. Volt API): `volt/brand/BRAND_GUIDELINES.md`.

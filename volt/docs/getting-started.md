@@ -121,7 +121,7 @@ Volt ships a **two-layer pre-commit secret scanner** so an API key, token, or pr
 
 If a commit is blocked, move the value to `.env` (gitignored) and read it through the [typesafe env](configuration.md) — never `process.env` directly. For a genuine false positive, add the placeholder shape to `.gitleaks.toml` `[allowlist]` **and** `ALLOW_RE` in `.githooks/pre-commit` (keep both in sync). Bypass only with care: `git commit --no-verify`.
 
-Manual scans: `task secrets:scan` (full history) and `task secrets:scan:staged` (staged diff only).
+Manual scans: `task secrets:scan` (full history) and `task secrets:scan:staged` (staged diff only). The full guide — CI backstop, allowlisting, adding detectors — is in [secret-scanning.md](secret-scanning.md).
 
 ## Next / Related
 
