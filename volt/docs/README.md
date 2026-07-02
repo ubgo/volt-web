@@ -25,6 +25,7 @@ Everything you need to build with **Volt**, the TanStack Start boilerplate. New 
 - [Monitoring — Sentry](monitoring.md) — client + server error tracking.
 - [Branding](branding.md) — swap the logo, favicon, name, and theme for your own.
 - [Deployment](deployment.md) — build and deploy (Nitro output; hosts).
+- [Secret scanning](secret-scanning.md) — keep credentials out of git (pre-commit hook + CI).
 - [Making it yours](making-it-yours.md) — strip the demos and start your real app.
 
 ## Reference
