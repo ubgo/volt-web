@@ -175,7 +175,7 @@ The demo is deliberately isolated so removing it is trivial:
 2. Replace the redirect in `src/routes/index.tsx` with your own landing route.
 3. Edit `NAV_SECTIONS` in `src/components/admin-shell.tsx` for your app's navigation.
 4. **Rebrand** — drop your square logo at `public/logo-source.png`, run `task branding:gen`, update `public/manifest.json` + `SITE_NAME` in `src/lib/seo.ts`. The **`/demo/branding`** page documents every icon and where it's wired.
-5. **Replace this project's README** with your own app's README (and update `LICENSE` / `package.json` `name` as needed). Keep this `CONTRIBUTING.md` around as your team's setup reference.
+5. **Replace this project's README** with your own app's README (and update `LICENSE` / `package.json` `name` as needed). Keep this `CONTRIBUTING.md` and `VOLT.md` around — `VOLT.md` is the preserved copy of Volt's original README (the "built on Volt" reference), and `CONTRIBUTING.md` is your team's setup reference.
 
 What remains — the UI kit, dashboard shell, theming, RPC/DB/GraphQL integrations, and env setup — is your foundation.
 
