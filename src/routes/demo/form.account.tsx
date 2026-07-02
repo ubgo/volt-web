@@ -3,13 +3,6 @@ import { UserCircle } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
-import { seo } from "@/lib/seo"
-import {
-	Field,
-	FormActions,
-	FormSection,
-	SwitchRow,
-} from "@/demo/form/form-kit"
 import { Button } from "@/components/ui/button"
 import { Combobox } from "@/components/ui/combobox"
 import { Input } from "@/components/ui/input"
@@ -25,6 +18,13 @@ import {
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import {
+	Field,
+	FormActions,
+	FormSection,
+	SwitchRow,
+} from "@/demo/form/form-kit"
+import { seo } from "@/lib/seo"
 
 export const Route = createFileRoute("/demo/form/account")({
 	component: AccountForm,
@@ -72,7 +72,11 @@ function AccountForm() {
 								<Input id="a-last" defaultValue="Lovelace" />
 							</Field>
 						</div>
-						<Field label="Email" htmlFor="a-email" hint="Used for sign-in and receipts.">
+						<Field
+							label="Email"
+							htmlFor="a-email"
+							hint="Used for sign-in and receipts."
+						>
 							<Input id="a-email" type="email" defaultValue="ada@example.com" />
 						</Field>
 						<Field label="Bio" htmlFor="a-bio" hint="Max 280 characters.">

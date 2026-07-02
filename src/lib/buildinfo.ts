@@ -1,4 +1,4 @@
-import { env } from "@/env/server";
+import { env } from "@/env/server"
 
 export function getBuildInfo() {
 	return {
@@ -6,5 +6,5 @@ export function getBuildInfo() {
 		commit: env.VITE_APP_COMMIT,
 		branch: env.VITE_APP_BRANCH,
 		buildTime: env.VITE_APP_BUILD_TIME,
-	};
+	}
 }

@@ -1,12 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
 import { CheckCircle2, Database, XCircle } from "lucide-react"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
 import { StatusBadge } from "@/demo/form/form-kit"
-import { createAnonClient } from "@/lib/gql-clients"
 // The generated SDK — proves the typed builder API is wired. Every real query
 // goes through `new QueryRoot(createApiClient()).<field>().select(…).execute()`.
 import { QueryRoot } from "@/generated/sdk/queries"
+import { createAnonClient } from "@/lib/gql-clients"
 import { seo } from "@/lib/seo"
 
 export const Route = createFileRoute("/demo/gqlkit")({
@@ -69,8 +69,7 @@ function GqlkitDemo() {
 							</Row>
 							<Row label="Query.__typename">
 								<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[12px]">
-									{ping.data?.__typename ??
-										(ping.error ? "—" : "…")}
+									{ping.data?.__typename ?? (ping.error ? "—" : "…")}
 								</code>
 							</Row>
 							{ping.error ? (
@@ -91,9 +90,7 @@ function GqlkitDemo() {
 								<StatusBadge label="gqlkit-ts" tone="success" />
 							</Row>
 							<Row label="SDK location">
-								<code className="font-mono text-[12px]">
-									src/generated/sdk
-								</code>
+								<code className="font-mono text-[12px]">src/generated/sdk</code>
 							</Row>
 							<Row label="Roots">
 								<span className="text-[13px] tabular-nums">
@@ -125,7 +122,11 @@ const data = await new QueryRoot(createApiClient())
 						<p className="mt-2 text-[11px] text-muted-foreground">
 							Fluent, typesafe builders per query/mutation. The{" "}
 							<code className="font-mono">
-								{String(typeof QueryRoot === "function" ? QueryRoot.name : "QueryRoot")}
+								{String(
+									typeof QueryRoot === "function"
+										? QueryRoot.name
+										: "QueryRoot",
+								)}
 							</code>{" "}
 							class is generated from the backend schema — change the schema,
 							run <code className="font-mono">task gqlkit:all</code>, done.

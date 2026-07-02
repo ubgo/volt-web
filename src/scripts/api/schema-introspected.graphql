@@ -1,307 +1,307 @@
 "One workspace that installed an app — a row in the OWNER-gated install-base view (Shopify-Partners 'installs'). Cross-workspace; only ever returned to the app's owner workspace. No secrets."
 type AddonAppInstall {
-  "The consuming workspace's id."
-  workspaceId: ID!
-  "The consuming workspace's display name (empty when the lookup is unavailable)."
-  workspaceName: String!
-  "The consuming workspace's slug (empty when unavailable)."
-  workspaceSlug: String!
-  "When this workspace first installed (or last re-installed)."
-  installedAt: Time!
-  "False when this workspace has uninstalled (the row is kept as history)."
-  active: Boolean!
-  "The scopes this workspace consented to at install."
-  grantedScopes: [String!]!
-  "Non-revoked access tokens this install currently holds."
-  activeTokenCount: Int!
-  "Most-recent token use across this install's tokens (null = never used). A liveness signal."
-  lastTokenUsedAt: Time
+	"The consuming workspace's id."
+	workspaceId: ID!
+	"The consuming workspace's display name (empty when the lookup is unavailable)."
+	workspaceName: String!
+	"The consuming workspace's slug (empty when unavailable)."
+	workspaceSlug: String!
+	"When this workspace first installed (or last re-installed)."
+	installedAt: Time!
+	"False when this workspace has uninstalled (the row is kept as history)."
+	active: Boolean!
+	"The scopes this workspace consented to at install."
+	grantedScopes: [String!]!
+	"Non-revoked access tokens this install currently holds."
+	activeTokenCount: Int!
+	"Most-recent token use across this install's tokens (null = never used). A liveness signal."
+	lastTokenUsedAt: Time
 }
 
 "One installable addon + its install state for the caller's workspace (drives the apps catalog)."
 type AddonCatalogEntry {
-  key: String!
-  name: String!
-  "builtin (in-proc integration) | external (operator-registered global app)"
-  kind: String!
-  installed: Boolean!
-  installedAt: Time
-  "For first-party external apps: the {base_url}/install URL the merchant is forwarded to. Empty for builtins."
-  installUrl: String!
+	key: String!
+	name: String!
+	"builtin (in-proc integration) | external (operator-registered global app)"
+	kind: String!
+	installed: Boolean!
+	installedAt: Time
+	"For first-party external apps: the {base_url}/install URL the merchant is forwarded to. Empty for builtins."
+	installUrl: String!
 }
 
 "A WORKSPACE-OWNED custom app — the merchant's own credentials to hand to an external service (Shopify custom/private-app model)."
 type AddonCustomApp {
-  id: ID!
-  key: String!
-  name: String!
-  clientId: String!
-  "The workspace-level scopes the app's credentials carry."
-  scopes: [String!]!
-  "When the app was created."
-  createdAt: Time!
-  "True when the app is currently installed in the caller's workspace (has an active install)."
-  installed: Boolean!
-  "Registered OAuth redirect targets (exact-match at /authorize) — the external service's callback URL(s). Editable."
-  redirectUris: [String!]!
-  "Shareable install link = {base_url}/install. A custom app is unlisted, so the owner copies this and sends it to another workspace's admin to install (the same entry a listed app uses, just shared manually). Empty if the app has no base_url."
-  installLink: String!
-  "Total workspaces that ever installed this app (active + uninstalled — all-time reach)."
-  installCount: Int!
-  "Workspaces where this app is CURRENTLY installed."
-  activeInstallCount: Int!
+	id: ID!
+	key: String!
+	name: String!
+	clientId: String!
+	"The workspace-level scopes the app's credentials carry."
+	scopes: [String!]!
+	"When the app was created."
+	createdAt: Time!
+	"True when the app is currently installed in the caller's workspace (has an active install)."
+	installed: Boolean!
+	"Registered OAuth redirect targets (exact-match at /authorize) — the external service's callback URL(s). Editable."
+	redirectUris: [String!]!
+	"Shareable install link = {base_url}/install. A custom app is unlisted, so the owner copies this and sends it to another workspace's admin to install (the same entry a listed app uses, just shared manually). Empty if the app has no base_url."
+	installLink: String!
+	"Total workspaces that ever installed this app (active + uninstalled — all-time reach)."
+	installCount: Int!
+	"Workspaces where this app is CURRENTLY installed."
+	activeInstallCount: Int!
 }
 
 input AddonCustomAppCreateInput {
-  "Display name for the app."
-  name: String!
-  "Workspace-level scopes the credentials may act with (subset of the platform's offerable scopes)."
-  scopes: [String!]!
+	"Display name for the app."
+	name: String!
+	"Workspace-level scopes the credentials may act with (subset of the platform's offerable scopes)."
+	scopes: [String!]!
 }
 
 "Result of creating a custom app: the app plus its FIRST client secret, shown ONCE."
 type AddonCustomAppCreated {
-  app: AddonCustomApp!
-  "The client secret — shown ONCE here, never retrievable again. Hand it (with clientId) to the external service."
-  clientSecret: String!
+	app: AddonCustomApp!
+	"The client secret — shown ONCE here, never retrievable again. Hand it (with clientId) to the external service."
+	clientSecret: String!
 }
 
 "Result of minting an additional client secret for a custom app, shown ONCE."
 type AddonCustomAppSecret {
-  secretId: ID!
-  clientSecret: String!
+	secretId: ID!
+	clientSecret: String!
 }
 
 "Non-secret metadata for one client secret of a custom app (the listing; the plaintext is fetched on demand via addonCustomAppRevealSecret)."
 type AddonCustomAppSecretMeta {
-  id: ID!
-  label: String!
-  "True when revoked (kept as history)."
-  revoked: Boolean!
-  lastUsedAt: Time
-  revokedAt: Time
-  createdAt: Time!
+	id: ID!
+	label: String!
+	"True when revoked (kept as history)."
+	revoked: Boolean!
+	lastUsedAt: Time
+	revokedAt: Time
+	createdAt: Time!
 }
 
 "Non-secret metadata for a custom app's access token (the credential an external service uses to call the apiadmin GraphQL API). The token itself is hash-only and shown ONCE at generation."
 type AddonCustomAppToken {
-  id: ID!
-  "Masked, non-secret fragment (e.g. atok_Pn-…l4Q) identifying the token."
-  hint: String!
-  "True when revoked (kept as history)."
-  revoked: Boolean!
-  lastUsedAt: Time
-  createdAt: Time!
+	id: ID!
+	"Masked, non-secret fragment (e.g. atok_Pn-…l4Q) identifying the token."
+	hint: String!
+	"True when revoked (kept as history)."
+	revoked: Boolean!
+	lastUsedAt: Time
+	createdAt: Time!
 }
 
 "One installed addon for the caller's workspace (the install registry row)."
 type AddonInstall {
-  id: ID!
-  addonKey: String!
-  installedAt: Time!
+	id: ID!
+	addonKey: String!
+	installedAt: Time!
 }
 
 "One app INSTALLED in the caller's workspace (any kind) — the Installed-apps surface. Carries routing hints so the UI sends Manage to the right console."
 type AddonInstalledApp {
-  addonKey: String!
-  name: String!
-  "builtin (in-proc integration) | external (operator- or workspace-registered app)"
-  kind: String!
-  installedAt: Time!
-  "The addon_apps id when the install resolves to a registered app (links a custom app you own to /addons/custom/<id>). Empty for orphaned installs / builtins."
-  appId: ID
-  "True when THIS workspace built the app (a custom app you own) — Manage routes to the developer console; hidden otherwise."
-  ownedByWorkspace: Boolean!
-  "The signed SSO 'Open' URL for any installed external app with a base_url ({base}/install?token=<JWT>) — opens the real app, identity-verified. Empty for builtins / credentials-only apps."
-  installUrl: String!
+	addonKey: String!
+	name: String!
+	"builtin (in-proc integration) | external (operator- or workspace-registered app)"
+	kind: String!
+	installedAt: Time!
+	"The addon_apps id when the install resolves to a registered app (links a custom app you own to /addons/custom/<id>). Empty for orphaned installs / builtins."
+	appId: ID
+	"True when THIS workspace built the app (a custom app you own) — Manage routes to the developer console; hidden otherwise."
+	ownedByWorkspace: Boolean!
+	"The signed SSO 'Open' URL for any installed external app with a base_url ({base}/install?token=<JWT>) — opens the real app, identity-verified. Empty for builtins / credentials-only apps."
+	installUrl: String!
 }
 
 type AddonSetting {
-  settingKey: String!
-  "private | read-only | set-only | read-write"
-  mode: String!
-  adminRead: Boolean!
-  adminWrite: Boolean!
-  "secret | bool | string | url | enum | time"
-  valueType: String!
+	settingKey: String!
+	"private | read-only | set-only | read-write"
+	mode: String!
+	adminRead: Boolean!
+	adminWrite: Boolean!
+	"secret | bool | string | url | enum | time"
+	valueType: String!
 }
 
 input AddonSettingSetInput {
-  addonKey: String!
-  settingKey: String!
-  value: String!
+	addonKey: String!
+	settingKey: String!
+	value: String!
 }
 
 type AuthApiKey {
-  id: ID!
-  name: String!
-  prefix: String!
-  scope: AuthApiKeyScope!
-  workspaceID: ID
-  projectID: ID
-  scopes: [String!]!
-  lastUsedAt: Time
-  expiresAt: Time
-  revokedAt: Time
-  createdAt: Time!
+	id: ID!
+	name: String!
+	prefix: String!
+	scope: AuthApiKeyScope!
+	workspaceID: ID
+	projectID: ID
+	scopes: [String!]!
+	lastUsedAt: Time
+	expiresAt: Time
+	revokedAt: Time
+	createdAt: Time!
 }
 
 type AuthApiKeyCreated {
-  key: AuthApiKey!
-  raw: String!
+	key: AuthApiKey!
+	raw: String!
 }
 
 enum AuthApiKeyScope {
-  ACCOUNT
-  WORKSPACE
-  PROJECT
+	ACCOUNT
+	WORKSPACE
+	PROJECT
 }
 
 type AuthInvite {
-  id: ID!
-  workspaceID: ID!
-  workspaceName: String
-  email: String!
-  roleID: ID!
-  roleKey: String!
-  invitedByUserID: ID!
-  invitedByUser: AuthUser
-  expiresAt: Time!
-  acceptedAt: Time
-  revokedAt: Time
-  createdAt: Time!
+	id: ID!
+	workspaceID: ID!
+	workspaceName: String
+	email: String!
+	roleID: ID!
+	roleKey: String!
+	invitedByUserID: ID!
+	invitedByUser: AuthUser
+	expiresAt: Time!
+	acceptedAt: Time
+	revokedAt: Time
+	createdAt: Time!
 }
 
 input AuthLoginInput {
-  email: String!
-  password: String!
+	email: String!
+	password: String!
 }
 
 type AuthPermission {
-  id: ID!
-  key: String!
-  description: String
-  scopeKind: String!
+	id: ID!
+	key: String!
+	description: String
+	scopeKind: String!
 }
 
 type AuthProjectMember {
-  id: ID!
-  workspaceID: ID!
-  projectID: ID!
-  userID: ID!
-  user: AuthUser
-  roleID: ID!
-  roleKey: String!
-  status: String!
-  createdAt: Time
+	id: ID!
+	workspaceID: ID!
+	projectID: ID!
+	userID: ID!
+	user: AuthUser
+	roleID: ID!
+	roleKey: String!
+	status: String!
+	createdAt: Time
 }
 
 input AuthRegisterInput {
-  email: String!
-  password: String
-  firstName: String
-  lastName: String
+	email: String!
+	password: String
+	firstName: String
+	lastName: String
 }
 
 type AuthRole {
-  id: ID!
-  key: String!
-  name: String!
-  scope: String!
-  workspaceID: ID
-  isSystem: Boolean!
-  permissionKeys: [String!]!
+	id: ID!
+	key: String!
+	name: String!
+	scope: String!
+	workspaceID: ID
+	isSystem: Boolean!
+	permissionKeys: [String!]!
 }
 
 type AuthSession {
-  token: String!
-  user: AuthUser!
+	token: String!
+	user: AuthUser!
 }
 
 type AuthTokens {
-  accessToken: String!
-  refreshToken: String!
-  user: AuthUser!
+	accessToken: String!
+	refreshToken: String!
+	user: AuthUser!
 }
 
 input AuthUpdateWorkspaceInput {
-  "New display name. Empty / omitted = leave alone."
-  name: String
-  """
-  New IANA timezone name (e.g. "Europe/Oslo"). Validated server-side via
-  time.LoadLocation. Changing this triggers a recompute of every workflow
-  schedule's cron_utc inside this workspace.
-  """
-  timezone: String
+	"New display name. Empty / omitted = leave alone."
+	name: String
+	"""
+	New IANA timezone name (e.g. "Europe/Oslo"). Validated server-side via
+	time.LoadLocation. Changing this triggers a recompute of every workflow
+	schedule's cron_utc inside this workspace.
+	"""
+	timezone: String
 }
 
 type AuthUser {
-  id: ID!
-  email: String!
-  firstName: String
-  lastName: String
-  avatarURL: String
-  emailVerified: Boolean!
-  status: String!
-  isSA: Boolean!
-  defaultWorkspaceID: ID
-  createdAt: Time!
+	id: ID!
+	email: String!
+	firstName: String
+	lastName: String
+	avatarURL: String
+	emailVerified: Boolean!
+	status: String!
+	isSA: Boolean!
+	defaultWorkspaceID: ID
+	createdAt: Time!
 }
 
 type AuthWorkspace {
-  id: ID!
-  name: String!
-  slug: String!
-  ownerUserID: ID!
-  """
-  Email of the workspace's owner (resolved from ownerUserID). Empty string
-    if the owner user can't be resolved. Surfaced so the workspaces datatable
-    shows a human-readable owner instead of the raw usr_* id.
-  """
-  ownerEmail: String!
-  status: String!
-  """
-  Opaque app-attached custom key/values (the workspace metadata bucket,
-    DESIGN §4.3). SHARED across all apps in the workspace; the platform never
-    inspects it. Empty object when unset.
-  """
-  metadata: JSON!
-  """
-  Whether the CALLING USER has favorited this workspace (per-user-per-
-    workspace, stored on their membership). Favorited workspaces pin to the top
-    of the workspace switcher. Defaults false.
-  """
-  favorite: Boolean!
-  """
-  IANA timezone name (e.g. "Europe/Oslo", "Asia/Kolkata"). The
-  workspace's operating timezone — affects scheduled workflow fires
-  and (future) any wall-clock-time display in the dashboard.
-  Defaults to "UTC".
-  """
-  timezone: String!
-  """
-  Provenance of the workspace's creation: "human" (a user signed up /
-    created it), "app" (an addon provisioned it via /api/addon/onboard), or
-    "system" (auto-provisioned default workspace). Opaque closed set.
-  """
-  createdByKind: String!
-  """
-  When createdByKind = "app", the addon_key of the provisioning app.
-    Null for human/system workspaces.
-  """
-  provisionedByApp: String
-  createdAt: Time!
+	id: ID!
+	name: String!
+	slug: String!
+	ownerUserID: ID!
+	"""
+	Email of the workspace's owner (resolved from ownerUserID). Empty string
+	  if the owner user can't be resolved. Surfaced so the workspaces datatable
+	  shows a human-readable owner instead of the raw usr_* id.
+	"""
+	ownerEmail: String!
+	status: String!
+	"""
+	Opaque app-attached custom key/values (the workspace metadata bucket,
+	  DESIGN §4.3). SHARED across all apps in the workspace; the platform never
+	  inspects it. Empty object when unset.
+	"""
+	metadata: JSON!
+	"""
+	Whether the CALLING USER has favorited this workspace (per-user-per-
+	  workspace, stored on their membership). Favorited workspaces pin to the top
+	  of the workspace switcher. Defaults false.
+	"""
+	favorite: Boolean!
+	"""
+	IANA timezone name (e.g. "Europe/Oslo", "Asia/Kolkata"). The
+	workspace's operating timezone — affects scheduled workflow fires
+	and (future) any wall-clock-time display in the dashboard.
+	Defaults to "UTC".
+	"""
+	timezone: String!
+	"""
+	Provenance of the workspace's creation: "human" (a user signed up /
+	  created it), "app" (an addon provisioned it via /api/addon/onboard), or
+	  "system" (auto-provisioned default workspace). Opaque closed set.
+	"""
+	createdByKind: String!
+	"""
+	When createdByKind = "app", the addon_key of the provisioning app.
+	  Null for human/system workspaces.
+	"""
+	provisionedByApp: String
+	createdAt: Time!
 }
 
 type AuthWorkspaceMember {
-  id: ID!
-  workspaceID: ID!
-  userID: ID!
-  user: AuthUser
-  roleID: ID!
-  roleKey: String!
-  status: String!
-  joinedAt: Time
+	id: ID!
+	workspaceID: ID!
+	userID: ID!
+	user: AuthUser
+	roleID: ID!
+	roleKey: String!
+	status: String!
+	joinedAt: Time
 }
 
 """
@@ -309,9 +309,9 @@ One page of workspaces (offset pagination). Mirrors the repo's offset
 page shape (items + total + hasMore), e.g. PimProductPage.
 """
 type AuthWorkspacePage {
-  items: [AuthWorkspace!]!
-  total: Int!
-  hasMore: Boolean!
+	items: [AuthWorkspace!]!
+	total: Int!
+	hasMore: Boolean!
 }
 
 """
@@ -319,11 +319,11 @@ CreateUserInput is used for create User object.
 Input was generated by ent.
 """
 input CreateUserInput {
-  firstName: String
-  lastName: String
-  email: String
-  password: String
-  isActive: Boolean
+	firstName: String
+	lastName: String
+	email: String
+	password: String
+	isActive: Boolean
 }
 
 """
@@ -333,80 +333,80 @@ https://relay.dev/graphql/connections.htm#sec-Cursor
 scalar Cursor
 
 type File {
-  id: ID!
-  workspaceId: String!
-  kind: FileKind!
-  mime: String!
-  size: Int!
-  checksum: String!
-  originalName: String!
-  storageKey: String!
-  externalUrl: String!
-  status: FileStatus!
-  folderId: String
-  """
-  Bucket-internal grouping under the workspace prefix.
-  Defaults to "uploads" for UI uploads; non-UI callers tag with
-  "imports/shopify", "exports/csv", "reports/<topic>", etc.
-  Becomes a segment of storageKey + is persisted as a filterable
-  column on the row.
-  """
-  namespace: String!
-  createdAt: Time!
-  updatedAt: Time!
-  """
-  Presigned R2/S3 URL the browser can fetch directly (no API proxy).
-  For STORED files: minted on demand via the storage presigner, TTL
-  defaults to the filemgr.signedURLDefaultTTL config (1h).
-  For EXTERNAL files: returns the externalUrl (no signature).
-  Pass expiresIn (seconds) to override the default TTL.
-  """
-  url(expiresIn: Int): String!
+	id: ID!
+	workspaceId: String!
+	kind: FileKind!
+	mime: String!
+	size: Int!
+	checksum: String!
+	originalName: String!
+	storageKey: String!
+	externalUrl: String!
+	status: FileStatus!
+	folderId: String
+	"""
+	Bucket-internal grouping under the workspace prefix.
+	Defaults to "uploads" for UI uploads; non-UI callers tag with
+	"imports/shopify", "exports/csv", "reports/<topic>", etc.
+	Becomes a segment of storageKey + is persisted as a filterable
+	column on the row.
+	"""
+	namespace: String!
+	createdAt: Time!
+	updatedAt: Time!
+	"""
+	Presigned R2/S3 URL the browser can fetch directly (no API proxy).
+	For STORED files: minted on demand via the storage presigner, TTL
+	defaults to the filemgr.signedURLDefaultTTL config (1h).
+	For EXTERNAL files: returns the externalUrl (no signature).
+	Pass expiresIn (seconds) to override the default TTL.
+	"""
+	url(expiresIn: Int): String!
 }
 
 input FileAttachInput {
-  fileId: String!
-  ownerType: String!
-  ownerId: String!
-  role: String!
-  position: Int
+	fileId: String!
+	ownerType: String!
+	ownerId: String!
+	role: String!
+	position: Int
 }
 
 type FileAttachment {
-  id: ID!
-  workspaceId: String!
-  fileId: String!
-  ownerType: String!
-  ownerId: String!
-  role: String!
-  position: Int!
-  createdAt: Time!
-  updatedAt: Time!
-  """
-  The attached file (resolved via fileId). Returns null if the file
-  has been deleted but the attachment row still exists (cleanup
-  race window — Phase 2 fixes via cascade).
-  """
-  file: File
+	id: ID!
+	workspaceId: String!
+	fileId: String!
+	ownerType: String!
+	ownerId: String!
+	role: String!
+	position: Int!
+	createdAt: Time!
+	updatedAt: Time!
+	"""
+	The attached file (resolved via fileId). Returns null if the file
+	has been deleted but the attachment row still exists (cleanup
+	race window — Phase 2 fixes via cascade).
+	"""
+	file: File
 }
 
 enum FileKind {
-  IMAGE
-  VIDEO
-  PDF
-  TEXT
+	IMAGE
+	VIDEO
+	PDF
+	TEXT
 }
 
 input FileListFilter {
-  kind: FileKind
-  status: FileStatus
-  limit: Int
+	kind: FileKind
+	status: FileStatus
+	limit: Int
 }
 
 enum FileStatus {
-  STORED
-  EXTERNAL
-  DELETED
+	STORED
+	EXTERNAL
+	DELETED
 }
 
 scalar JSON
@@ -414,295 +414,298 @@ scalar JSON
 scalar JsonSlice
 
 enum KVActorKind {
-  HOST
-  WORKSPACE
-  ADDON
+	HOST
+	WORKSPACE
+	ADDON
 }
 
 enum KVAuditAction {
-  SET
-  DELETE
+	SET
+	DELETE
 }
 
 type KVAuditEntry {
-  id: ID!
-  workspaceId: String!
-  addonKey: String!
-  key: String!
-  action: KVAuditAction!
-  encrypted: Boolean!
-  actorKind: KVActorKind!
-  actorId: String!
-  occurredAt: Time!
+	id: ID!
+	workspaceId: String!
+	addonKey: String!
+	key: String!
+	action: KVAuditAction!
+	encrypted: Boolean!
+	actorKind: KVActorKind!
+	actorId: String!
+	occurredAt: Time!
 }
 
 input KVAuditFilter {
-  keyContains: String
-  limit: Int
+	keyContains: String
+	limit: Int
 }
 
 input KVDeleteInput {
-  key: String!
+	key: String!
 }
 
 type KVEntry {
-  id: ID!
-  workspaceId: String!
-  addonKey: String!
-  key: String!
-  "Decrypted plaintext when encrypted=true; raw bytes otherwise. UTF-8 only."
-  value: String!
-  encrypted: Boolean!
-  keyVersion: Int!
-  createdAt: Time!
-  updatedAt: Time!
+	id: ID!
+	workspaceId: String!
+	addonKey: String!
+	key: String!
+	"Decrypted plaintext when encrypted=true; raw bytes otherwise. UTF-8 only."
+	value: String!
+	encrypted: Boolean!
+	keyVersion: Int!
+	createdAt: Time!
+	updatedAt: Time!
 }
 
 input KVGetInput {
-  key: String!
+	key: String!
 }
 
 input KVListFilter {
-  keyContains: String
-  limit: Int
+	keyContains: String
+	limit: Int
 }
 
 input KVSetInput {
-  key: String!
-  value: String!
-  encrypt: Boolean
+	key: String!
+	value: String!
+	encrypt: Boolean
 }
 
 scalar Map
 
 type Mutation {
-  authUpdateWorkspace(
-    id: ID!
-    name: String!
-    slug: String!
-  ): AuthWorkspace!
-  authDeleteWorkspace(id: ID!): Boolean!
-  ping: String!
-  "Create a new user."
-  createUser(input: CreateUserInput!): User!
-  "Update an existing user."
-  updateUser(id: ID!, input: UpdateUserInput!): User!
-  "Delete a user by ID."
-  deleteUser(id: ID!): Boolean!
-  "Legacy: Update user name only."
-  updateUserName(id: ID!, name: String!): User @deprecated(reason: "Use updateUser mutation with firstName/lastName instead")
-  pimCreateChannel(workspaceId: String!, input: PimChannelInput!): String!
-  pimUpdateChannel(
-    workspaceId: String!
-    id: String!
-    input: PimChannelInput!
-  ): Boolean!
-  pimDeleteChannel(workspaceId: String!, id: String!): Boolean!
-  authRegister(input: AuthRegisterInput!): AuthUser!
-  authLogin(input: AuthLoginInput!): AuthTokens!
-  authLogout: Boolean!
-  authRefresh(refreshToken: String!): AuthTokens!
-  authRequestPasswordReset(email: String!): Boolean!
-  authResetPassword(token: String!, newPassword: String!): Boolean!
-  authVerifyEmail(token: String!): Boolean!
-  authCreateApiKey(
-    name: String!
-    scope: AuthApiKeyScope
-    workspaceID: ID
-    projectID: ID
-    scopes: [String!]
-  ): AuthApiKeyCreated!
-  authRevokeApiKey(id: ID!): Boolean!
-  authCreateWorkspace(name: String!, slug: String!): AuthWorkspace!
-  """
-  Update the workspace's editable settings (name + timezone). Caller
-  must hold workspace:write on the target workspace (owner + admin
-  system roles carry it by default).
-  
-  Slug is NOT editable through this mutation — owners use the
-  separate authUpdateWorkspace(id, name, slug) mutation in
-  auth_ws_admin.graphql when they need to rename + reslug at once.
-  Returns the updated AuthWorkspace.
-  """
-  authUpdateWorkspaceSettings(workspaceID: ID!, input: AuthUpdateWorkspaceInput!): AuthWorkspace!
-  """
-  Favorite / unfavorite a workspace for the CALLING USER (per-user-per-
-  workspace, stored on their membership). Any active member can set it — the
-  access check IS the membership lookup. Returns true on success.
-  """
-  authSetWorkspaceFavorite(workspaceID: ID!, favorite: Boolean!): Boolean!
-  authInviteMember(
-    workspaceID: ID!
-    email: String!
-    roleKey: String!
-  ): Boolean!
-  authAcceptInvite(token: String!): AuthWorkspaceMember!
-  authChangeMemberRole(
-    workspaceID: ID!
-    userID: ID!
-    roleKey: String!
-  ): Boolean!
-  authRemoveMember(workspaceID: ID!, userID: ID!): Boolean!
-  authAcceptInviteByID(inviteID: ID!): AuthWorkspaceMember!
-  authDeclineInvite(inviteID: ID!): Boolean!
-  authRevokeInvite(inviteID: ID!): Boolean!
-  authAddProjectMember(
-    workspaceID: ID!
-    projectID: ID!
-    userID: ID!
-    roleKey: String!
-  ): AuthProjectMember!
-  authRemoveProjectMember(projectID: ID!, userID: ID!): Boolean!
-  authChangeProjectMemberRole(
-    projectID: ID!
-    userID: ID!
-    roleKey: String!
-  ): Boolean!
-  authCreateRole(
-    workspaceID: ID!
-    key: String!
-    name: String!
-    permissionKeys: [String!]!
-  ): AuthRole!
-  authSetRolePermissions(roleID: ID!, permissionKeys: [String!]!): Boolean!
-  authDeleteRole(roleID: ID!): Boolean!
-  "Insert / update a routing rule."
-  wfUpsertWebhookRoute(input: WfUpsertWebhookRouteInput!): WfWebhookRoute!
-  "Flip enabled on a route."
-  wfToggleWebhookRoute(id: ID!): WfWebhookRoute!
-  "Delete a routing rule."
-  wfDeleteWebhookRoute(id: ID!): Boolean!
-  "Register or update an external-app workflow (ADR-V3-010 pin-on-start)."
-  wfUpsertAppWorkflow(input: WfUpsertWorkflowInput!): WfAppWorkflowVersion!
-  "Trigger a workflow manually with an admin-supplied payload."
-  wfTriggerWorkflow(input: WfEnqueueInput!): WfJobRun!
-  "Enqueue one run (programmatic shape)."
-  wfEnqueueJob(input: WfEnqueueInput!): WfJobRun!
-  "Signal a WaitFor step."
-  wfResumeJob(input: WfResumeInput!): WfJobRun!
-  "Cancel a run."
-  wfCancelRun(input: WfCancelInput!): WfJobRun!
-  "Replay one webhook honoring the replay-safety gate."
-  wfReplayWebhook(input: WfReplayWebhookInput!): WfReplayResult!
-  "Replay many webhooks; aggregate summary."
-  wfReplayWebhooks(input: WfReplayWebhooksInput!): WfBulkReplaySummary!
-  "Gate + validate + apply an admin write to an exposed addon setting."
-  addonSettingSet(input: AddonSettingSetInput!): Boolean!
-  "Create a workspace-owned custom app for the caller's workspace; returns the app + its first client secret (shown ONCE)."
-  addonCustomAppCreate(input: AddonCustomAppCreateInput!): AddonCustomAppCreated!
-  "Mint an additional client secret for one of the caller workspace's custom apps (shown ONCE). For rotation."
-  addonCustomAppMintSecret(appId: ID!): AddonCustomAppSecret!
-  "Replace the granted scopes of one of the caller workspace's custom apps. Returns the updated app."
-  addonCustomAppSetScopes(appId: ID!, scopes: [String!]!): AddonCustomApp!
-  "Replace the OAuth redirect URIs of one of the caller workspace's custom apps (the external service's callback URLs). Each must be an absolute http(s) URL. Returns the updated app."
-  addonCustomAppSetRedirectUris(appId: ID!, redirectUris: [String!]!): AddonCustomApp!
-  "Reveal the plaintext of one client secret of the caller workspace's custom app (the merchant can view it anytime, like Shopify's API secret)."
-  addonCustomAppRevealSecret(appId: ID!, secretId: ID!): String!
-  "Revoke one client secret of the caller workspace's custom app (callers using it start failing). Kept as history."
-  addonCustomAppRevokeSecret(appId: ID!, secretId: ID!): Boolean!
-  "Revoke one access token of the caller workspace's custom app. Kept as history."
-  addonCustomAppRevokeToken(appId: ID!, tokenId: ID!): Boolean!
-  "Mint a FRESH access token for one workspace's install of the caller's app (the re-mint/refresh path: revokes the install's prior active token, mints a new one with that install's consented scopes). Returns the plaintext ONCE. OWNER-gated; a deliberate cross-workspace write (parity with the client-creds re-mint endpoint)."
-  addonCustomAppMintInstallToken(appId: ID!, workspaceId: ID!): String!
-  "Uninstall an addon from the caller's workspace (by key) — removes the install and revokes all its access tokens. Workspace is derived from auth (you can only uninstall your own install). Idempotent; reversible via re-install. Powers both the Installed-apps screen and the custom-app console's This-workspace section."
-  addonUninstall(addonKey: String!): Boolean!
-  wfrTriggerWorkflow(input: WfrTriggerInput!): WfRun!
-  """
-  Create a recurring schedule. Workspace stamped from auth ctx —
-       never from input. Workflow must already be registered in the
-       wfr_workflow_specs catalog; ErrWorkflowNotInCatalog otherwise.
-  
-       cronUtc is computed server-side from cronLocal +
-       workspace.timezone via the cronLocalToUTC translator. If Hatchet
-       registration fails the row is still saved with engineCronId =
-       NULL — the operator can Resume to retry without re-entering the
-       form.
-  """
-  wfScheduleWorkflow(input: WfrScheduleWorkflowInput!): WfWorkflowSchedule!
-  """
-  Update an existing schedule. cronLocal / input / versionPin
-       changes drop + recreate the Hatchet cron under the hood (row id
-       stays, engineCronId rotates).
-  """
-  wfUpdateSchedule(id: ID!, input: WfrUpdateScheduleInput!): WfWorkflowSchedule!
-  """
-  Set enabled=false + Unschedule the Hatchet cron. The row stays
-       so the operator can Resume without re-entering config.
-  """
-  wfPauseSchedule(id: ID!): WfWorkflowSchedule!
-  """
-  Set enabled=true + re-register the Hatchet cron, saving the new
-       engineCronId.
-  """
-  wfResumeSchedule(id: ID!): WfWorkflowSchedule!
-  "Hard delete: removes the Hatchet cron, then the row."
-  wfDeleteSchedule(id: ID!): Boolean!
-  """
-  Fire a one-off run immediately using the schedule's saved
-       payload. The cron schedule keeps its cadence. Returns the WfRun.
-       The run's source = SCHEDULE_MANUAL to distinguish from naturally-
-       fired SCHEDULE runs.
-  """
-  wfTriggerScheduleNow(id: ID!): WfRun!
-  "Write a value. Encryption is per-row (input.encrypt)."
-  kvSet(input: KVSetInput!): KVEntry!
-  "Delete a key. Returns false if absent."
-  kvDelete(input: KVDeleteInput!): Boolean!
-  """
-  Trash a file (soft-delete). Sets status=DELETED, cascades attachments,
-  KEEPS bytes in storage so a future fileRestore can recover the file.
-  Idempotent.
-  """
-  fileDelete(id: ID!): Boolean!
-  """
-  Bulk trash N files in one round-trip. Returns the number of files
-  actually flipped from live→trash; idempotent on already-trashed.
-  """
-  fileBulkDelete(ids: [ID!]!): Int!
-  """
-  Restore a trashed file to status=STORED (or EXTERNAL for
-  external-URL rows). Attachments are NOT restored — the caller
-  re-attaches as needed.
-  """
-  fileRestore(id: ID!): Boolean!
-  """
-  Bulk restore N trashed files. Returns the number actually flipped
-  from trash→live.
-  """
-  fileBulkRestore(ids: [ID!]!): Int!
-  """
-  Permanently delete a trashed file — removes bytes from storage AND
-  the row itself. Caller must trash first (fileDelete) so the
-  trash→purge flow is explicit. Rejects live files.
-  """
-  filePurge(id: ID!): Boolean!
-  """
-  Attach a file to an owner. Idempotent on (file, owner, role).
-  Rejects if ownerType is not in the host-registered allow-set.
-  """
-  fileAttach(input: FileAttachInput!): FileAttachment!
-  "Remove a single attachment by id. Idempotent."
-  fileDetach(attachmentId: ID!): Boolean!
-  """
-  Set attachment.position = index for each id in attachmentIds. All
-  ids must belong to the SAME (ownerType, ownerId, role) tuple in the
-  caller's workspace — the resolver verifies before mutating so a
-  caller can't forge an attachment id from another owner. Returns
-  the number of rows actually updated. Idempotent — passing the
-  current order is a no-op.
-  """
-  fileReorderAttachments(
-    ownerType: String!
-    ownerId: String!
-    role: String!
-    attachmentIds: [ID!]!
-  ): Int!
-  "Verify the access token by calling Shopify /shop.json, then persist credentials in kvstore. Workspace-scoped: a human (JWT+workspace) or an app principal carrying the shopify:connect scope."
-  shopifyConnect(input: ShopifyConnectInput!): ShopifyShop!
-  "Remove the connected shop from the caller's workspace. Idempotent."
-  shopifyDisconnect: Boolean!
-  "Enqueue a workflow run that imports every collection from the connected Shopify shop. Returns the run id."
-  shopifyImportCollections: WfJobRun!
+	authUpdateWorkspace(id: ID!, name: String!, slug: String!): AuthWorkspace!
+	authDeleteWorkspace(id: ID!): Boolean!
+	ping: String!
+	"Create a new user."
+	createUser(input: CreateUserInput!): User!
+	"Update an existing user."
+	updateUser(id: ID!, input: UpdateUserInput!): User!
+	"Delete a user by ID."
+	deleteUser(id: ID!): Boolean!
+	"Legacy: Update user name only."
+	updateUserName(id: ID!, name: String!): User
+		@deprecated(
+			reason: "Use updateUser mutation with firstName/lastName instead"
+		)
+	pimCreateChannel(workspaceId: String!, input: PimChannelInput!): String!
+	pimUpdateChannel(
+		workspaceId: String!
+		id: String!
+		input: PimChannelInput!
+	): Boolean!
+	pimDeleteChannel(workspaceId: String!, id: String!): Boolean!
+	authRegister(input: AuthRegisterInput!): AuthUser!
+	authLogin(input: AuthLoginInput!): AuthTokens!
+	authLogout: Boolean!
+	authRefresh(refreshToken: String!): AuthTokens!
+	authRequestPasswordReset(email: String!): Boolean!
+	authResetPassword(token: String!, newPassword: String!): Boolean!
+	authVerifyEmail(token: String!): Boolean!
+	authCreateApiKey(
+		name: String!
+		scope: AuthApiKeyScope
+		workspaceID: ID
+		projectID: ID
+		scopes: [String!]
+	): AuthApiKeyCreated!
+	authRevokeApiKey(id: ID!): Boolean!
+	authCreateWorkspace(name: String!, slug: String!): AuthWorkspace!
+	"""
+	Update the workspace's editable settings (name + timezone). Caller
+	must hold workspace:write on the target workspace (owner + admin
+	system roles carry it by default).
+
+	Slug is NOT editable through this mutation — owners use the
+	separate authUpdateWorkspace(id, name, slug) mutation in
+	auth_ws_admin.graphql when they need to rename + reslug at once.
+	Returns the updated AuthWorkspace.
+	"""
+	authUpdateWorkspaceSettings(
+		workspaceID: ID!
+		input: AuthUpdateWorkspaceInput!
+	): AuthWorkspace!
+	"""
+	Favorite / unfavorite a workspace for the CALLING USER (per-user-per-
+	workspace, stored on their membership). Any active member can set it — the
+	access check IS the membership lookup. Returns true on success.
+	"""
+	authSetWorkspaceFavorite(workspaceID: ID!, favorite: Boolean!): Boolean!
+	authInviteMember(workspaceID: ID!, email: String!, roleKey: String!): Boolean!
+	authAcceptInvite(token: String!): AuthWorkspaceMember!
+	authChangeMemberRole(
+		workspaceID: ID!
+		userID: ID!
+		roleKey: String!
+	): Boolean!
+	authRemoveMember(workspaceID: ID!, userID: ID!): Boolean!
+	authAcceptInviteByID(inviteID: ID!): AuthWorkspaceMember!
+	authDeclineInvite(inviteID: ID!): Boolean!
+	authRevokeInvite(inviteID: ID!): Boolean!
+	authAddProjectMember(
+		workspaceID: ID!
+		projectID: ID!
+		userID: ID!
+		roleKey: String!
+	): AuthProjectMember!
+	authRemoveProjectMember(projectID: ID!, userID: ID!): Boolean!
+	authChangeProjectMemberRole(
+		projectID: ID!
+		userID: ID!
+		roleKey: String!
+	): Boolean!
+	authCreateRole(
+		workspaceID: ID!
+		key: String!
+		name: String!
+		permissionKeys: [String!]!
+	): AuthRole!
+	authSetRolePermissions(roleID: ID!, permissionKeys: [String!]!): Boolean!
+	authDeleteRole(roleID: ID!): Boolean!
+	"Insert / update a routing rule."
+	wfUpsertWebhookRoute(input: WfUpsertWebhookRouteInput!): WfWebhookRoute!
+	"Flip enabled on a route."
+	wfToggleWebhookRoute(id: ID!): WfWebhookRoute!
+	"Delete a routing rule."
+	wfDeleteWebhookRoute(id: ID!): Boolean!
+	"Register or update an external-app workflow (ADR-V3-010 pin-on-start)."
+	wfUpsertAppWorkflow(input: WfUpsertWorkflowInput!): WfAppWorkflowVersion!
+	"Trigger a workflow manually with an admin-supplied payload."
+	wfTriggerWorkflow(input: WfEnqueueInput!): WfJobRun!
+	"Enqueue one run (programmatic shape)."
+	wfEnqueueJob(input: WfEnqueueInput!): WfJobRun!
+	"Signal a WaitFor step."
+	wfResumeJob(input: WfResumeInput!): WfJobRun!
+	"Cancel a run."
+	wfCancelRun(input: WfCancelInput!): WfJobRun!
+	"Replay one webhook honoring the replay-safety gate."
+	wfReplayWebhook(input: WfReplayWebhookInput!): WfReplayResult!
+	"Replay many webhooks; aggregate summary."
+	wfReplayWebhooks(input: WfReplayWebhooksInput!): WfBulkReplaySummary!
+	"Gate + validate + apply an admin write to an exposed addon setting."
+	addonSettingSet(input: AddonSettingSetInput!): Boolean!
+	"Create a workspace-owned custom app for the caller's workspace; returns the app + its first client secret (shown ONCE)."
+	addonCustomAppCreate(
+		input: AddonCustomAppCreateInput!
+	): AddonCustomAppCreated!
+	"Mint an additional client secret for one of the caller workspace's custom apps (shown ONCE). For rotation."
+	addonCustomAppMintSecret(appId: ID!): AddonCustomAppSecret!
+	"Replace the granted scopes of one of the caller workspace's custom apps. Returns the updated app."
+	addonCustomAppSetScopes(appId: ID!, scopes: [String!]!): AddonCustomApp!
+	"Replace the OAuth redirect URIs of one of the caller workspace's custom apps (the external service's callback URLs). Each must be an absolute http(s) URL. Returns the updated app."
+	addonCustomAppSetRedirectUris(
+		appId: ID!
+		redirectUris: [String!]!
+	): AddonCustomApp!
+	"Reveal the plaintext of one client secret of the caller workspace's custom app (the merchant can view it anytime, like Shopify's API secret)."
+	addonCustomAppRevealSecret(appId: ID!, secretId: ID!): String!
+	"Revoke one client secret of the caller workspace's custom app (callers using it start failing). Kept as history."
+	addonCustomAppRevokeSecret(appId: ID!, secretId: ID!): Boolean!
+	"Revoke one access token of the caller workspace's custom app. Kept as history."
+	addonCustomAppRevokeToken(appId: ID!, tokenId: ID!): Boolean!
+	"Mint a FRESH access token for one workspace's install of the caller's app (the re-mint/refresh path: revokes the install's prior active token, mints a new one with that install's consented scopes). Returns the plaintext ONCE. OWNER-gated; a deliberate cross-workspace write (parity with the client-creds re-mint endpoint)."
+	addonCustomAppMintInstallToken(appId: ID!, workspaceId: ID!): String!
+	"Uninstall an addon from the caller's workspace (by key) — removes the install and revokes all its access tokens. Workspace is derived from auth (you can only uninstall your own install). Idempotent; reversible via re-install. Powers both the Installed-apps screen and the custom-app console's This-workspace section."
+	addonUninstall(addonKey: String!): Boolean!
+	wfrTriggerWorkflow(input: WfrTriggerInput!): WfRun!
+	"""
+	Create a recurring schedule. Workspace stamped from auth ctx —
+	     never from input. Workflow must already be registered in the
+	     wfr_workflow_specs catalog; ErrWorkflowNotInCatalog otherwise.
+
+	     cronUtc is computed server-side from cronLocal +
+	     workspace.timezone via the cronLocalToUTC translator. If Hatchet
+	     registration fails the row is still saved with engineCronId =
+	     NULL — the operator can Resume to retry without re-entering the
+	     form.
+	"""
+	wfScheduleWorkflow(input: WfrScheduleWorkflowInput!): WfWorkflowSchedule!
+	"""
+	Update an existing schedule. cronLocal / input / versionPin
+	     changes drop + recreate the Hatchet cron under the hood (row id
+	     stays, engineCronId rotates).
+	"""
+	wfUpdateSchedule(id: ID!, input: WfrUpdateScheduleInput!): WfWorkflowSchedule!
+	"""
+	Set enabled=false + Unschedule the Hatchet cron. The row stays
+	     so the operator can Resume without re-entering config.
+	"""
+	wfPauseSchedule(id: ID!): WfWorkflowSchedule!
+	"""
+	Set enabled=true + re-register the Hatchet cron, saving the new
+	     engineCronId.
+	"""
+	wfResumeSchedule(id: ID!): WfWorkflowSchedule!
+	"Hard delete: removes the Hatchet cron, then the row."
+	wfDeleteSchedule(id: ID!): Boolean!
+	"""
+	Fire a one-off run immediately using the schedule's saved
+	     payload. The cron schedule keeps its cadence. Returns the WfRun.
+	     The run's source = SCHEDULE_MANUAL to distinguish from naturally-
+	     fired SCHEDULE runs.
+	"""
+	wfTriggerScheduleNow(id: ID!): WfRun!
+	"Write a value. Encryption is per-row (input.encrypt)."
+	kvSet(input: KVSetInput!): KVEntry!
+	"Delete a key. Returns false if absent."
+	kvDelete(input: KVDeleteInput!): Boolean!
+	"""
+	Trash a file (soft-delete). Sets status=DELETED, cascades attachments,
+	KEEPS bytes in storage so a future fileRestore can recover the file.
+	Idempotent.
+	"""
+	fileDelete(id: ID!): Boolean!
+	"""
+	Bulk trash N files in one round-trip. Returns the number of files
+	actually flipped from live→trash; idempotent on already-trashed.
+	"""
+	fileBulkDelete(ids: [ID!]!): Int!
+	"""
+	Restore a trashed file to status=STORED (or EXTERNAL for
+	external-URL rows). Attachments are NOT restored — the caller
+	re-attaches as needed.
+	"""
+	fileRestore(id: ID!): Boolean!
+	"""
+	Bulk restore N trashed files. Returns the number actually flipped
+	from trash→live.
+	"""
+	fileBulkRestore(ids: [ID!]!): Int!
+	"""
+	Permanently delete a trashed file — removes bytes from storage AND
+	the row itself. Caller must trash first (fileDelete) so the
+	trash→purge flow is explicit. Rejects live files.
+	"""
+	filePurge(id: ID!): Boolean!
+	"""
+	Attach a file to an owner. Idempotent on (file, owner, role).
+	Rejects if ownerType is not in the host-registered allow-set.
+	"""
+	fileAttach(input: FileAttachInput!): FileAttachment!
+	"Remove a single attachment by id. Idempotent."
+	fileDetach(attachmentId: ID!): Boolean!
+	"""
+	Set attachment.position = index for each id in attachmentIds. All
+	ids must belong to the SAME (ownerType, ownerId, role) tuple in the
+	caller's workspace — the resolver verifies before mutating so a
+	caller can't forge an attachment id from another owner. Returns
+	the number of rows actually updated. Idempotent — passing the
+	current order is a no-op.
+	"""
+	fileReorderAttachments(
+		ownerType: String!
+		ownerId: String!
+		role: String!
+		attachmentIds: [ID!]!
+	): Int!
+	"Verify the access token by calling Shopify /shop.json, then persist credentials in kvstore. Workspace-scoped: a human (JWT+workspace) or an app principal carrying the shopify:connect scope."
+	shopifyConnect(input: ShopifyConnectInput!): ShopifyShop!
+	"Remove the connected shop from the caller's workspace. Idempotent."
+	shopifyDisconnect: Boolean!
+	"Enqueue a workflow run that imports every collection from the connected Shopify shop. Returns the run id."
+	shopifyImportCollections: WfJobRun!
 }
 
 """
@@ -710,16 +713,16 @@ An object with an ID.
 Follows the [Relay Global Object Identification Specification](https://relay.dev/graphql/objectidentification.htm)
 """
 interface Node {
-  "The id of the object."
-  id: ID!
+	"The id of the object."
+	id: ID!
 }
 
 "Possible directions in which to order a list of items when provided an `orderBy` argument."
 enum OrderDirection {
-  "Specifies an ascending order for a given `orderBy` argument."
-  ASC
-  "Specifies a descending order for a given `orderBy` argument."
-  DESC
+	"Specifies an ascending order for a given `orderBy` argument."
+	ASC
+	"Specifies a descending order for a given `orderBy` argument."
+	DESC
 }
 
 """
@@ -727,419 +730,418 @@ Information about pagination in a connection.
 https://relay.dev/graphql/connections.htm#sec-undefined.PageInfo
 """
 type PageInfo {
-  "When paginating forwards, are there more items?"
-  hasNextPage: Boolean!
-  "When paginating backwards, are there more items?"
-  hasPreviousPage: Boolean!
-  "When paginating backwards, the cursor to continue."
-  startCursor: Cursor
-  "When paginating forwards, the cursor to continue."
-  endCursor: Cursor
+	"When paginating forwards, are there more items?"
+	hasNextPage: Boolean!
+	"When paginating backwards, are there more items?"
+	hasPreviousPage: Boolean!
+	"When paginating backwards, the cursor to continue."
+	startCursor: Cursor
+	"When paginating forwards, the cursor to continue."
+	endCursor: Cursor
 }
 
 scalar Password
 
 type PimAttributeDef {
-  id: String!
-  code: String!
-  label: String!
-  inputType: String!
-  scopable: Boolean!
-  localizable: Boolean!
-  usageCount: Int!
+	id: String!
+	code: String!
+	label: String!
+	inputType: String!
+	scopable: Boolean!
+	localizable: Boolean!
+	usageCount: Int!
 }
 
 type PimChannel {
-  id: String!
-  code: String!
-  kindCode: String!
-  currency: String!
-  categoryTreeRoot: String
-  completenessThreshold: Int!
-  enabled: Boolean!
-  parentChannelId: String
-  attributes: Map!
-  marketChildrenCount: Int!
+	id: String!
+	code: String!
+	kindCode: String!
+	currency: String!
+	categoryTreeRoot: String
+	completenessThreshold: Int!
+	enabled: Boolean!
+	parentChannelId: String
+	attributes: Map!
+	marketChildrenCount: Int!
 }
 
 input PimChannelInput {
-  code: String!
-  kindCode: String!
-  currency: String!
-  categoryTreeRoot: String
-  completenessThreshold: Int
-  enabled: Boolean
-  parentChannelId: String
-  attributes: Map
+	code: String!
+	kindCode: String!
+	currency: String!
+	categoryTreeRoot: String
+	completenessThreshold: Int
+	enabled: Boolean
+	parentChannelId: String
+	attributes: Map
 }
 
 type PimCollection {
-  id: String!
-  code: String!
-  label: String!
-  type: String!
-  productCount: Int!
-  metafields: [PimMetafield!]!
+	id: String!
+	code: String!
+	label: String!
+	type: String!
+	productCount: Int!
+	metafields: [PimMetafield!]!
 }
 
 type PimCollectionRef {
-  id: String!
-  code: String!
-  label: String!
+	id: String!
+	code: String!
+	label: String!
 }
 
 type PimExternalRef {
-  system: String!
-  externalId: String!
+	system: String!
+	externalId: String!
 }
 
 type PimImage {
-  url: String!
-  role: String!
+	url: String!
+	role: String!
 }
 
 type PimImportedCategoryPath {
-  path: String!
-  count: Int!
+	path: String!
+	count: Int!
 }
 
 type PimInventoryAtLocation {
-  locationCode: String!
-  locationName: String!
-  available: Int!
+	locationCode: String!
+	locationName: String!
+	available: Int!
 }
 
 type PimMetafield {
-  namespace: String!
-  key: String!
-  type: String!
-  value: String!
+	namespace: String!
+	key: String!
+	type: String!
+	value: String!
 }
 
 type PimMetafieldKey {
-  namespace: String!
-  key: String!
-  type: String!
-  count: Int!
-  sampleValue: String!
+	namespace: String!
+	key: String!
+	type: String!
+	count: Int!
+	sampleValue: String!
 }
 
 type PimOption {
-  name: String!
-  value: String!
+	name: String!
+	value: String!
 }
 
 type PimProduct {
-  id: String!
-  code: String!
-  handle: String
-  title: String
-  status: String!
-  thumbnailUrl: String
-  variantCount: Int!
-  totalInventory: Int!
-  priceMin: Float
-  priceMax: Float
-  currency: String
-  tags: [String!]!
-  brandId: String
-  primaryCategoryId: String
+	id: String!
+	code: String!
+	handle: String
+	title: String
+	status: String!
+	thumbnailUrl: String
+	variantCount: Int!
+	totalInventory: Int!
+	priceMin: Float
+	priceMax: Float
+	currency: String
+	tags: [String!]!
+	brandId: String
+	primaryCategoryId: String
 }
 
 type PimProductDetail {
-  id: String!
-  code: String!
-  handle: String
-  title: String
-  description: String
-  status: String!
-  seoTitle: String
-  seoDescription: String
-  brandId: String
-  brandName: String
-  productType: String
-  primaryCategoryId: String
-  tags: [String!]!
-  images: [PimImage!]!
-  variants: [PimVariant!]!
-  metafields: [PimMetafield!]!
-  externalRefs: [PimExternalRef!]!
-  collections: [PimCollectionRef!]!
-  variantCount: Int!
-  totalInventory: Int!
-  priceMin: Float
-  priceMax: Float
-  currency: String
+	id: String!
+	code: String!
+	handle: String
+	title: String
+	description: String
+	status: String!
+	seoTitle: String
+	seoDescription: String
+	brandId: String
+	brandName: String
+	productType: String
+	primaryCategoryId: String
+	tags: [String!]!
+	images: [PimImage!]!
+	variants: [PimVariant!]!
+	metafields: [PimMetafield!]!
+	externalRefs: [PimExternalRef!]!
+	collections: [PimCollectionRef!]!
+	variantCount: Int!
+	totalInventory: Int!
+	priceMin: Float
+	priceMax: Float
+	currency: String
 }
 
 type PimProductPage {
-  items: [PimProduct!]!
-  total: Int!
-  hasMore: Boolean!
-  statusCounts: [PimStatusCount!]!
+	items: [PimProduct!]!
+	total: Int!
+	hasMore: Boolean!
+	statusCounts: [PimStatusCount!]!
 }
 
 type PimSiblingVariant {
-  id: String!
-  sku: String
-  statusCode: String!
-  options: [PimOption!]!
+	id: String!
+	sku: String
+	statusCode: String!
+	options: [PimOption!]!
 }
 
 type PimStatusCount {
-  status: String!
-  count: Int!
+	status: String!
+	count: Int!
 }
 
 type PimVariant {
-  id: String!
-  sku: String
-  barcode: String
-  gtin: String
-  externalRefs: [PimExternalRef!]!
-  hsCode: String
-  countryOfOrigin: String
-  requiresShipping: Boolean!
-  statusCode: String!
-  kindCode: String!
-  price: Float
-  compareAt: Float
-  currency: String
-  inventory: Int!
-  options: [PimOption!]!
+	id: String!
+	sku: String
+	barcode: String
+	gtin: String
+	externalRefs: [PimExternalRef!]!
+	hsCode: String
+	countryOfOrigin: String
+	requiresShipping: Boolean!
+	statusCode: String!
+	kindCode: String!
+	price: Float
+	compareAt: Float
+	currency: String
+	inventory: Int!
+	options: [PimOption!]!
 }
 
 type PimVariantDetail {
-  variant: PimVariant!
-  modelId: String!
-  modelTitle: String!
-  modelCode: String!
-  thumbnailUrl: String
-  images: [PimImage!]!
-  inventoryByLocation: [PimInventoryAtLocation!]!
-  siblings: [PimSiblingVariant!]!
-  metafields: [PimMetafield!]!
+	variant: PimVariant!
+	modelId: String!
+	modelTitle: String!
+	modelCode: String!
+	thumbnailUrl: String
+	images: [PimImage!]!
+	inventoryByLocation: [PimInventoryAtLocation!]!
+	siblings: [PimSiblingVariant!]!
+	metafields: [PimMetafield!]!
 }
 
 type Query {
-  "Fetches an object given its ID."
-  node(
-    "ID of the object."
-    id: ID!
-  ): Node
-  "Lookup nodes by a list of IDs."
-  nodes(
-    "The list of node IDs."
-    ids: [ID!]!
-  ): [Node]!
-  users(
-    "Returns the elements in the list that come after the specified cursor."
-    after: Cursor
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the elements in the list that come before the specified cursor."
-    before: Cursor
-    "Returns the last _n_ elements from the list."
-    last: Int
-    "Ordering options for Users returned from the connection."
-    orderBy: [UserOrder!]
-    "Filtering options for Users returned from the connection."
-    where: UserWhereInput
-  ): UserConnection!
-  authAllWorkspaces: [AuthWorkspace!]!
-  ping: String!
-  "Get a user by ID."
-  user(id: ID!): User
-  "Get a user by email address."
-  userByEmail(email: String!): User @deprecated(reason: "Use users query with email filter instead")
-  "Get user by ID - legacy endpoint."
-  getUser(id: ID!): User @deprecated(reason: "Use user(id) query instead. Will be removed in v2.0")
-  pimCollections(workspaceId: String!, search: String): [PimCollection!]!
-  pimAttributes(workspaceId: String!): [PimAttributeDef!]!
-  pimMetafieldKeys(workspaceId: String!): [PimMetafieldKey!]!
-  pimImportedCategoryPaths(workspaceId: String!): [PimImportedCategoryPath!]!
-  pimVariant(workspaceId: String!, id: String!): PimVariantDetail
-  pimProducts(
-    workspaceId: String!
-    search: String
-    status: String
-    sort: String
-    collectionId: String
-    category: String
-    brandId: String
-    tag: String
-    hasImages: Boolean
-    minInventory: Int
-    maxInventory: Int
-    minPrice: Float
-    maxPrice: Float
-    minVariants: Int
-    maxVariants: Int
-    limit: Int
-    offset: Int
-  ): PimProductPage!
-  pimCollection(workspaceId: String!, id: String!): PimCollection
-  pimProduct(workspaceId: String!, id: String!): PimProductDetail
-  pimChannels(workspaceId: String!): [PimChannel!]!
-  pimChannel(workspaceId: String!, id: String!): PimChannel
-  authMe: AuthUser
-  authPermissions: [AuthPermission!]!
-  authRoles(workspaceID: ID): [AuthRole!]!
-  authMyWorkspaces: [AuthWorkspace!]!
-  """
-  Paginated + filterable + sortable view of the caller's workspaces (the
-  workspaces they're an active member of) — backs the server-side datatable
-  on /settings/workspaces. Workspace set is derived from auth context (the
-  caller's userID), never an input. Filtering/sorting/paging happen in SQL.
-  
-  - search: case-insensitive substring over name OR slug.
-  - status / createdByKind: exact match on the closed-set value.
-  - sort: "<field>" or "<field>:desc"; field ∈ {name, slug, status,
-    createdAt, createdByKind, ownerUserID}. Default "createdAt:desc".
-  - limit: page size (default 25, capped 200). offset: rows to skip.
-  """
-  authMyWorkspacesPage(
-    search: String
-    status: String
-    createdByKind: String
-    sort: String
-    limit: Int
-    offset: Int
-  ): AuthWorkspacePage!
-  """
-  Top-N workspaces for the SWITCHER combobox: the caller's favorites pinned
-  first, then most-recently-created, capped at `limit` (default 10). `search`
-  (case-insensitive substring over name OR slug) filters server-side so the
-  switcher never ships 100+ rows. Each row carries the caller's `favorite`
-  flag. Workspace set is auth-derived (the caller's memberships), never input.
-  """
-  authWorkspaceSwitcher(search: String, limit: Int): [AuthWorkspace!]!
-  """
-  A single workspace the caller is an active member of, with the caller's
-  `favorite` flag — used by the switcher trigger to label the active workspace
-  without loading the whole list. Errors if the caller isn't a member.
-  """
-  authWorkspace(workspaceID: ID!): AuthWorkspace
-  authWorkspaceMembers(workspaceID: ID!): [AuthWorkspaceMember!]!
-  authProjectMembers(projectID: ID!): [AuthProjectMember!]!
-  authPendingInvites(workspaceID: ID!): [AuthInvite!]!
-  authMyPendingInvites: [AuthInvite!]!
-  authMyApiKeys: [AuthApiKey!]!
-  authOAuthAuthorizeURL(provider: String!, state: String!): String!
-  "List webhook inbox rows."
-  wfWebhooks(filter: WfWebhookFilter): [WfWebhook!]!
-  "Get one webhook by id."
-  wfWebhook(id: ID!): WfWebhook
-  "List routing rules."
-  wfWebhookRoutes: [WfWebhookRoute!]!
-  "List dispatched runs aggregated from the webhook inbox."
-  wfJobRuns(filter: WfJobRunFilter): [WfJobRun!]!
-  "List workflows registered with the engine in this process."
-  wfRegisteredWorkflows: [WfRegisteredWorkflow!]!
-  "List external-app workflow version history for a name."
-  wfWorkflowVersions(name: String!): [WfAppWorkflowVersion!]!
-  "Get one run by id (joined view across inbox + workflowver)."
-  wfJobRun(id: ID!): WfJobRun
-  "Every installable addon (builtins + operator-registered external apps) with this workspace's install state — the data-driven apps catalog."
-  addonCatalog: [AddonCatalogEntry!]!
-  "The caller workspace's OWN custom apps (workspace-owned credentials). Never another workspace's."
-  addonCustomApps: [AddonCustomApp!]!
-  "One of the caller workspace's custom apps by id (full detail). Null when not found in this workspace."
-  addonCustomApp(appId: ID!): AddonCustomApp
-  "Every workspace that installed one of the caller workspace's custom apps — the OWNER-gated install base (Shopify-Partners 'installs'). The caller MUST own the app (be the membership-validated owner workspace); a non-owner gets no rows. The one deliberately cross-workspace read on the API."
-  addonCustomAppInstalls(appId: ID!): [AddonAppInstall!]!
-  "The client secrets (metadata only) of one of the caller workspace's custom apps, newest first."
-  addonCustomAppSecrets(appId: ID!): [AddonCustomAppSecretMeta!]!
-  "The access tokens (metadata only) of one of the caller workspace's custom apps, newest first."
-  addonCustomAppTokens(appId: ID!): [AddonCustomAppToken!]!
-  "Every access token (active AND revoked) of ONE workspace's install of the caller's app — the per-install token history. OWNER-gated: only the app's owner workspace may read; workspaceId names the install."
-  addonCustomAppInstallTokens(appId: ID!, workspaceId: ID!): [AddonCustomAppToken!]!
-  "Exposed settings manifest for an addon (modes only, never values)."
-  addonSettings(addonKey: String!): [AddonSetting!]!
-  "Addons installed for the caller's workspace (the install registry)."
-  addonInstalls: [AddonInstall!]!
-  "Every app installed in the caller's workspace (any kind) with Manage-routing hints — the merchant-facing Installed-apps surface."
-  addonInstalledApps: [AddonInstalledApp!]!
-  "The single install for the caller's workspace + addon. Null when not installed."
-  addonInstall: AddonInstall
-  wfRuns(filter: WfRunFilter): [WfRun!]!
-  wfRun(id: ID!): WfRun
-  wfWorkflows: [WfWorkflowCatalog!]!
-  wfWorkflow(name: String!): WfWorkflowCatalog
-  wfHatchetDashboard: WfHatchetDashboard!
-  wfHyperdxDashboard: WfHyperdxDashboard!
-  """
-  List schedules in the caller's workspace, optionally filtered by
-       workflow. Sorted by createdAt desc.
-  """
-  wfSchedules(workflowName: String): [WfWorkflowSchedule!]!
-  """
-  Fetch one schedule. Returns null when no row with that id exists
-       in the caller's workspace.
-  """
-  wfSchedule(id: ID!): WfWorkflowSchedule
-  """
-  Preview the next `limit` fire moments (UTC) for a cron expression
-  interpreted in the caller's workspace timezone. Used by the schedule
-  add/edit form to show operators "here's when this will fire" before
-  they save.
-  
-  Returns an empty list for invalid cron (UI shows "preview
-  unavailable" rather than erroring during typing). Default limit 5,
-  hard-capped at 50 server-side.
-  """
-  wfSchedulePreview(cronLocal: String!, limit: Int): [Time!]!
-  "Get one entry by key, scoped to the caller's workspace. Returns null if absent."
-  kvGet(input: KVGetInput!): KVEntry
-  "List entries in the caller's workspace."
-  kvList(filter: KVListFilter): [KVEntry!]!
-  "List audit-log rows for the caller's workspace."
-  kvAuditLog(filter: KVAuditFilter): [KVAuditEntry!]!
-  "List files in the caller's workspace. Newest first."
-  files(filter: FileListFilter): [File!]!
-  "Get a single file by id (workspace-scoped). Returns null on miss."
-  file(id: ID!): File
-  """
-  List all attachments for an owner (e.g. all photos on a product).
-  Ordered by (role, position).
-  """
-  fileAttachments(ownerType: String!, ownerId: String!): [FileAttachment!]!
-  """
-  List every attachment for a given file id. Drives the Quick View
-  "Attached to" section — same file may be linked to a product +
-  a collection + a category, this query surfaces them all in one
-  round-trip.
-  """
-  fileAttachmentsByFile(fileId: String!): [FileAttachment!]!
-  "The currently-connected Shopify shop for the caller's workspace, or null."
-  shopifyShop: ShopifyShop
+	"Fetches an object given its ID."
+	node("ID of the object." id: ID!): Node
+	"Lookup nodes by a list of IDs."
+	nodes("The list of node IDs." ids: [ID!]!): [Node]!
+	users(
+		"Returns the elements in the list that come after the specified cursor."
+		after: Cursor
+		"Returns the first _n_ elements from the list."
+		first: Int
+		"Returns the elements in the list that come before the specified cursor."
+		before: Cursor
+		"Returns the last _n_ elements from the list."
+		last: Int
+		"Ordering options for Users returned from the connection."
+		orderBy: [UserOrder!]
+		"Filtering options for Users returned from the connection."
+		where: UserWhereInput
+	): UserConnection!
+	authAllWorkspaces: [AuthWorkspace!]!
+	ping: String!
+	"Get a user by ID."
+	user(id: ID!): User
+	"Get a user by email address."
+	userByEmail(email: String!): User
+		@deprecated(reason: "Use users query with email filter instead")
+	"Get user by ID - legacy endpoint."
+	getUser(id: ID!): User
+		@deprecated(reason: "Use user(id) query instead. Will be removed in v2.0")
+	pimCollections(workspaceId: String!, search: String): [PimCollection!]!
+	pimAttributes(workspaceId: String!): [PimAttributeDef!]!
+	pimMetafieldKeys(workspaceId: String!): [PimMetafieldKey!]!
+	pimImportedCategoryPaths(workspaceId: String!): [PimImportedCategoryPath!]!
+	pimVariant(workspaceId: String!, id: String!): PimVariantDetail
+	pimProducts(
+		workspaceId: String!
+		search: String
+		status: String
+		sort: String
+		collectionId: String
+		category: String
+		brandId: String
+		tag: String
+		hasImages: Boolean
+		minInventory: Int
+		maxInventory: Int
+		minPrice: Float
+		maxPrice: Float
+		minVariants: Int
+		maxVariants: Int
+		limit: Int
+		offset: Int
+	): PimProductPage!
+	pimCollection(workspaceId: String!, id: String!): PimCollection
+	pimProduct(workspaceId: String!, id: String!): PimProductDetail
+	pimChannels(workspaceId: String!): [PimChannel!]!
+	pimChannel(workspaceId: String!, id: String!): PimChannel
+	authMe: AuthUser
+	authPermissions: [AuthPermission!]!
+	authRoles(workspaceID: ID): [AuthRole!]!
+	authMyWorkspaces: [AuthWorkspace!]!
+	"""
+	Paginated + filterable + sortable view of the caller's workspaces (the
+	workspaces they're an active member of) — backs the server-side datatable
+	on /settings/workspaces. Workspace set is derived from auth context (the
+	caller's userID), never an input. Filtering/sorting/paging happen in SQL.
+
+	- search: case-insensitive substring over name OR slug.
+	- status / createdByKind: exact match on the closed-set value.
+	- sort: "<field>" or "<field>:desc"; field ∈ {name, slug, status,
+	  createdAt, createdByKind, ownerUserID}. Default "createdAt:desc".
+	- limit: page size (default 25, capped 200). offset: rows to skip.
+	"""
+	authMyWorkspacesPage(
+		search: String
+		status: String
+		createdByKind: String
+		sort: String
+		limit: Int
+		offset: Int
+	): AuthWorkspacePage!
+	"""
+	Top-N workspaces for the SWITCHER combobox: the caller's favorites pinned
+	first, then most-recently-created, capped at `limit` (default 10). `search`
+	(case-insensitive substring over name OR slug) filters server-side so the
+	switcher never ships 100+ rows. Each row carries the caller's `favorite`
+	flag. Workspace set is auth-derived (the caller's memberships), never input.
+	"""
+	authWorkspaceSwitcher(search: String, limit: Int): [AuthWorkspace!]!
+	"""
+	A single workspace the caller is an active member of, with the caller's
+	`favorite` flag — used by the switcher trigger to label the active workspace
+	without loading the whole list. Errors if the caller isn't a member.
+	"""
+	authWorkspace(workspaceID: ID!): AuthWorkspace
+	authWorkspaceMembers(workspaceID: ID!): [AuthWorkspaceMember!]!
+	authProjectMembers(projectID: ID!): [AuthProjectMember!]!
+	authPendingInvites(workspaceID: ID!): [AuthInvite!]!
+	authMyPendingInvites: [AuthInvite!]!
+	authMyApiKeys: [AuthApiKey!]!
+	authOAuthAuthorizeURL(provider: String!, state: String!): String!
+	"List webhook inbox rows."
+	wfWebhooks(filter: WfWebhookFilter): [WfWebhook!]!
+	"Get one webhook by id."
+	wfWebhook(id: ID!): WfWebhook
+	"List routing rules."
+	wfWebhookRoutes: [WfWebhookRoute!]!
+	"List dispatched runs aggregated from the webhook inbox."
+	wfJobRuns(filter: WfJobRunFilter): [WfJobRun!]!
+	"List workflows registered with the engine in this process."
+	wfRegisteredWorkflows: [WfRegisteredWorkflow!]!
+	"List external-app workflow version history for a name."
+	wfWorkflowVersions(name: String!): [WfAppWorkflowVersion!]!
+	"Get one run by id (joined view across inbox + workflowver)."
+	wfJobRun(id: ID!): WfJobRun
+	"Every installable addon (builtins + operator-registered external apps) with this workspace's install state — the data-driven apps catalog."
+	addonCatalog: [AddonCatalogEntry!]!
+	"The caller workspace's OWN custom apps (workspace-owned credentials). Never another workspace's."
+	addonCustomApps: [AddonCustomApp!]!
+	"One of the caller workspace's custom apps by id (full detail). Null when not found in this workspace."
+	addonCustomApp(appId: ID!): AddonCustomApp
+	"Every workspace that installed one of the caller workspace's custom apps — the OWNER-gated install base (Shopify-Partners 'installs'). The caller MUST own the app (be the membership-validated owner workspace); a non-owner gets no rows. The one deliberately cross-workspace read on the API."
+	addonCustomAppInstalls(appId: ID!): [AddonAppInstall!]!
+	"The client secrets (metadata only) of one of the caller workspace's custom apps, newest first."
+	addonCustomAppSecrets(appId: ID!): [AddonCustomAppSecretMeta!]!
+	"The access tokens (metadata only) of one of the caller workspace's custom apps, newest first."
+	addonCustomAppTokens(appId: ID!): [AddonCustomAppToken!]!
+	"Every access token (active AND revoked) of ONE workspace's install of the caller's app — the per-install token history. OWNER-gated: only the app's owner workspace may read; workspaceId names the install."
+	addonCustomAppInstallTokens(
+		appId: ID!
+		workspaceId: ID!
+	): [AddonCustomAppToken!]!
+	"Exposed settings manifest for an addon (modes only, never values)."
+	addonSettings(addonKey: String!): [AddonSetting!]!
+	"Addons installed for the caller's workspace (the install registry)."
+	addonInstalls: [AddonInstall!]!
+	"Every app installed in the caller's workspace (any kind) with Manage-routing hints — the merchant-facing Installed-apps surface."
+	addonInstalledApps: [AddonInstalledApp!]!
+	"The single install for the caller's workspace + addon. Null when not installed."
+	addonInstall: AddonInstall
+	wfRuns(filter: WfRunFilter): [WfRun!]!
+	wfRun(id: ID!): WfRun
+	wfWorkflows: [WfWorkflowCatalog!]!
+	wfWorkflow(name: String!): WfWorkflowCatalog
+	wfHatchetDashboard: WfHatchetDashboard!
+	wfHyperdxDashboard: WfHyperdxDashboard!
+	"""
+	List schedules in the caller's workspace, optionally filtered by
+	     workflow. Sorted by createdAt desc.
+	"""
+	wfSchedules(workflowName: String): [WfWorkflowSchedule!]!
+	"""
+	Fetch one schedule. Returns null when no row with that id exists
+	     in the caller's workspace.
+	"""
+	wfSchedule(id: ID!): WfWorkflowSchedule
+	"""
+	Preview the next `limit` fire moments (UTC) for a cron expression
+	interpreted in the caller's workspace timezone. Used by the schedule
+	add/edit form to show operators "here's when this will fire" before
+	they save.
+
+	Returns an empty list for invalid cron (UI shows "preview
+	unavailable" rather than erroring during typing). Default limit 5,
+	hard-capped at 50 server-side.
+	"""
+	wfSchedulePreview(cronLocal: String!, limit: Int): [Time!]!
+	"Get one entry by key, scoped to the caller's workspace. Returns null if absent."
+	kvGet(input: KVGetInput!): KVEntry
+	"List entries in the caller's workspace."
+	kvList(filter: KVListFilter): [KVEntry!]!
+	"List audit-log rows for the caller's workspace."
+	kvAuditLog(filter: KVAuditFilter): [KVAuditEntry!]!
+	"List files in the caller's workspace. Newest first."
+	files(filter: FileListFilter): [File!]!
+	"Get a single file by id (workspace-scoped). Returns null on miss."
+	file(id: ID!): File
+	"""
+	List all attachments for an owner (e.g. all photos on a product).
+	Ordered by (role, position).
+	"""
+	fileAttachments(ownerType: String!, ownerId: String!): [FileAttachment!]!
+	"""
+	List every attachment for a given file id. Drives the Quick View
+	"Attached to" section — same file may be linked to a product +
+	a collection + a category, this query surfaces them all in one
+	round-trip.
+	"""
+	fileAttachmentsByFile(fileId: String!): [FileAttachment!]!
+	"The currently-connected Shopify shop for the caller's workspace, or null."
+	shopifyShop: ShopifyShop
 }
 
 enum Scope {
-  PLATFORM_PROVISION
-  READ_PRODUCTS
-  WRITE_PRODUCTS
-  READ_COLLECTIONS
-  READ_ORDERS
-  WRITE_ORDERS
-  READ_SETTINGS
-  WRITE_SETTINGS
-  SHOPIFY_CONNECT
+	PLATFORM_PROVISION
+	READ_PRODUCTS
+	WRITE_PRODUCTS
+	READ_COLLECTIONS
+	READ_ORDERS
+	WRITE_ORDERS
+	READ_SETTINGS
+	WRITE_SETTINGS
+	SHOPIFY_CONNECT
 }
 
 input ShopifyConnectInput {
-  shopDomain: String!
-  accessToken: String!
+	shopDomain: String!
+	accessToken: String!
 }
 
 type ShopifyShop {
-  shopDomain: String!
-  name: String!
-  plan: String!
-  currency: String!
-  primaryLocale: String!
-  countryCode: String!
-  installedAt: Time!
+	shopDomain: String!
+	name: String!
+	plan: String!
+	currency: String!
+	primaryLocale: String!
+	countryCode: String!
+	installedAt: Time!
 }
 
 scalar Time
@@ -1153,66 +1155,67 @@ UpdateUserInput is used for update User object.
 Input was generated by ent.
 """
 input UpdateUserInput {
-  firstName: String
-  clearFirstName: Boolean
-  lastName: String
-  clearLastName: Boolean
-  email: String
-  clearEmail: Boolean
-  password: String
-  clearPassword: Boolean
-  isActive: Boolean
-  clearIsActive: Boolean
+	firstName: String
+	clearFirstName: Boolean
+	lastName: String
+	clearLastName: Boolean
+	email: String
+	clearEmail: Boolean
+	password: String
+	clearPassword: Boolean
+	isActive: Boolean
+	clearIsActive: Boolean
 }
 
 type User implements Node {
-  id: ID!
-  createdAt: Time
-  updatedAt: Time
-  firstName: String
-  lastName: String
-  email: String
-  isActive: Boolean
-  """
-  Full name of the user (firstName + lastName).
-  This is the recommended field to use.
-  """
-  fullName: String
-  "Legacy name field - concatenated first and last name."
-  name: String @deprecated(reason: "Use fullName instead. Will be removed in v2.0")
-  "User's display name for UI purposes."
-  displayName: String
+	id: ID!
+	createdAt: Time
+	updatedAt: Time
+	firstName: String
+	lastName: String
+	email: String
+	isActive: Boolean
+	"""
+	Full name of the user (firstName + lastName).
+	This is the recommended field to use.
+	"""
+	fullName: String
+	"Legacy name field - concatenated first and last name."
+	name: String
+		@deprecated(reason: "Use fullName instead. Will be removed in v2.0")
+	"User's display name for UI purposes."
+	displayName: String
 }
 
 "A connection to a list of items."
 type UserConnection {
-  "A list of edges."
-  edges: [UserEdge]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
+	"A list of edges."
+	edges: [UserEdge]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"Identifies the total count of items in the connection."
+	totalCount: Int!
 }
 
 "An edge in a connection."
 type UserEdge {
-  "The item at the end of the edge."
-  node: User
-  "A cursor for use in pagination."
-  cursor: Cursor!
+	"The item at the end of the edge."
+	node: User
+	"A cursor for use in pagination."
+	cursor: Cursor!
 }
 
 "Ordering options for User connections"
 input UserOrder {
-  "The ordering direction."
-  direction: OrderDirection! = ASC
-  "The field by which to order Users."
-  field: UserOrderField!
+	"The ordering direction."
+	direction: OrderDirection! = ASC
+	"The field by which to order Users."
+	field: UserOrderField!
 }
 
 "Properties by which User connections can be ordered."
 enum UserOrderField {
-  CREATED_AT
+	CREATED_AT
 }
 
 """
@@ -1220,161 +1223,161 @@ UserWhereInput is used for filtering User objects.
 Input was generated by ent.
 """
 input UserWhereInput {
-  not: UserWhereInput
-  and: [UserWhereInput!]
-  or: [UserWhereInput!]
-  "id field predicates"
-  id: ID
-  idNEQ: ID
-  idIn: [ID!]
-  idNotIn: [ID!]
-  idGT: ID
-  idGTE: ID
-  idLT: ID
-  idLTE: ID
-  idEqualFold: ID
-  idContainsFold: ID
-  "created_at field predicates"
-  createdAt: Time
-  createdAtNEQ: Time
-  createdAtIn: [Time!]
-  createdAtNotIn: [Time!]
-  createdAtGT: Time
-  createdAtGTE: Time
-  createdAtLT: Time
-  createdAtLTE: Time
-  createdAtIsNil: Boolean
-  createdAtNotNil: Boolean
-  "updated_at field predicates"
-  updatedAt: Time
-  updatedAtNEQ: Time
-  updatedAtIn: [Time!]
-  updatedAtNotIn: [Time!]
-  updatedAtGT: Time
-  updatedAtGTE: Time
-  updatedAtLT: Time
-  updatedAtLTE: Time
-  updatedAtIsNil: Boolean
-  updatedAtNotNil: Boolean
-  "first_name field predicates"
-  firstName: String
-  firstNameNEQ: String
-  firstNameIn: [String!]
-  firstNameNotIn: [String!]
-  firstNameGT: String
-  firstNameGTE: String
-  firstNameLT: String
-  firstNameLTE: String
-  firstNameContains: String
-  firstNameHasPrefix: String
-  firstNameHasSuffix: String
-  firstNameIsNil: Boolean
-  firstNameNotNil: Boolean
-  firstNameEqualFold: String
-  firstNameContainsFold: String
-  "last_name field predicates"
-  lastName: String
-  lastNameNEQ: String
-  lastNameIn: [String!]
-  lastNameNotIn: [String!]
-  lastNameGT: String
-  lastNameGTE: String
-  lastNameLT: String
-  lastNameLTE: String
-  lastNameContains: String
-  lastNameHasPrefix: String
-  lastNameHasSuffix: String
-  lastNameIsNil: Boolean
-  lastNameNotNil: Boolean
-  lastNameEqualFold: String
-  lastNameContainsFold: String
-  "email field predicates"
-  email: String
-  emailNEQ: String
-  emailIn: [String!]
-  emailNotIn: [String!]
-  emailGT: String
-  emailGTE: String
-  emailLT: String
-  emailLTE: String
-  emailContains: String
-  emailHasPrefix: String
-  emailHasSuffix: String
-  emailIsNil: Boolean
-  emailNotNil: Boolean
-  emailEqualFold: String
-  emailContainsFold: String
-  "is_active field predicates"
-  isActive: Boolean
-  isActiveNEQ: Boolean
-  isActiveIsNil: Boolean
-  isActiveNotNil: Boolean
+	not: UserWhereInput
+	and: [UserWhereInput!]
+	or: [UserWhereInput!]
+	"id field predicates"
+	id: ID
+	idNEQ: ID
+	idIn: [ID!]
+	idNotIn: [ID!]
+	idGT: ID
+	idGTE: ID
+	idLT: ID
+	idLTE: ID
+	idEqualFold: ID
+	idContainsFold: ID
+	"created_at field predicates"
+	createdAt: Time
+	createdAtNEQ: Time
+	createdAtIn: [Time!]
+	createdAtNotIn: [Time!]
+	createdAtGT: Time
+	createdAtGTE: Time
+	createdAtLT: Time
+	createdAtLTE: Time
+	createdAtIsNil: Boolean
+	createdAtNotNil: Boolean
+	"updated_at field predicates"
+	updatedAt: Time
+	updatedAtNEQ: Time
+	updatedAtIn: [Time!]
+	updatedAtNotIn: [Time!]
+	updatedAtGT: Time
+	updatedAtGTE: Time
+	updatedAtLT: Time
+	updatedAtLTE: Time
+	updatedAtIsNil: Boolean
+	updatedAtNotNil: Boolean
+	"first_name field predicates"
+	firstName: String
+	firstNameNEQ: String
+	firstNameIn: [String!]
+	firstNameNotIn: [String!]
+	firstNameGT: String
+	firstNameGTE: String
+	firstNameLT: String
+	firstNameLTE: String
+	firstNameContains: String
+	firstNameHasPrefix: String
+	firstNameHasSuffix: String
+	firstNameIsNil: Boolean
+	firstNameNotNil: Boolean
+	firstNameEqualFold: String
+	firstNameContainsFold: String
+	"last_name field predicates"
+	lastName: String
+	lastNameNEQ: String
+	lastNameIn: [String!]
+	lastNameNotIn: [String!]
+	lastNameGT: String
+	lastNameGTE: String
+	lastNameLT: String
+	lastNameLTE: String
+	lastNameContains: String
+	lastNameHasPrefix: String
+	lastNameHasSuffix: String
+	lastNameIsNil: Boolean
+	lastNameNotNil: Boolean
+	lastNameEqualFold: String
+	lastNameContainsFold: String
+	"email field predicates"
+	email: String
+	emailNEQ: String
+	emailIn: [String!]
+	emailNotIn: [String!]
+	emailGT: String
+	emailGTE: String
+	emailLT: String
+	emailLTE: String
+	emailContains: String
+	emailHasPrefix: String
+	emailHasSuffix: String
+	emailIsNil: Boolean
+	emailNotNil: Boolean
+	emailEqualFold: String
+	emailContainsFold: String
+	"is_active field predicates"
+	isActive: Boolean
+	isActiveNEQ: Boolean
+	isActiveIsNil: Boolean
+	isActiveNotNil: Boolean
 }
 
 type WfAppWorkflowVersion {
-  id: ID!
-  workflowName: String!
-  version: Int!
-  isActive: Boolean!
-  replaySafety: WfReplaySafety!
-  createdAt: Time!
+	id: ID!
+	workflowName: String!
+	version: Int!
+	isActive: Boolean!
+	replaySafety: WfReplaySafety!
+	createdAt: Time!
 }
 
 type WfBulkReplaySummary {
-  safe: Int!
-  confirm: Int!
-  unsafe: Int!
-  unknown: Int!
-  total: Int!
+	safe: Int!
+	confirm: Int!
+	unsafe: Int!
+	unknown: Int!
+	total: Int!
 }
 
 input WfCancelInput {
-  runId: ID!
+	runId: ID!
 }
 
 type WfDispatchedRun {
-  workflow: String!
-  runId: String!
-  status: String!
+	workflow: String!
+	runId: String!
+	status: String!
 }
 
 input WfEnqueueInput {
-  workflow: String!
-  payload: String
-  idempotencyKey: String
+	workflow: String!
+	payload: String
+	idempotencyKey: String
 }
 
 type WfHatchetDashboard {
-  baseURL: String!
-  tenantID: String!
+	baseURL: String!
+	tenantID: String!
 }
 
 type WfHyperdxDashboard {
-  baseURL: String!
+	baseURL: String!
 }
 
 type WfJobRun {
-  id: ID!
-  workflow: String!
-  versionPinned: Int!
-  status: String!
-  payloadInline: String
-  startedAt: Time
-  finishedAt: Time
-  durationMs: Int
-  triggeredByWebhookId: ID
+	id: ID!
+	workflow: String!
+	versionPinned: Int!
+	status: String!
+	payloadInline: String
+	startedAt: Time
+	finishedAt: Time
+	durationMs: Int
+	triggeredByWebhookId: ID
 }
 
 input WfJobRunFilter {
-  workflow: String
-  status: String
-  limit: Int
+	workflow: String
+	status: String
+	limit: Int
 }
 
 enum WfMatchKind {
-  EXACT
-  PREFIX
-  ALL
+	EXACT
+	PREFIX
+	ALL
 }
 
 """
@@ -1382,235 +1385,235 @@ A workflow registered with the engine in this process. Distinct from
 AppWorkflowVersion which is the persisted external-app spec.
 """
 type WfRegisteredWorkflow {
-  name: String!
-  activeVersion: Int!
-  inFlightRuns: Int!
+	name: String!
+	activeVersion: Int!
+	inFlightRuns: Int!
 }
 
 type WfReplayResult {
-  runs: [WfJobRun!]!
-  decision: String!
-  reason: String
+	runs: [WfJobRun!]!
+	decision: String!
+	reason: String
 }
 
 enum WfReplaySafety {
-  SAFE
-  CONFIRM
-  UNSAFE
+	SAFE
+	CONFIRM
+	UNSAFE
 }
 
 input WfReplayWebhookInput {
-  webhookId: ID!
-  confirm: Boolean
-  forceReplay: Boolean
+	webhookId: ID!
+	confirm: Boolean
+	forceReplay: Boolean
 }
 
 input WfReplayWebhooksInput {
-  webhookIds: [ID!]
-  summaryOnly: Boolean
-  confirmConfirm: Boolean
-  forceUnsafe: Boolean
+	webhookIds: [ID!]
+	summaryOnly: Boolean
+	confirmConfirm: Boolean
+	forceUnsafe: Boolean
 }
 
 input WfResumeInput {
-  runId: ID!
-  eventName: String!
-  correlationKey: String
-  payload: String
+	runId: ID!
+	eventName: String!
+	correlationKey: String
+	payload: String
 }
 
 enum WfRouteOwner {
-  HOST
-  ADDON
-  WORKSPACE
+	HOST
+	ADDON
+	WORKSPACE
 }
 
 type WfRun {
-  id: ID!
-  hatchetRunID: String!
-  workspaceID: String!
-  workflowName: String!
-  workflowVersion: Int!
-  source: WfRunSource!
-  sourceRef: String!
-  status: WfRunStatus!
-  payload: JSON
-  result: JSON
-  error: String!
-  traceID: String!
-  retryCount: Int!
-  steps: [WfRunStep!]!
-  startedAt: Time
-  finishedAt: Time
-  durationMs: Int!
-  stale: Boolean!
-  createdAt: Time!
-  updatedAt: Time!
+	id: ID!
+	hatchetRunID: String!
+	workspaceID: String!
+	workflowName: String!
+	workflowVersion: Int!
+	source: WfRunSource!
+	sourceRef: String!
+	status: WfRunStatus!
+	payload: JSON
+	result: JSON
+	error: String!
+	traceID: String!
+	retryCount: Int!
+	steps: [WfRunStep!]!
+	startedAt: Time
+	finishedAt: Time
+	durationMs: Int!
+	stale: Boolean!
+	createdAt: Time!
+	updatedAt: Time!
 }
 
 input WfRunFilter {
-  workspaceID: String
-  workflowName: String
-  status: WfRunStatus
-  source: WfRunSource
-  sinceISO: String
-  untilISO: String
-  limit: Int
+	workspaceID: String
+	workflowName: String
+	status: WfRunStatus
+	source: WfRunSource
+	sinceISO: String
+	untilISO: String
+	limit: Int
 }
 
 enum WfRunSource {
-  WEBHOOK
-  MANUAL
-  SCHEDULE
-  SCHEDULE_MANUAL
-  SYSTEM
-  ADDON
-  EXTERNAL
+	WEBHOOK
+	MANUAL
+	SCHEDULE
+	SCHEDULE_MANUAL
+	SYSTEM
+	ADDON
+	EXTERNAL
 }
 
 enum WfRunStatus {
-  QUEUED
-  RUNNING
-  WAITING
-  SUCCEEDED
-  FAILED
-  CANCELLED
+	QUEUED
+	RUNNING
+	WAITING
+	SUCCEEDED
+	FAILED
+	CANCELLED
 }
 
 type WfRunStep {
-  name: String!
-  status: String!
-  startedAt: Time!
-  finishedAt: Time
-  durationMs: Int!
-  input: JSON
-  output: JSON
-  error: String!
-  retries: Int!
-  events: [WfRunStepEvent!]!
-  artifacts: [WfRunStepArtifact!]!
+	name: String!
+	status: String!
+	startedAt: Time!
+	finishedAt: Time
+	durationMs: Int!
+	input: JSON
+	output: JSON
+	error: String!
+	retries: Int!
+	events: [WfRunStepEvent!]!
+	artifacts: [WfRunStepArtifact!]!
 }
 
 type WfRunStepArtifact {
-  name: String!
-  path: String!
-  contentType: String!
-  sizeBytes: Int!
-  sha256: String!
-  ttlDays: Int!
-  downloadURL: String!
+	name: String!
+	path: String!
+	contentType: String!
+	sizeBytes: Int!
+	sha256: String!
+	ttlDays: Int!
+	downloadURL: String!
 }
 
 type WfRunStepEvent {
-  at: Time!
-  level: String!
-  msg: String!
-  fields: JSON
+	at: Time!
+	level: String!
+	msg: String!
+	fields: JSON
 }
 
 input WfStepInput {
-  name: String!
-  callbackUrl: String
-  waitFor: WfWaitSpecInput
-  parallel: [WfStepInput!]
-  timeoutSeconds: Int
-  retries: Int
-  sensitive: [String!]
+	name: String!
+	callbackUrl: String
+	waitFor: WfWaitSpecInput
+	parallel: [WfStepInput!]
+	timeoutSeconds: Int
+	retries: Int
+	sensitive: [String!]
 }
 
 input WfUpsertWebhookRouteInput {
-  id: ID
-  source: WfWebhookSource!
-  eventType: String!
-  workflowName: String!
-  versionPin: Int
-  priority: Int
-  enabled: Boolean
+	id: ID
+	source: WfWebhookSource!
+	eventType: String!
+	workflowName: String!
+	versionPin: Int
+	priority: Int
+	enabled: Boolean
 }
 
 input WfUpsertWorkflowInput {
-  name: String!
-  steps: [WfStepInput!]!
-  cron: String
-  maxConcurrent: Int
-  concurrencyKey: String
-  maxRetries: Int
-  stepTimeoutSeconds: Int
-  replaySafety: WfReplaySafety
+	name: String!
+	steps: [WfStepInput!]!
+	cron: String
+	maxConcurrent: Int
+	concurrencyKey: String
+	maxRetries: Int
+	stepTimeoutSeconds: Int
+	replaySafety: WfReplaySafety
 }
 
 input WfWaitSpecInput {
-  eventName: String!
-  correlationKey: String
-  timeoutSeconds: Int
+	eventName: String!
+	correlationKey: String
+	timeoutSeconds: Int
 }
 
 type WfWebhook {
-  id: ID!
-  source: WfWebhookSource!
-  workspaceId: String!
-  eventId: String!
-  eventType: String!
-  status: WfWebhookStatus!
-  signatureOk: Boolean!
-  receivedAt: Time!
-  dispatchedAt: Time
-  lastError: String
-  retentionUntil: Time
-  traceId: String
-  payloadRef: String
-  """
-  Raw JSON payload (sensitive fields redacted by the server when the
-  workflow's Sensitive list applies).
-  """
-  payload: String
-  "Runs spawned by the dispatcher for this webhook."
-  runs: [WfDispatchedRun!]!
+	id: ID!
+	source: WfWebhookSource!
+	workspaceId: String!
+	eventId: String!
+	eventType: String!
+	status: WfWebhookStatus!
+	signatureOk: Boolean!
+	receivedAt: Time!
+	dispatchedAt: Time
+	lastError: String
+	retentionUntil: Time
+	traceId: String
+	payloadRef: String
+	"""
+	Raw JSON payload (sensitive fields redacted by the server when the
+	workflow's Sensitive list applies).
+	"""
+	payload: String
+	"Runs spawned by the dispatcher for this webhook."
+	runs: [WfDispatchedRun!]!
 }
 
 input WfWebhookFilter {
-  source: WfWebhookSource
-  status: WfWebhookStatus
-  eventType: String
-  limit: Int
+	source: WfWebhookSource
+	status: WfWebhookStatus
+	eventType: String
+	limit: Int
 }
 
 type WfWebhookRoute {
-  id: ID!
-  workspaceId: String!
-  addonKey: String!
-  source: WfWebhookSource!
-  eventType: String!
-  eventMatch: WfMatchKind!
-  eventPrefix: String!
-  workflowName: String!
-  versionPin: Int!
-  priority: Int!
-  enabled: Boolean!
-  owner: WfRouteOwner!
+	id: ID!
+	workspaceId: String!
+	addonKey: String!
+	source: WfWebhookSource!
+	eventType: String!
+	eventMatch: WfMatchKind!
+	eventPrefix: String!
+	workflowName: String!
+	versionPin: Int!
+	priority: Int!
+	enabled: Boolean!
+	owner: WfRouteOwner!
 }
 
 enum WfWebhookSource {
-  SHOPIFY
-  STRIPE
-  ODOO
-  ADDON
+	SHOPIFY
+	STRIPE
+	ODOO
+	ADDON
 }
 
 enum WfWebhookStatus {
-  RECEIVED
-  DISPATCHED
-  UNHANDLED
-  FAILED
+	RECEIVED
+	DISPATCHED
+	UNHANDLED
+	FAILED
 }
 
 type WfWorkflowCatalog {
-  name: String!
-  description: String!
-  inputSchema: String!
-  cron: String!
-  replaySafety: String!
-  recentRuns: [WfRun!]!
+	name: String!
+	description: String!
+	inputSchema: String!
+	cron: String!
+	replaySafety: String!
+	recentRuns: [WfRun!]!
 }
 
 """
@@ -1627,111 +1630,111 @@ DST: in DST-observing workspaces cronUtc can drift up to 1 hour for
 recompute at DST boundaries.
 """
 type WfWorkflowSchedule {
-  id: ID!
-  """
-  Workspace owning this schedule. Stamped from auth ctx — never
-       accepted as input.
-  """
-  workspaceId: String!
-  """
-  Fully-qualified workflow name. Matches WfrWorkflowSpec.name in
-       the catalog.
-  """
-  workflowName: String!
-  """
-  5-field crontab in the workspace's wall-clock time. What the
-       operator typed.
-  """
-  cronLocal: String!
-  """
-  5-field crontab in UTC. Computed from cronLocal + workspace.timezone.
-       This is what Hatchet's engine fires on.
-  """
-  cronUtc: String!
-  """
-  JSON payload passed to the workflow's first step at fire time.
-       NULL = empty {}.
-  """
-  input: JSON
-  """
-  When false, the schedule is paused — Hatchet has it
-       deregistered. Resume re-registers it.
-  """
-  enabled: Boolean!
-  """
-  Optional @N workflow-version pin per ADR-V3-010. NULL = fire at
-       @latest at each tick.
-  """
-  versionPin: Int
-  """
-  Opaque Engine (Hatchet) cron registration id. NULL when paused OR when
-       the registration failed (transient — Pause/Resume recovers).
-  """
-  engineCronId: String
-  """
-  Last known fire time (best-effort). Updated by the run-start
-       hook in chunk 3 wiring.
-  """
-  lastFiredAt: Time
-  """
-  Next predicted fire time (UI estimate via robfig/cron). Hatchet
-       owns actual firing.
-  """
-  nextFireAt: Time
-  """
-  Free-form actor that created the schedule (format `<kind>:<id>`,
-       e.g. user:usr_xxx).
-  """
-  createdBy: String!
-  createdAt: Time!
-  updatedAt: Time!
+	id: ID!
+	"""
+	Workspace owning this schedule. Stamped from auth ctx — never
+	     accepted as input.
+	"""
+	workspaceId: String!
+	"""
+	Fully-qualified workflow name. Matches WfrWorkflowSpec.name in
+	     the catalog.
+	"""
+	workflowName: String!
+	"""
+	5-field crontab in the workspace's wall-clock time. What the
+	     operator typed.
+	"""
+	cronLocal: String!
+	"""
+	5-field crontab in UTC. Computed from cronLocal + workspace.timezone.
+	     This is what Hatchet's engine fires on.
+	"""
+	cronUtc: String!
+	"""
+	JSON payload passed to the workflow's first step at fire time.
+	     NULL = empty {}.
+	"""
+	input: JSON
+	"""
+	When false, the schedule is paused — Hatchet has it
+	     deregistered. Resume re-registers it.
+	"""
+	enabled: Boolean!
+	"""
+	Optional @N workflow-version pin per ADR-V3-010. NULL = fire at
+	     @latest at each tick.
+	"""
+	versionPin: Int
+	"""
+	Opaque Engine (Hatchet) cron registration id. NULL when paused OR when
+	     the registration failed (transient — Pause/Resume recovers).
+	"""
+	engineCronId: String
+	"""
+	Last known fire time (best-effort). Updated by the run-start
+	     hook in chunk 3 wiring.
+	"""
+	lastFiredAt: Time
+	"""
+	Next predicted fire time (UI estimate via robfig/cron). Hatchet
+	     owns actual firing.
+	"""
+	nextFireAt: Time
+	"""
+	Free-form actor that created the schedule (format `<kind>:<id>`,
+	     e.g. user:usr_xxx).
+	"""
+	createdBy: String!
+	createdAt: Time!
+	updatedAt: Time!
 }
 
 input WfrScheduleWorkflowInput {
-  workflowName: String!
-  cronLocal: String!
-  input: JSON
-  enabled: Boolean = true
-  versionPin: Int
+	workflowName: String!
+	cronLocal: String!
+	input: JSON
+	enabled: Boolean = true
+	versionPin: Int
 }
 
 input WfrTriggerInput {
-  workflowName: String!
-  payloadJSON: String!
+	workflowName: String!
+	payloadJSON: String!
 }
 
 input WfrUpdateScheduleInput {
-  cronLocal: String
-  input: JSON
-  enabled: Boolean
-  versionPin: Int
-  """
-  When true, clear an existing versionPin (set the column to NULL).
-       Distinct from omitting versionPin which means "leave alone." Set
-       to false / omit when you don't want to touch the pin.
-  """
-  clearVersionPin: Boolean
+	cronLocal: String
+	input: JSON
+	enabled: Boolean
+	versionPin: Int
+	"""
+	When true, clear an existing versionPin (set the column to NULL).
+	     Distinct from omitting versionPin which means "leave alone." Set
+	     to false / omit when you don't want to touch the pin.
+	"""
+	clearVersionPin: Boolean
 }
 
 "Directs the executor to defer this fragment when the `if` argument is true or undefined."
 directive @defer(
-    "Deferred when true or undefined."
-    if: Boolean = true
-    "Unique name"
-    label: String
-  ) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+	"Deferred when true or undefined."
+	if: Boolean = true
+	"Unique name"
+	label: String
+) on FRAGMENT_SPREAD | INLINE_FRAGMENT
 
 directive @goField(
-    forceResolver: Boolean
-    name: String
-    omittable: Boolean
-  ) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+	forceResolver: Boolean
+	name: String
+	omittable: Boolean
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
 directive @goModel(
-    model: String
-    models: [String!]
-    forceGenerate: Boolean
-  ) on OBJECT | INPUT_OBJECT | SCALAR | ENUM | INTERFACE | UNION
+	model: String
+	models: [String!]
+	forceGenerate: Boolean
+) on OBJECT | INPUT_OBJECT | SCALAR | ENUM | INTERFACE | UNION
 
 directive @internal on FIELD_DEFINITION
 
@@ -1739,4 +1742,3 @@ directive @internal on FIELD_DEFINITION
 directive @oneOf on INPUT_OBJECT
 
 directive @requiresScope(scope: Scope!) on FIELD_DEFINITION
-

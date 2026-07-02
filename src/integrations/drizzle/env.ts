@@ -1,5 +1,5 @@
-import { createEnv } from "@t3-oss/env-core";
-import { z } from "zod/v4";
+import { createEnv } from "@t3-oss/env-core"
+import { z } from "zod/v4"
 
 export const drizzleEnv = createEnv({
 	server: {
@@ -10,4 +10,4 @@ export const drizzleEnv = createEnv({
 	},
 	skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 	emptyStringAsUndefined: true,
-});
+})

@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.5.1/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -13,6 +13,7 @@
 			"**/index.html",
 			"**/vite.config.ts",
 			"!**/src/routeTree.gen.ts",
+			"!**/src/generated/**",
 			"!**/src/styles.css"
 		]
 	},
@@ -27,6 +28,30 @@
 			"recommended": true
 		}
 	},
+	"overrides": [
+		{
+			"includes": [
+				"src/components/ui/**",
+				"src/routes/demo/**",
+				"src/demo/**"
+			],
+			"linter": {
+				"rules": {
+					"correctness": { "useExhaustiveDependencies": "off" },
+					"suspicious": { "noArrayIndexKey": "off" },
+					"a11y": {
+						"noStaticElementInteractions": "off",
+						"useKeyWithClickEvents": "off",
+						"useSemanticElements": "off",
+						"useValidAnchor": "off",
+						"useAnchorContent": "off",
+						"useFocusableInteractive": "off",
+						"noLabelWithoutControl": "off"
+					}
+				}
+			}
+		}
+	],
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double",

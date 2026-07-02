@@ -1,10 +1,10 @@
-import { createTRPCRouter } from '../init'
-import { todosRouter } from './todos'
-import { postsRouter } from './posts'
+import { createTRPCRouter } from "../init"
+import { postsRouter } from "./posts"
+import { todosRouter } from "./todos"
 
 export const trpcRouter = createTRPCRouter({
-  todos: todosRouter,
-  posts: postsRouter,
+	todos: todosRouter,
+	posts: postsRouter,
 })
 
 export type TRPCRouter = typeof trpcRouter

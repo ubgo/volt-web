@@ -3,14 +3,6 @@ import { LayoutGrid } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
-import { seo } from "@/lib/seo"
-import {
-	DateField,
-	Field,
-	FormActions,
-	FormSection,
-	SwitchRow,
-} from "@/demo/form/form-kit"
 import { Button } from "@/components/ui/button"
 import { Combobox } from "@/components/ui/combobox"
 import { Input } from "@/components/ui/input"
@@ -26,6 +18,14 @@ import {
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import {
+	DateField,
+	Field,
+	FormActions,
+	FormSection,
+	SwitchRow,
+} from "@/demo/form/form-kit"
+import { seo } from "@/lib/seo"
 
 export const Route = createFileRoute("/demo/form/kitchen-sink")({
 	component: KitchenSink,
@@ -68,7 +68,11 @@ function KitchenSink() {
 								<Input id="f-text" placeholder="Plain text" />
 							</Field>
 							<Field label="Email" htmlFor="f-email" hint="We never share it.">
-								<Input id="f-email" type="email" placeholder="you@example.com" />
+								<Input
+									id="f-email"
+									type="email"
+									placeholder="you@example.com"
+								/>
 							</Field>
 							<Field label="Password" htmlFor="f-pass">
 								<Input id="f-pass" type="password" placeholder="••••••••" />
@@ -83,7 +87,11 @@ function KitchenSink() {
 								<Input id="f-tel" type="tel" placeholder="+1 555 000 1234" />
 							</Field>
 						</div>
-						<Field label="Textarea" htmlFor="f-area" hint="Auto-grows with content.">
+						<Field
+							label="Textarea"
+							htmlFor="f-area"
+							hint="Auto-grows with content."
+						>
 							<Textarea id="f-area" placeholder="Write something…" />
 						</Field>
 					</FormSection>
@@ -94,7 +102,10 @@ function KitchenSink() {
 					>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 							<Field label="Select (Base UI)" hint="Styled popup select.">
-								<Select value={select} onValueChange={(v) => setSelect(v ?? "")}>
+								<Select
+									value={select}
+									onValueChange={(v) => setSelect(v ?? "")}
+								>
 									<SelectTrigger>
 										<SelectValue placeholder="Pick a framework" />
 									</SelectTrigger>
@@ -173,11 +184,7 @@ function KitchenSink() {
 								htmlFor="f-err"
 								error="This field is required."
 							>
-								<Input
-									id="f-err"
-									aria-invalid
-									defaultValue="bad value"
-								/>
+								<Input id="f-err" aria-invalid defaultValue="bad value" />
 							</Field>
 							<Field label="Disabled" htmlFor="f-dis">
 								<Input id="f-dis" disabled placeholder="Can't edit" />

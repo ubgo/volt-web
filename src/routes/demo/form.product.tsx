@@ -3,14 +3,6 @@ import { Package } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
-import { seo } from "@/lib/seo"
-import {
-	DateField,
-	Field,
-	FormActions,
-	FormSection,
-	SwitchRow,
-} from "@/demo/form/form-kit"
 import { Button } from "@/components/ui/button"
 import { Combobox } from "@/components/ui/combobox"
 import { Input } from "@/components/ui/input"
@@ -25,6 +17,14 @@ import {
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import {
+	DateField,
+	Field,
+	FormActions,
+	FormSection,
+	SwitchRow,
+} from "@/demo/form/form-kit"
+import { seo } from "@/lib/seo"
 
 export const Route = createFileRoute("/demo/form/product")({
 	component: ProductForm,
@@ -79,10 +79,18 @@ function ProductForm() {
 							htmlFor="p-slug"
 							hint="Lowercase, hyphenated. Used in the URL."
 						>
-							<Input id="p-slug" className="font-mono" placeholder="aeron-chair" />
+							<Input
+								id="p-slug"
+								className="font-mono"
+								placeholder="aeron-chair"
+							/>
 						</Field>
 						<Field label="Description" htmlFor="p-desc">
-							<Textarea id="p-desc" rows={4} placeholder="Describe the product…" />
+							<Textarea
+								id="p-desc"
+								rows={4}
+								placeholder="Describe the product…"
+							/>
 						</Field>
 					</FormSection>
 

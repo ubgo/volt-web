@@ -1,7 +1,7 @@
-import { todosRouter } from './todos'
-import { postsRouter } from './posts'
+import { postsRouter } from "./posts"
+import { todosRouter } from "./todos"
 
 export const orpcRouter = {
-  todos: todosRouter,
-  posts: postsRouter,
+	todos: todosRouter,
+	posts: postsRouter,
 }

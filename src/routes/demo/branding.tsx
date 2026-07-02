@@ -144,11 +144,11 @@ function BrandingDemo() {
 
 					{/* How to replace */}
 					<section>
-						<h2 className="text-[13px] font-medium mb-2">Replace with your brand</h2>
+						<h2 className="text-[13px] font-medium mb-2">
+							Replace with your brand
+						</h2>
 						<ol className="rounded-md border border-border bg-background p-4 space-y-3 text-[13px] list-decimal list-inside marker:text-muted-foreground marker:text-[12px]">
-							<li>
-								Prepare one square source image (≥512×512, PNG or SVG).
-							</li>
+							<li>Prepare one square source image (≥512×512, PNG or SVG).</li>
 							<li>
 								Generate the icon set — drop your source in and run{" "}
 								<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[12px]">

@@ -82,9 +82,7 @@ export function tableReducer(
 			return resetPagination({
 				...state,
 				filters: [
-					...state.filters.filter(
-						(f) => f.fieldId !== action.filter.fieldId,
-					),
+					...state.filters.filter((f) => f.fieldId !== action.filter.fieldId),
 					action.filter,
 				],
 			})
