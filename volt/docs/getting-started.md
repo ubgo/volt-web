@@ -21,6 +21,14 @@ Install these before you start. **Node** and **pnpm** are required. **PostgreSQL
 pnpm install
 ```
 
+Then enable the **secret-scanning pre-commit hook** for this clone (recommended — it stops you from committing API keys, tokens, or private keys by mistake):
+
+```bash
+task hooks:install
+```
+
+This points git at `.githooks/` and installs [gitleaks](https://github.com/gitleaks/gitleaks) if it's missing. It's a one-time step per clone (git hook config isn't shared through the repo). See [Secret scanning](#secret-scanning) below for details.
+
 ## 2. Configure your environment
 
 Copy the example env file and fill in your values. Volt validates env at startup through typesafe env objects, so missing or malformed required values fail fast with a clear error.
@@ -103,6 +111,17 @@ Open **http://localhost:3000**. This is the quickest way to a running app; you c
 ## You're in
 
 Either URL lands you on the **demo dashboard** at `/demo` — the `/` route redirects there. From the sidebar you can browse the component gallery, the `ServerDataTable`, the form showcase, and the RPC/SSR demos. When you're ready to strip the demos and build your own app, see [making-it-yours.md](making-it-yours.md).
+
+## Secret scanning
+
+Volt ships a **two-layer pre-commit secret scanner** so an API key, token, or private key never lands in a commit by accident. Enable it once per clone with `task hooks:install`.
+
+- **Layer 1 — [gitleaks](https://github.com/gitleaks/gitleaks):** 200+ maintained detectors + entropy, run against the staged diff via the repo's `.gitleaks.toml`.
+- **Layer 2 — regex fallback:** a project-tuned pattern list in `.githooks/pre-commit` that runs even if gitleaks isn't installed.
+
+If a commit is blocked, move the value to `.env` (gitignored) and read it through the [typesafe env](configuration.md) — never `process.env` directly. For a genuine false positive, add the placeholder shape to `.gitleaks.toml` `[allowlist]` **and** `ALLOW_RE` in `.githooks/pre-commit` (keep both in sync). Bypass only with care: `git commit --no-verify`.
+
+Manual scans: `task secrets:scan` (full history) and `task secrets:scan:staged` (staged diff only).
 
 ## Next / Related
 

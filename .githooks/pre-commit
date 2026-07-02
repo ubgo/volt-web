@@ -1,0 +1,178 @@
+#!/usr/bin/env bash
+# Pre-commit secret scanner — two-layer defense:
+#
+#   LAYER 1 (primary) : gitleaks — 200+ maintained rules, entropy detection.
+#   LAYER 2 (fallback): our own regex list — catches if gitleaks isn't installed
+#                       and adds project-specific patterns gitleaks doesn't have.
+#
+# Activate per-clone (hooksPath is local config — every dev runs `task hooks:install`):
+#
+#   git config --local core.hooksPath .githooks
+#
+# Or use the Taskfile entry: `task hooks:install` (also nudges you to install
+# gitleaks if missing).
+#
+# Bypass (USE WITH CARE): `git commit --no-verify`. If you find yourself
+# bypassing this, either:
+#   - move the value to .env (gitignored) and read it via the typesafe env
+#     (`@/env/server` or an integration env), never `process.env` directly, OR
+#   - add the false-positive shape to .gitleaks.toml `[allowlist]` AND the
+#     ALLOW_RE list below, so the next dev doesn't have to bypass too.
+
+set -euo pipefail
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LAYER 1 — gitleaks (if installed)
+# ─────────────────────────────────────────────────────────────────────────────
+
+if command -v gitleaks >/dev/null 2>&1; then
+	# Scan only the staged diff. --redact masks the value in the output so the
+	# leak doesn't show in CI logs / terminal history. --no-banner keeps output
+	# clean. Custom config (.gitleaks.toml at repo root) is picked up
+	# automatically when present.
+	if ! gitleaks protect --staged --redact --no-banner; then
+		echo "" >&2
+		echo "✘ pre-commit: gitleaks found a secret in the staged diff" >&2
+		echo "" >&2
+		echo "  Move the value to .env (gitignored) and read it through the" >&2
+		echo "  typesafe env — 'env' from @/env/server, or an integration env" >&2
+		echo "  like drizzleEnv. Never read process.env directly." >&2
+		echo "" >&2
+		echo "  If this is a known false positive, add a rule to .gitleaks.toml" >&2
+		echo "  [allowlist] section so the next dev doesn't have to bypass." >&2
+		echo "" >&2
+		echo "  Bypass (USE WITH CARE): git commit --no-verify" >&2
+		exit 1
+	fi
+else
+	echo "⚠ gitleaks not installed — using fallback regex scan only." >&2
+	echo "  Install for stronger detection: brew install gitleaks" >&2
+	echo "" >&2
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LAYER 2 — regex fallback / project-specific patterns
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# These run regardless of whether gitleaks ran, because:
+#   1. If gitleaks isn't installed, this is the only line of defense.
+#   2. The list below may catch shapes the default ruleset misses.
+#   3. Belt-and-suspenders is cheap (~50ms for a typical diff).
+
+# A bash single-quoted array entry can't contain a literal `'`. The generic
+# credential-assignment patterns below need to match BOTH single and double
+# quotes — built by concatenating quoted fragments. SQ holds a literal `'`.
+SQ=$'\x27'
+Q="[\"${SQ}]"
+NQ="[^\"${SQ}[:space:]]"
+# shellcheck disable=SC2016
+SECRET_PATTERNS=(
+	'shpat_[a-f0-9]{32}'              # Shopify Admin API access token
+	'shpca_[a-f0-9]{32}'              # Shopify customer token
+	'shpss_[a-f0-9]{32}'              # Shopify storefront token
+	'sk-[A-Za-z0-9]{20,}'             # OpenAI / Anthropic style
+	'sk-proj-[A-Za-z0-9_-]{20,}'      # OpenAI project keys
+	'sk-ant-api03-[A-Za-z0-9_-]{20,}' # Anthropic prefixed
+	'ghp_[A-Za-z0-9]{36}'             # GitHub PAT (classic)
+	'ghs_[A-Za-z0-9]{36}'             # GitHub app server-to-server
+	'gho_[A-Za-z0-9]{36}'             # GitHub OAuth
+	'github_pat_[A-Za-z0-9_]{82}'     # GitHub PAT (fine-grained)
+	'AKIA[0-9A-Z]{16}'                # AWS access key id
+	'ASIA[0-9A-Z]{16}'                # AWS session key id
+	'-----BEGIN [A-Z ]*PRIVATE KEY-----'
+	'rk_(live|test)_[A-Za-z0-9]{20,}' # Stripe restricted
+	'sk_(live|test)_[A-Za-z0-9]{20,}' # Stripe secret
+	'pk_(live|test)_[A-Za-z0-9]{20,}' # Stripe publishable
+	'xox[baprs]-[A-Za-z0-9-]{10,}'    # Slack bot/user/admin/refresh
+	'xoxe.xox[bp]-[A-Za-z0-9-]+'      # Slack rotating tokens
+	'SK[a-f0-9]{32}'                  # Twilio API key SID
+	'AC[a-f0-9]{32}'                  # Twilio account SID
+	'key-[a-f0-9]{32}'                # Mailgun API key
+	'eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}' # JWT (3 segs)
+	'glpat-[A-Za-z0-9_-]{20,}'        # GitLab PAT
+	'npm_[A-Za-z0-9]{36}'             # npm access token
+	'AIza[0-9A-Za-z_-]{35}'           # Google API key
+	'ya29\.[0-9A-Za-z_-]{20,}'        # Google OAuth refresh token
+	'GOCSPX-[A-Za-z0-9_-]{28}'        # Google OAuth client secret
+	'[a-z0-9.-]+@[a-z0-9-]+\.iam\.gserviceaccount\.com' # GCP service account email
+	'"type":[[:space:]]*"service_account"' # GCP service account JSON marker
+	'AccountKey=[+/A-Za-z0-9]{86}=='  # Azure storage account key
+	'DefaultEndpointsProtocol=https;AccountName=' # Azure storage connection string
+	'EndpointSuffix=core\.windows\.net' # Azure storage / cosmos connection
+	'SG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}' # SendGrid API key
+	'[a-f0-9]{32}-us[0-9]{1,2}'       # Mailchimp API key
+	'dop_v1_[a-f0-9]{64}'             # DigitalOcean PAT
+	'doo_v1_[a-f0-9]{64}'             # DigitalOcean OAuth
+	'dor_v1_[a-f0-9]{64}'             # DigitalOcean refresh
+	'secret_[A-Za-z0-9]{43}'          # Notion internal integration token
+	'EAAA[A-Za-z0-9_-]{60}'           # Square production / sandbox token
+	'sl\.[A-Za-z0-9_-]{135,}'         # Dropbox short-lived token
+	'sntrys_[A-Za-z0-9_=]{64,}'       # Sentry token
+	# Generic "api_key/secret/token/password = '…'" assignment with ≥16-char
+	# quoted value. Catches misc services we haven't added bespoke rules for.
+	"(api[_-]?key|apikey|secret|token|password|passwd|credential)[[:space:]]*[=:][[:space:]]*${Q}${NQ}{16,}${Q}"
+	# AWS secret access key — 40-char base64 attached to an AWS keyword.
+	"(aws_?secret_?(access_?)?key|AWS_SECRET_ACCESS_KEY)[[:space:]]*[=:][[:space:]]*${Q}?[=A-Za-z0-9/+]{40}${Q}?"
+)
+
+# Allow-list — literal placeholder SHAPES that cannot collide with real
+# credential regexes (e.g. `shpat_xxx` cannot match `shpat_[a-f0-9]{32}`).
+# DO NOT add loose stopwords like "example"/"placeholder" — they match
+# anywhere on a line and silently exempt real leaks sharing that line.
+# Mirror any allowlist you add to .gitleaks.toml here so both layers stay in sync.
+ALLOW_RE='shpat_xxx|shpat_…|sk-xxx|sk-…|sk-ant-xxx|sk-ant-…|ghp_your_pat|your-random-secret-key-here|\[REDACTED[^]]*\]|<TOKEN>|<API_KEY>|\$\{[A-Z_]+_(TOKEN|KEY)\}'
+
+# Files landing in this commit (added/modified/renamed; deletions are fine —
+# removing a secret is good). Exclude the scanner config files themselves and
+# the example env file (it ships placeholder-shaped values on purpose).
+files=$(git diff --cached --name-only --diff-filter=ACMRT \
+	| grep -vE '^(\.githooks/pre-commit|\.gitleaks\.toml|\.env\.example)$' || true)
+
+if [[ -z "$files" ]]; then
+	exit 0
+fi
+
+found=0
+while IFS= read -r f; do
+	# Only scan files with added lines.
+	if ! git diff --cached --diff-filter=ACMRT -U0 -- "$f" | grep -qE '^\+' ; then
+		continue
+	fi
+	added=$(git diff --cached --diff-filter=ACMRT -U0 -- "$f" | grep -E '^\+[^+]' || true)
+	if [[ -z "$added" ]]; then
+		continue
+	fi
+	for pat in "${SECRET_PATTERNS[@]}"; do
+		# `--` is REQUIRED: patterns starting with `-` (e.g. `-----BEGIN`)
+		# are otherwise parsed by grep as flags and silently dropped.
+		matched=$(echo "$added" | grep -oE -- "$pat" || true)
+		if [[ -z "$matched" ]]; then
+			continue
+		fi
+		while IFS= read -r m; do
+			# Skip only if the matched substring IS a documented placeholder.
+			if echo "$m" | grep -qE -- "^($ALLOW_RE)$"; then
+				continue
+			fi
+			echo "✘ pre-commit (regex fallback): secret-like value in $f" >&2
+			echo "  pattern : $pat" >&2
+			echo "  match   : ${m:0:120}" >&2
+			echo "" >&2
+			found=1
+		done <<< "$matched"
+	done
+done <<< "$files"
+
+if (( found > 0 )); then
+	echo "" >&2
+	echo "Commit REJECTED. Move the value to .env (already gitignored), read it" >&2
+	echo "via the typesafe env (@/env/server or an integration env — never" >&2
+	echo "process.env directly), and re-stage. If this is a known false positive," >&2
+	echo "add the substring to ALLOW_RE in .githooks/pre-commit AND the" >&2
+	echo ".gitleaks.toml [allowlist]." >&2
+	echo "" >&2
+	echo "Bypass (USE WITH CARE): git commit --no-verify" >&2
+	exit 1
+fi
+
+exit 0

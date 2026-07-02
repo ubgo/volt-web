@@ -35,6 +35,7 @@ For any React / TSX / styling work, also read **`volt/rules/frontend.md`** — t
 - `task typecheck` (tsc) · `task check` (biome) · `task build`.
 - `task db:push | db:generate | db:migrate | db:studio` — Drizzle.
 - `task gqlkit:all` — regenerate the GraphQL SDK · `task branding:gen` — regenerate app icons · `task screenshots` — capture demo screenshots.
+- `task hooks:install` — enable the pre-commit secret scanner (gitleaks + regex fallback; one-time per clone) · `task secrets:scan` / `secrets:scan:staged`. Never commit real secrets — use `.env` + the typed env.
 - The dev URL is derived from `portless.json` (`name` → `https://<name>.localhost`).
 
 ## Git
