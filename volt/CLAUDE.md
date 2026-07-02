@@ -14,6 +14,10 @@ Volt is a commercial TanStack Start boilerplate (SSR React) with a token-driven 
 - `public/` — runtime assets (favicon, PWA icons, logo). App-facing, not the brand kit.
 - `volt/` — everything Volt-specific (this guide, `README.md`, `CONTRIBUTING.md`, brand kit, docs). Deletable when you make the repo your own.
 
+## Code standards
+
+Before writing or editing code, read **`.claude/rules/code-standards.md`** — the standing engineering bar (full type safety, zero hardcoded strings for closed-set values, context-dense comments, modular/no-slop structure) plus pre/post-flight checklists. The stack-specific rules below are the short version; that file is the full one.
+
 ## Conventions (do / don't)
 
 - **Never use `process.env` directly.** Use the typesafe env objects: `env` from `@/env/server`, `drizzleEnv` from `@/integrations/drizzle/env`. Raw access bypasses validation and loses type safety.
