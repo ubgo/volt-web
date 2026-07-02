@@ -6,7 +6,7 @@
 # WHAT IT IS
 #   A tiny watchdog loop that keeps the local dev server alive. It wraps
 #   `portless run` (which serves the app at the fixed domain
-#   https://app.localhost) and relaunches it automatically whenever the process
+#   https://volt.localhost) and relaunches it automatically whenever the process
 #   exits unexpectedly.
 #
 # WHY IT EXISTS (the problem it solves)

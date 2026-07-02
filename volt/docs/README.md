@@ -6,7 +6,7 @@ Everything you need to build with **Volt**, the TanStack Start boilerplate. New 
 
 ## Start here
 
-- [Getting started](getting-started.md) — prerequisites, install, env, and running the dev server (portless → `https://app.localhost`).
+- [Getting started](getting-started.md) — prerequisites, install, env, and running the dev server (portless → `https://volt.localhost`).
 - [Project structure](project-structure.md) — what lives where, and how the demo is isolated.
 - [Configuration](configuration.md) — the typesafe env system and every `.env` variable.
 
@@ -35,7 +35,7 @@ Everything you need to build with **Volt**, the TanStack Start boilerplate. New 
 
 ## Screenshots
 
-The UI these docs describe, captured from the running demo (`https://app.localhost`).
+The UI these docs describe, captured from the running demo (`https://volt.localhost`).
 
 | | |
 |---|---|

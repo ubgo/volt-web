@@ -31,7 +31,7 @@ For any React / TSX / styling work, also read **`volt/rules/frontend.md`** — t
 
 ## Commands (Taskfile — run `task --list`)
 
-- `task dev:guard` — dev server via portless at **https://app.localhost**, auto-restarts on crash (use day-to-day). Plain `pnpm dev` serves http://localhost:3000.
+- `task dev:guard` — dev server via portless at **https://volt.localhost**, auto-restarts on crash (use day-to-day). Plain `pnpm dev` serves http://localhost:3000.
 - `task typecheck` (tsc) · `task check` (biome) · `task build`.
 - `task db:push | db:generate | db:migrate | db:studio` — Drizzle.
 - `task gqlkit:all` — regenerate the GraphQL SDK · `task branding:gen` — regenerate app icons · `task screenshots` — capture demo screenshots.

@@ -58,7 +58,7 @@ tasks:
       - tail -f tmp/dev.log
 
   dev:portless:
-    desc: run vite via portless (dynamic port) → https://app.localhost — logs → tmp/dev.log
+    desc: run vite via portless (dynamic port) → https://volt.localhost — logs → tmp/dev.log
     cmds:
       - mkdir -p tmp
       - portless 2>&1 | tee tmp/dev.log
@@ -84,9 +84,9 @@ tasks:
       - portless proxy stop
 
   portless:url:
-    desc: "print the fixed dev URL for this app (https://app.localhost)"
+    desc: "print the fixed dev URL for this app (https://volt.localhost)"
     cmds:
-      - portless get app
+      - portless get volt
 
   portless:list:
     desc: show active portless routes
