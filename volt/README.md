@@ -1,7 +1,8 @@
 <!--
-  VOLT.md — the permanent copy of Volt's original README.
+  volt/README.md — the permanent copy of Volt's original README.
   Kept so the "built on Volt" reference survives after you replace the root
-  README.md with your own app's. Do not delete; edit README.md for your app.
+  README.md with your own app's. Edit the root README.md for your app;
+  keep or delete this whole volt/ folder as you like.
 -->
 
 > **This is the original README for [Volt](https://github.com/khanakia/boilerplate-tanstack)** — the TanStack Start boilerplate this project was built on. It's preserved here on purpose: once you replace the root `README.md` with your own app's README, this file keeps the Volt reference (features, setup pointers, license) available. Setup lives in [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -36,6 +37,7 @@
 - [Why Volt?](#why-volt)
 - [What's inside](#whats-inside)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Getting started](#getting-started)
 - [FAQ](#faq)
 - [License](#license)
@@ -85,6 +87,19 @@ Most starters give you a framework and a blank page. The hard part — wiring a 
 - **Typesafe everything** — routes, RPC, forms, env, and per-route document titles are all compile-checked.
 - **Demo isolation** — the entire showcase is quarantined so your real app starts clean.
 
+## Screenshots
+
+<p align="center">
+  <img src="screenshots/dashboard.png" alt="Volt dashboard shell" width="49%" />
+  <img src="screenshots/components.png" alt="Volt component gallery" width="49%" />
+</p>
+<p align="center">
+  <img src="screenshots/server-table.png" alt="Volt server data table" width="49%" />
+  <img src="screenshots/form-field-showcase.png" alt="Volt form field showcase" width="49%" />
+</p>
+
+More in [docs/README.md](docs/README.md) — the dashboard, basecn component gallery, `ServerDataTable`, and form field showcase (light + dark).
+
 ## Getting started
 
 ```bash
@@ -124,6 +139,6 @@ Drop a square logo at `public/logo-source.png`, run `task branding:gen`, and upd
 
 ## License
 
-Volt is a **commercial product** distributed under a proprietary license — see [LICENSE](LICENSE). A purchase grants a license to use Volt as the foundation of your own applications; it does not permit redistributing or reselling Volt itself (or a derivative starter) as a product. This is not open-source software.
+Volt is a **commercial product** distributed under a proprietary license — see [LICENSE](../LICENSE). A purchase grants a license to use Volt as the foundation of your own applications; it does not permit redistributing or reselling Volt itself (or a derivative starter) as a product. This is not open-source software.
 
 <sub>Volt — a commercial TanStack Start boilerplate / React SSR starter kit: token-driven design system, dashboard shell, tRPC + oRPC, typed GraphQL (gqlkit), Drizzle + PostgreSQL, Tailwind CSS v4, light/dark theming, typesafe env. Built with <a href="https://tanstack.com/start">TanStack Start</a>.</sub>

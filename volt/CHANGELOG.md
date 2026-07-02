@@ -5,7 +5,7 @@ All notable changes to Volt are documented here. The format is based on [Keep a 
 ## [Unreleased]
 
 ### Added
-- Brand identity kit under `brand/` — logo, favicon, wordmark, lockups, light/dark OG social covers, and design tokens, all regenerable from `brand/brand.json`.
+- Brand identity kit under `volt/brand/` — logo, favicon, wordmark, lockups, light/dark OG social covers, and design tokens, all regenerable from `volt/brand/brand.json`.
 - `/demo/branding` page and `task branding:gen` — documents every icon asset and regenerates the set from one source image.
 - Typed GraphQL SDK via [gqlkit](https://github.com/ubgo/gqlkit) (`src/generated/sdk`, `src/lib/gql-clients.ts`) with a live `/demo/gqlkit` demo.
 - Per-route typesafe document titles via `src/lib/seo.ts`.

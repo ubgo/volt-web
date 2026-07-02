@@ -5,7 +5,7 @@ The single, regenerable source of Volt's visual identity. Everything here is der
 ## Regenerate
 
 ```bash
-task -t brand/Taskfile.yml all      # regenerate SVGs + tokens, then rasterize
+task -t volt/brand/Taskfile.yml all      # regenerate SVGs + tokens, then rasterize
 # or, from this dir:
 node gen-brand.mjs && task raster
 ```
@@ -53,4 +53,4 @@ Display/wordmark declares **Space Grotesk** with an **Inter → system-ui** fall
 
 ## Where it's used
 
-The app's runtime assets live in `../public/` (favicon, PWA icons, `logo.svg`). This `brand/` dir is the canonical identity and the source for repo-facing images: the README header (`png/icon-512.png`) and the GitHub social preview (`png/og-social-1280.png`).
+The app's runtime assets live in `../../public/` (favicon, PWA icons, `logo.svg`). This `brand/` dir is the canonical identity and the source for repo-facing images: the README header (`png/icon-512.png`) and the GitHub social preview (`png/og-social-1280.png`).
