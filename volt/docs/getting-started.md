@@ -4,13 +4,13 @@ Everything you need to get Volt running locally: what to install, how to configu
 
 ## Prerequisites
 
-Install these before you start. The first three are required; **Task** and **portless** make day-to-day development much nicer (and every command in these docs assumes Task), and **gqlkit** is only needed if you regenerate the typed GraphQL SDK.
+Install these before you start. **Node** and **pnpm** are required. **PostgreSQL** is only needed if you use the built-in database (Drizzle) — an SPA, or an app that talks only to an external API, can skip it entirely (see [Building without a database](#building-without-a-database)). **Task** and **portless** make day-to-day development much nicer (and every command in these docs assumes Task), and **gqlkit** is only needed if you regenerate the typed GraphQL SDK.
 
 | Tool | Required? | Why you need it | Install |
 |---|---|---|---|
 | **Node.js 20+** | Required | Runtime — Volt is built on TanStack Start / Vite. | [nodejs.org](https://nodejs.org), or `nvm install 20` |
 | **pnpm** | Required | Package manager (the exact version is pinned via `packageManager` in `package.json`). | `corepack enable` (ships with Node), or [pnpm.io/installation](https://pnpm.io/installation) |
-| **PostgreSQL** | Required | Database behind the Drizzle demos and your own data. | [postgresql.org/download](https://www.postgresql.org/download/), Postgres.app, or `docker run -e POSTGRES_PASSWORD=pass -p 5432:5432 postgres` |
+| **PostgreSQL** | Optional | Only if you use the built-in Drizzle database (powers the DB demos). Skip it for an SPA or an API-only app. | [postgresql.org/download](https://www.postgresql.org/download/), Postgres.app, or `docker run -e POSTGRES_PASSWORD=pass -p 5432:5432 postgres` |
 | **Task** | Recommended | Runs the shortcut commands in `Taskfile.yml` (`task dev:guard`, `task db:push`, …) that these docs use throughout. | [taskfile.dev/installation](https://taskfile.dev/installation/) — e.g. `brew install go-task` |
 | **portless** | Recommended | Serves the app at a stable HTTPS URL (`https://app.localhost`) instead of a random `http://localhost:PORT`. | `npm install -g portless` — [github.com/vercel-labs/portless](https://github.com/vercel-labs/portless) |
 | **gqlkit** | Optional | Regenerates the typed GraphQL SDK from a schema (`task gqlkit:all`). Not needed to run the app — the SDK is checked in. | [github.com/khanakia/gqlkit](https://github.com/khanakia/gqlkit) — see [data/graphql.md](data/graphql.md) |
@@ -40,6 +40,8 @@ The rest are optional for a first run: `VITE_SENTRY_DSN` (see [monitoring.md](mo
 
 ## 3. Set up the database
 
+> Using an SPA or an external API only? Skip this step — see [Building without a database](#building-without-a-database).
+
 Push the Drizzle schema to the database named in your `DATABASE_URL`:
 
 ```bash
@@ -47,6 +49,10 @@ task db:push
 ```
 
 This creates the tables directly (no migration files) — ideal for local development. For generating and running versioned migrations instead, see [data/database.md](data/database.md).
+
+### Building without a database
+
+Drizzle is an **optional** integration. If your app has no database, don't set `DATABASE_URL` and skip `task db:push` — the app still builds and runs (the central env in `src/env/server.ts` deliberately leaves `drizzleEnv` out of its `extends`, so nothing forces `DATABASE_URL`). To remove Drizzle entirely, follow the removal steps in [data/database.md](data/database.md). Pair this with [SPA mode](rendering.md) for a fully client-only build.
 
 ## 4. Run the dev server
 

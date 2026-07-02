@@ -41,7 +41,7 @@ Two behaviors worth knowing: `emptyStringAsUndefined` treats a blank `FOO=` as u
 
 Each self-contained integration can own its variables instead of dumping them into the central schema. The integration declares its own `createEnv()` and the central env pulls it in through the `extends` option.
 
-Drizzle is the model here. `src/integrations/drizzle/env.ts` validates `DATABASE_URL` in isolation and exports `drizzleEnv`; `src/env/server.ts` merges it via `extends: [drizzleEnv]`, so `env.DATABASE_URL` becomes fully typed on the central object. In the shipped code the drizzle line is commented out (the drizzle client reads `drizzleEnv.DATABASE_URL` directly), so uncomment it if you want `DATABASE_URL` on the central `env` too. Sentry follows the same pattern via `sentryEnv`, which is active. See [data/database.md](data/database.md) for the drizzle side.
+Drizzle is the model here — and it doubles as the on/off switch for an **optional** integration. `src/integrations/drizzle/env.ts` validates `DATABASE_URL` in isolation and exports `drizzleEnv`; `src/env/server.ts` can merge it via `extends: [drizzleEnv]` so `env.DATABASE_URL` becomes fully typed on the central object. **By default that line is commented out on purpose:** Drizzle is optional, so an app with no database (an SPA, or one that only calls an external API) isn't forced to define `DATABASE_URL`. The drizzle client reads `drizzleEnv.DATABASE_URL` directly regardless — so uncomment the `drizzleEnv` import + `extends` entry only when you use Drizzle and want it validated on the central `env` too. Sentry follows the same `extends` pattern via `sentryEnv`, which is active by default. See [data/database.md](data/database.md) for the drizzle side.
 
 ## The variables
 
