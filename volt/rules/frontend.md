@@ -91,7 +91,7 @@ Explicit props type, spread the DOM rest, expose `data-slot`. The real primitive
 
 **Where the SDK lives:** `src/generated/sdk/` — auto-generated, NEVER edited.
 **Schema source:** `src/scripts/api/schema-introspected.graphql`, fetched by introspection.
-**Regenerate:** `task gqlkit:all` (runs `gqlkit:fetch` then `gqlkit:gen`) after any backend schema change. See `volt/docs/GQLKIT.md`.
+**Regenerate:** `task gqlkit:all` (runs `gqlkit:fetch` then `gqlkit:gen`) after any backend schema change. See `volt/docs/data/graphql.md`.
 
 **Clients** (`src/lib/gql-clients.ts`) — every SDK call goes through one:
 
@@ -150,7 +150,7 @@ Volt's `ui/` components are the **basecn** port of shadcn (Base UI + Tailwind v4
 pnpm dlx shadcn@latest add https://basecn.dev/r/<name>.json
 ```
 
-See `volt/docs/SHADCN.md`. **Reuse `src/components/ui/` before building anything new** — the directory already ships accordion, alert, avatar, badge, breadcrumb, button, calendar, card, checkbox, collapsible, combobox, command, dialog, dropdown-menu, hover-card, input, label, native-select, popover, progress, radio-group, scroll-area, select, separator, sheet, skeleton, slider, switch, table, tabs, textarea, toggle, toggle-group, tooltip, and the bespoke `server-data-table/`.
+See `volt/docs/design-system.md`. **Reuse `src/components/ui/` before building anything new** — the directory already ships accordion, alert, avatar, badge, breadcrumb, button, calendar, card, checkbox, collapsible, combobox, command, dialog, dropdown-menu, hover-card, input, label, native-select, popover, progress, radio-group, scroll-area, select, separator, sheet, skeleton, slider, switch, table, tabs, textarea, toggle, toggle-group, tooltip, and the bespoke `server-data-table/`.
 
 ### Volt's own composed components
 
@@ -857,7 +857,7 @@ The demo/showcase is fully quarantined: routes under `src/routes/demo/` + compon
 
 ### Portless dev workflow
 
-Day-to-day dev runs through **portless** for a stable HTTPS URL. `task dev:guard` runs portless with auto-restart on crash → **https://app.localhost** (the `name` in `portless.json` maps to `https://<name>.localhost`). One-time: `task portless:trust` (installs the local CA, needs sudo) and `task portless:up` (starts the :443 proxy). Plain `pnpm dev` still serves `http://localhost:3000`. See `volt/CONTRIBUTING.md`.
+Day-to-day dev runs through **portless** for a stable HTTPS URL. `task dev:guard` runs portless with auto-restart on crash → **https://app.localhost** (the `name` in `portless.json` maps to `https://<name>.localhost`). One-time: `task portless:trust` (installs the local CA, needs sudo) and `task portless:up` (starts the :443 proxy). Plain `pnpm dev` still serves `http://localhost:3000`. See `volt/docs/getting-started.md`.
 
 ### Dual RPC (tRPC + oRPC side by side)
 
