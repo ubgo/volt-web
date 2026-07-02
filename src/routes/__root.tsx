@@ -1,30 +1,30 @@
-import { TanStackDevtools } from "@tanstack/react-devtools";
-import type { QueryClient } from "@tanstack/react-query";
+import type { RouterUtils } from "@orpc/tanstack-query"
+import { TanStackDevtools } from "@tanstack/react-devtools"
+import type { QueryClient } from "@tanstack/react-query"
 import {
-	Link,
-	Outlet,
 	createRootRouteWithContext,
 	HeadContent,
+	Link,
+	Outlet,
 	Scripts,
-} from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
-import type { TRPCRouter } from "@/integrations/trpc/routers";
-import type { RouterUtils } from "@orpc/tanstack-query";
-import type { ORPCClient } from "@/integrations/orpc/react";
-import { Toaster } from "sonner";
-import { THEME_INIT_SCRIPT } from "@/lib/theme";
-import { Provider } from "../integrations/tanstack-query/root-provider";
-import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-import StoreDevtools from "@/demo/data/store-devtools";
-import appCss from "../styles.css?url";
+} from "@tanstack/react-router"
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
+import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query"
+import { Toaster } from "sonner"
+import StoreDevtools from "@/demo/data/store-devtools"
+import type { ORPCClient } from "@/integrations/orpc/react"
+import type { TRPCRouter } from "@/integrations/trpc/routers"
+import { THEME_INIT_SCRIPT } from "@/lib/theme"
+import TanStackQueryDevtools from "../integrations/tanstack-query/devtools"
+import { Provider } from "../integrations/tanstack-query/root-provider"
+import appCss from "../styles.css?url"
 
 interface MyRouterContext {
-	queryClient: QueryClient;
+	queryClient: QueryClient
 
-	trpc: TRPCOptionsProxy<TRPCRouter>;
+	trpc: TRPCOptionsProxy<TRPCRouter>
 
-	orpc: RouterUtils<ORPCClient>;
+	orpc: RouterUtils<ORPCClient>
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -66,7 +66,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 	component: RootComponent,
 	shellComponent: RootDocument,
 	notFoundComponent: NotFound,
-});
+})
 
 function NotFound() {
 	return (
@@ -77,16 +77,16 @@ function NotFound() {
 				Go home
 			</Link>
 		</div>
-	);
+	)
 }
 
 function RootComponent() {
-	const { queryClient } = Route.useRouteContext();
+	const { queryClient } = Route.useRouteContext()
 	return (
 		<Provider queryClient={queryClient}>
 			<Outlet />
 		</Provider>
-	);
+	)
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -117,5 +117,5 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<Scripts />
 			</body>
 		</html>
-	);
+	)
 }

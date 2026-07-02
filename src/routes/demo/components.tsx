@@ -11,7 +11,6 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
-import { FormSection } from "@/demo/form/form-kit"
 import {
 	Accordion,
 	AccordionContent,
@@ -71,6 +70,7 @@ import {
 	TooltipPositioner,
 	TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { FormSection } from "@/demo/form/form-kit"
 import { seo } from "@/lib/seo"
 
 export const Route = createFileRoute("/demo/components")({
@@ -96,7 +96,10 @@ function ComponentsGallery() {
 							<Checkbox id="c-1" defaultChecked />
 							<Label htmlFor="c-1">Accept terms</Label>
 						</div>
-						<RadioGroup defaultValue="comfortable" className="flex flex-col gap-2">
+						<RadioGroup
+							defaultValue="comfortable"
+							className="flex flex-col gap-2"
+						>
 							<div className="flex items-center gap-2">
 								<RadioGroupItem value="default" id="r-1" />
 								<Label htmlFor="r-1">Default</Label>
@@ -130,10 +133,16 @@ function ComponentsGallery() {
 								<TabsTrigger value="overview">Overview</TabsTrigger>
 								<TabsTrigger value="activity">Activity</TabsTrigger>
 							</TabsList>
-							<TabsContent value="overview" className="text-[13px] text-muted-foreground pt-2">
+							<TabsContent
+								value="overview"
+								className="text-[13px] text-muted-foreground pt-2"
+							>
 								Tabbed content — overview panel.
 							</TabsContent>
-							<TabsContent value="activity" className="text-[13px] text-muted-foreground pt-2">
+							<TabsContent
+								value="activity"
+								className="text-[13px] text-muted-foreground pt-2"
+							>
 								Tabbed content — activity panel.
 							</TabsContent>
 						</Tabs>
@@ -211,7 +220,11 @@ function ComponentsGallery() {
 								</SheetContent>
 							</Sheet>
 
-							<Button variant="outline" size="sm" onClick={() => setCmdOpen(true)}>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => setCmdOpen(true)}
+							>
 								<Search className="size-3.5" />
 								Command (⌘K)
 							</Button>

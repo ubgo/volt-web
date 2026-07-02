@@ -81,7 +81,11 @@ const NAV_SECTIONS: NavSection[] = [
 	{
 		label: "Forms",
 		items: [
-			{ to: "/demo/form/kitchen-sink", label: "Field showcase", icon: LayoutGrid },
+			{
+				to: "/demo/form/kitchen-sink",
+				label: "Field showcase",
+				icon: LayoutGrid,
+			},
 			{ to: "/demo/form/account", label: "Account form", icon: UserCircle },
 			{ to: "/demo/form/product", label: "Product form", icon: PackagePlus },
 			{ to: "/demo/form/simple", label: "Simple form", icon: FormInput },
@@ -91,7 +95,11 @@ const NAV_SECTIONS: NavSection[] = [
 	{
 		label: "RPC & server",
 		items: [
-			{ to: "/demo/start/server-funcs", label: "Server functions", icon: Server },
+			{
+				to: "/demo/start/server-funcs",
+				label: "Server functions",
+				icon: Server,
+			},
 			{ to: "/demo/start/api-request", label: "API request", icon: Network },
 			{ to: "/demo/trpc-todo", label: "tRPC todos", icon: Code2 },
 			{ to: "/demo/orpc-todo", label: "oRPC todos", icon: ArrowLeftRight },
@@ -110,7 +118,9 @@ const NAV_SECTIONS: NavSection[] = [
 	},
 	{
 		label: "System",
-		items: [{ to: "/demo/sentry/testing", label: "Sentry test", icon: ShieldAlert }],
+		items: [
+			{ to: "/demo/sentry/testing", label: "Sentry test", icon: ShieldAlert },
+		],
 	},
 ]
 
@@ -134,9 +144,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
 							className="size-8 rounded-lg shadow-sm"
 						/>
 						<div className="leading-tight">
-							<div className="text-sm font-semibold tracking-tight">
-								Volt
-							</div>
+							<div className="text-sm font-semibold tracking-tight">Volt</div>
 							<div className="text-[11px] text-muted-foreground">
 								React starter
 							</div>
@@ -229,7 +237,9 @@ export function PageHeader({
 						{title}
 					</h1>
 					{subtitle ? (
-						<p className="text-[12px] text-muted-foreground mt-0.5">{subtitle}</p>
+						<p className="text-[12px] text-muted-foreground mt-0.5">
+							{subtitle}
+						</p>
 					) : null}
 				</div>
 			</div>

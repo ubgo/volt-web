@@ -1,5 +1,5 @@
-import { createEnv } from "@t3-oss/env-core";
-import { z } from "zod/v4";
+import { createEnv } from "@t3-oss/env-core"
+import { z } from "zod/v4"
 
 /**
  * Client-side environment variables
@@ -19,4 +19,4 @@ export const env = createEnv({
 
 	skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 	emptyStringAsUndefined: true,
-});
+})

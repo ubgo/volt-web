@@ -1,5 +1,5 @@
-import { createEnv } from "@t3-oss/env-core";
-import { z } from "zod/v4";
+import { createEnv } from "@t3-oss/env-core"
+import { z } from "zod/v4"
 
 export const sentryEnv = createEnv({
 	server: {
@@ -18,4 +18,4 @@ export const sentryEnv = createEnv({
 	},
 	skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 	emptyStringAsUndefined: true,
-});
+})

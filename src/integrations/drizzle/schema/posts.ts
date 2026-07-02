@@ -1,5 +1,5 @@
-import { integer, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
-import { users } from "./users";
+import { integer, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core"
+import { users } from "./users"
 
 export const posts = pgTable("posts", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -14,4 +14,4 @@ export const posts = pgTable("posts", {
 		.notNull()
 		.defaultNow()
 		.$onUpdate(() => new Date()),
-});
+})

@@ -1,4 +1,7 @@
-import type { Connection, QueryArgs } from "@/components/ui/server-data-table/types"
+import type {
+	Connection,
+	QueryArgs,
+} from "@/components/ui/server-data-table/types"
 
 // ─────────────────────────────────────────────────────────────────────────
 // True server-side helpers — for queries whose BACKEND does the paging.
@@ -59,7 +62,8 @@ export function clientConnection<T>(
 	} = {},
 ): Connection<T> {
 	let rows = all
-	if (opts.filter && args.where) rows = rows.filter((r) => opts.filter?.(r, args.where))
+	if (opts.filter && args.where)
+		rows = rows.filter((r) => opts.filter?.(r, args.where))
 	const o = args.orderBy?.[0]
 	if (o && opts.sorters?.[o.field]) {
 		const acc = opts.sorters[o.field]
@@ -73,7 +77,8 @@ export function clientConnection<T>(
 	const size = args.first ?? args.last ?? 25
 	let offset = 0
 	if (args.after) offset = Number.parseInt(atob(args.after), 10) || 0
-	else if (args.before) offset = Math.max(0, (Number.parseInt(atob(args.before), 10) || 0) - size)
+	else if (args.before)
+		offset = Math.max(0, (Number.parseInt(atob(args.before), 10) || 0) - size)
 	const slice = rows.slice(offset, offset + size)
 	return {
 		totalCount: rows.length,

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import {
-	ArrowRight,
 	ArrowLeftRight,
+	ArrowRight,
 	BookOpen,
 	Boxes,
 	Code2,
@@ -80,7 +80,10 @@ function Dashboard() {
 
 				{/* Stack status */}
 				<div className="mt-6">
-					<SectionHeader title="Stack" hint="Wired and ready in this boilerplate" />
+					<SectionHeader
+						title="Stack"
+						hint="Wired and ready in this boilerplate"
+					/>
 					<Card>
 						<CardContent className="p-4">
 							<div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -261,7 +264,12 @@ function QuickLink({
 		"group flex items-start gap-3 rounded-xl border border-border/70 bg-card p-4 transition-colors hover:border-foreground/30 hover:bg-muted/40"
 	if (external) {
 		return (
-			<a href={to} target="_blank" rel="noopener noreferrer" className={className}>
+			<a
+				href={to}
+				target="_blank"
+				rel="noopener noreferrer"
+				className={className}
+			>
 				{inner}
 			</a>
 		)

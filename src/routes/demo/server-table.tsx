@@ -2,7 +2,6 @@ import { faker } from "@faker-js/faker"
 import { createFileRoute } from "@tanstack/react-router"
 import { Table2 } from "lucide-react"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
-import { StatusBadge, type StatusTone } from "@/demo/form/form-kit"
 import { Badge } from "@/components/ui/badge"
 import {
 	type DataTableColumn,
@@ -10,6 +9,7 @@ import {
 	defineSortOptions,
 	ServerDataTable,
 } from "@/components/ui/server-data-table"
+import { StatusBadge, type StatusTone } from "@/demo/form/form-kit"
 import { clientConnection } from "@/lib/client-datatable"
 import { seo } from "@/lib/seo"
 
@@ -103,9 +103,15 @@ const columns: DataTableColumn<Row>[] = [
 		header: "MRR",
 		size: 110,
 		cell: (r) => (
-			<span className="tabular-nums text-[13px]">${r.mrr.toLocaleString()}</span>
+			<span className="tabular-nums text-[13px]">
+				${r.mrr.toLocaleString()}
+			</span>
 		),
-		meta: { sortFieldId: "mrr", filterFieldId: "minMrr", className: "text-right" },
+		meta: {
+			sortFieldId: "mrr",
+			filterFieldId: "minMrr",
+			className: "text-right",
+		},
 	},
 	{
 		id: "createdAt",

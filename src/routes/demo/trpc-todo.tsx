@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { useMutation, useQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
 import {
 	Check,
 	ListChecks,
@@ -12,8 +12,6 @@ import {
 import { type FormEvent, useState } from "react"
 import { toast } from "sonner"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
-import { StatusBadge } from "@/demo/form/form-kit"
-import { seo } from "@/lib/seo"
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -32,7 +30,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { StatusBadge } from "@/demo/form/form-kit"
 import { useTRPC } from "@/integrations/trpc/react"
+import { seo } from "@/lib/seo"
 
 export const Route = createFileRoute("/demo/trpc-todo")({
 	component: TRPCTodos,
@@ -230,7 +230,9 @@ function TRPCTodos() {
 					<DialogContent>
 						<form onSubmit={onSubmit} className="contents">
 							<DialogHeader>
-								<DialogTitle>{editing ? "Edit todo" : "Create todo"}</DialogTitle>
+								<DialogTitle>
+									{editing ? "Edit todo" : "Create todo"}
+								</DialogTitle>
 							</DialogHeader>
 							<DialogBody>
 								<div className="space-y-1.5">
