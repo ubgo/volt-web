@@ -68,7 +68,6 @@ function Home() {
 
 	const [todo, setTodo] = useState("")
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: todos reassignment is intentional, not a reactive dependency
 	const submitTodo = useCallback(async () => {
 		if (!todo.trim()) return
 		todos = await addTodo({ data: todo })

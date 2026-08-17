@@ -237,7 +237,6 @@ function ORPCTodoPage() {
 										value={name}
 										onChange={(e) => setName(e.target.value)}
 										placeholder="e.g. Ship the dashboard"
-										// biome-ignore lint/a11y/noAutofocus: focus the field on open
 										autoFocus
 										autoComplete="off"
 										spellCheck={false}

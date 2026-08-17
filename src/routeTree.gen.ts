@@ -9,108 +9,48 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as McpRouteImport } from './routes/mcp'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DemoIndexRouteImport } from './routes/demo/index'
-import { Route as DemoTrpcTodoRouteImport } from './routes/demo/trpc-todo'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
-import { Route as DemoTableRouteImport } from './routes/demo/table'
-import { Route as DemoStoreRouteImport } from './routes/demo/store'
-import { Route as DemoServerTableRouteImport } from './routes/demo/server-table'
-import { Route as DemoOrpcTodoRouteImport } from './routes/demo/orpc-todo'
-import { Route as DemoMcpTodosRouteImport } from './routes/demo/mcp-todos'
-import { Route as DemoGqlkitRouteImport } from './routes/demo/gqlkit'
-import { Route as DemoComponentsRouteImport } from './routes/demo/components'
-import { Route as DemoBrandingRouteImport } from './routes/demo/branding'
-import { Route as ApiVersionRouteImport } from './routes/api.version'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ApiHealthRouteImport } from './routes/api.health'
-import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
-import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
-import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
-import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
-import { Route as DemoFormProductRouteImport } from './routes/demo/form.product'
-import { Route as DemoFormKitchenSinkRouteImport } from './routes/demo/form.kitchen-sink'
-import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
-import { Route as DemoFormAccountRouteImport } from './routes/demo/form.account'
-import { Route as DemoApiTqTodosRouteImport } from './routes/demo/api.tq-todos'
-import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
-import { Route as DemoApiMcpTodosRouteImport } from './routes/demo/api.mcp-todos'
-import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
-import { Route as ApiOrpcSplatRouteImport } from './routes/api.orpc.$'
+import { Route as ApiVersionRouteImport } from './routes/api.version'
+import { Route as DemoIndexRouteImport } from './routes/demo/index'
+import { Route as DemoBrandingRouteImport } from './routes/demo/branding'
+import { Route as DemoComponentsRouteImport } from './routes/demo/components'
+import { Route as DemoGqlkitRouteImport } from './routes/demo/gqlkit'
+import { Route as DemoMcpTodosRouteImport } from './routes/demo/mcp-todos'
+import { Route as DemoOrpcTodoRouteImport } from './routes/demo/orpc-todo'
+import { Route as DemoServerTableRouteImport } from './routes/demo/server-table'
+import { Route as DemoStoreRouteImport } from './routes/demo/store'
+import { Route as DemoTableRouteImport } from './routes/demo/table'
+import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
+import { Route as DemoTrpcTodoRouteImport } from './routes/demo/trpc-todo'
 import { Route as ApiIBootinfoRouteImport } from './routes/api.i.bootinfo'
+import { Route as ApiOrpcSplatRouteImport } from './routes/api.orpc.$'
+import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
+import { Route as DemoApiMcpTodosRouteImport } from './routes/demo/api.mcp-todos'
+import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
+import { Route as DemoApiTqTodosRouteImport } from './routes/demo/api.tq-todos'
+import { Route as DemoFormAccountRouteImport } from './routes/demo/form.account'
+import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
+import { Route as DemoFormKitchenSinkRouteImport } from './routes/demo/form.kitchen-sink'
+import { Route as DemoFormProductRouteImport } from './routes/demo/form.product'
+import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
+import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
+import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
+import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartSsrIndexRouteImport } from './routes/demo/start.ssr.index'
-import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr.spa-mode'
-import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
+import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
+import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr.spa-mode'
 
-const McpRoute = McpRouteImport.update({
-  id: '/mcp',
-  path: '/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoIndexRoute = DemoIndexRouteImport.update({
-  id: '/demo/',
-  path: '/demo/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoTrpcTodoRoute = DemoTrpcTodoRouteImport.update({
-  id: '/demo/trpc-todo',
-  path: '/demo/trpc-todo',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoTableRoute = DemoTableRouteImport.update({
-  id: '/demo/table',
-  path: '/demo/table',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStoreRoute = DemoStoreRouteImport.update({
-  id: '/demo/store',
-  path: '/demo/store',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoServerTableRoute = DemoServerTableRouteImport.update({
-  id: '/demo/server-table',
-  path: '/demo/server-table',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoOrpcTodoRoute = DemoOrpcTodoRouteImport.update({
-  id: '/demo/orpc-todo',
-  path: '/demo/orpc-todo',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoMcpTodosRoute = DemoMcpTodosRouteImport.update({
-  id: '/demo/mcp-todos',
-  path: '/demo/mcp-todos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoGqlkitRoute = DemoGqlkitRouteImport.update({
-  id: '/demo/gqlkit',
-  path: '/demo/gqlkit',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoComponentsRoute = DemoComponentsRouteImport.update({
-  id: '/demo/components',
-  path: '/demo/components',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoBrandingRoute = DemoBrandingRouteImport.update({
-  id: '/demo/branding',
-  path: '/demo/branding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiVersionRoute = ApiVersionRouteImport.update({
-  id: '/api/version',
-  path: '/api/version',
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiHealthRoute = ApiHealthRouteImport.update({
@@ -118,69 +58,64 @@ const ApiHealthRoute = ApiHealthRouteImport.update({
   path: '/api/health',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
-  id: '/demo/start/server-funcs',
-  path: '/demo/start/server-funcs',
+const ApiVersionRoute = ApiVersionRouteImport.update({
+  id: '/api/version',
+  path: '/api/version',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoStartApiRequestRoute = DemoStartApiRequestRouteImport.update({
-  id: '/demo/start/api-request',
-  path: '/demo/start/api-request',
+const DemoIndexRoute = DemoIndexRouteImport.update({
+  id: '/demo/',
+  path: '/demo/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoSentryTestingRoute = DemoSentryTestingRouteImport.update({
-  id: '/demo/sentry/testing',
-  path: '/demo/sentry/testing',
+const DemoBrandingRoute = DemoBrandingRouteImport.update({
+  id: '/demo/branding',
+  path: '/demo/branding',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoFormSimpleRoute = DemoFormSimpleRouteImport.update({
-  id: '/demo/form/simple',
-  path: '/demo/form/simple',
+const DemoComponentsRoute = DemoComponentsRouteImport.update({
+  id: '/demo/components',
+  path: '/demo/components',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoFormProductRoute = DemoFormProductRouteImport.update({
-  id: '/demo/form/product',
-  path: '/demo/form/product',
+const DemoGqlkitRoute = DemoGqlkitRouteImport.update({
+  id: '/demo/gqlkit',
+  path: '/demo/gqlkit',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoFormKitchenSinkRoute = DemoFormKitchenSinkRouteImport.update({
-  id: '/demo/form/kitchen-sink',
-  path: '/demo/form/kitchen-sink',
+const DemoMcpTodosRoute = DemoMcpTodosRouteImport.update({
+  id: '/demo/mcp-todos',
+  path: '/demo/mcp-todos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
-  id: '/demo/form/address',
-  path: '/demo/form/address',
+const DemoOrpcTodoRoute = DemoOrpcTodoRouteImport.update({
+  id: '/demo/orpc-todo',
+  path: '/demo/orpc-todo',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoFormAccountRoute = DemoFormAccountRouteImport.update({
-  id: '/demo/form/account',
-  path: '/demo/form/account',
+const DemoServerTableRoute = DemoServerTableRouteImport.update({
+  id: '/demo/server-table',
+  path: '/demo/server-table',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoApiTqTodosRoute = DemoApiTqTodosRouteImport.update({
-  id: '/demo/api/tq-todos',
-  path: '/demo/api/tq-todos',
+const DemoStoreRoute = DemoStoreRouteImport.update({
+  id: '/demo/store',
+  path: '/demo/store',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
-  id: '/demo/api/names',
-  path: '/demo/api/names',
+const DemoTableRoute = DemoTableRouteImport.update({
+  id: '/demo/table',
+  path: '/demo/table',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoApiMcpTodosRoute = DemoApiMcpTodosRouteImport.update({
-  id: '/demo/api/mcp-todos',
-  path: '/demo/api/mcp-todos',
+const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
+  id: '/demo/tanstack-query',
+  path: '/demo/tanstack-query',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiTrpcSplatRoute = ApiTrpcSplatRouteImport.update({
-  id: '/api/trpc/$',
-  path: '/api/trpc/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiOrpcSplatRoute = ApiOrpcSplatRouteImport.update({
-  id: '/api/orpc/$',
-  path: '/api/orpc/$',
+const DemoTrpcTodoRoute = DemoTrpcTodoRouteImport.update({
+  id: '/demo/trpc-todo',
+  path: '/demo/trpc-todo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiIBootinfoRoute = ApiIBootinfoRouteImport.update({
@@ -188,14 +123,79 @@ const ApiIBootinfoRoute = ApiIBootinfoRouteImport.update({
   path: '/api/i/bootinfo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiOrpcSplatRoute = ApiOrpcSplatRouteImport.update({
+  id: '/api/orpc/$',
+  path: '/api/orpc/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTrpcSplatRoute = ApiTrpcSplatRouteImport.update({
+  id: '/api/trpc/$',
+  path: '/api/trpc/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoApiMcpTodosRoute = DemoApiMcpTodosRouteImport.update({
+  id: '/demo/api/mcp-todos',
+  path: '/demo/api/mcp-todos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
+  id: '/demo/api/names',
+  path: '/demo/api/names',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoApiTqTodosRoute = DemoApiTqTodosRouteImport.update({
+  id: '/demo/api/tq-todos',
+  path: '/demo/api/tq-todos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoFormAccountRoute = DemoFormAccountRouteImport.update({
+  id: '/demo/form/account',
+  path: '/demo/form/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
+  id: '/demo/form/address',
+  path: '/demo/form/address',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoFormKitchenSinkRoute = DemoFormKitchenSinkRouteImport.update({
+  id: '/demo/form/kitchen-sink',
+  path: '/demo/form/kitchen-sink',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoFormProductRoute = DemoFormProductRouteImport.update({
+  id: '/demo/form/product',
+  path: '/demo/form/product',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoFormSimpleRoute = DemoFormSimpleRouteImport.update({
+  id: '/demo/form/simple',
+  path: '/demo/form/simple',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoSentryTestingRoute = DemoSentryTestingRouteImport.update({
+  id: '/demo/sentry/testing',
+  path: '/demo/sentry/testing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoStartApiRequestRoute = DemoStartApiRequestRouteImport.update({
+  id: '/demo/start/api-request',
+  path: '/demo/start/api-request',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
+  id: '/demo/start/server-funcs',
+  path: '/demo/start/server-funcs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoStartSsrIndexRoute = DemoStartSsrIndexRouteImport.update({
   id: '/demo/start/ssr/',
   path: '/demo/start/ssr/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoStartSsrSpaModeRoute = DemoStartSsrSpaModeRouteImport.update({
-  id: '/demo/start/ssr/spa-mode',
-  path: '/demo/start/ssr/spa-mode',
+const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
+  id: '/demo/start/ssr/data-only',
+  path: '/demo/start/ssr/data-only',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoStartSsrFullSsrRoute = DemoStartSsrFullSsrRouteImport.update({
@@ -203,9 +203,9 @@ const DemoStartSsrFullSsrRoute = DemoStartSsrFullSsrRouteImport.update({
   path: '/demo/start/ssr/full-ssr',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
-  id: '/demo/start/ssr/data-only',
-  path: '/demo/start/ssr/data-only',
+const DemoStartSsrSpaModeRoute = DemoStartSsrSpaModeRouteImport.update({
+  id: '/demo/start/ssr/spa-mode',
+  path: '/demo/start/ssr/spa-mode',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -461,13 +461,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -475,88 +468,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/': {
-      id: '/demo/'
-      path: '/demo'
-      fullPath: '/demo/'
-      preLoaderRoute: typeof DemoIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/trpc-todo': {
-      id: '/demo/trpc-todo'
-      path: '/demo/trpc-todo'
-      fullPath: '/demo/trpc-todo'
-      preLoaderRoute: typeof DemoTrpcTodoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/table': {
-      id: '/demo/table'
-      path: '/demo/table'
-      fullPath: '/demo/table'
-      preLoaderRoute: typeof DemoTableRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/store': {
-      id: '/demo/store'
-      path: '/demo/store'
-      fullPath: '/demo/store'
-      preLoaderRoute: typeof DemoStoreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/server-table': {
-      id: '/demo/server-table'
-      path: '/demo/server-table'
-      fullPath: '/demo/server-table'
-      preLoaderRoute: typeof DemoServerTableRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/orpc-todo': {
-      id: '/demo/orpc-todo'
-      path: '/demo/orpc-todo'
-      fullPath: '/demo/orpc-todo'
-      preLoaderRoute: typeof DemoOrpcTodoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/mcp-todos': {
-      id: '/demo/mcp-todos'
-      path: '/demo/mcp-todos'
-      fullPath: '/demo/mcp-todos'
-      preLoaderRoute: typeof DemoMcpTodosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/gqlkit': {
-      id: '/demo/gqlkit'
-      path: '/demo/gqlkit'
-      fullPath: '/demo/gqlkit'
-      preLoaderRoute: typeof DemoGqlkitRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/components': {
-      id: '/demo/components'
-      path: '/demo/components'
-      fullPath: '/demo/components'
-      preLoaderRoute: typeof DemoComponentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/branding': {
-      id: '/demo/branding'
-      path: '/demo/branding'
-      fullPath: '/demo/branding'
-      preLoaderRoute: typeof DemoBrandingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/version': {
-      id: '/api/version'
-      path: '/api/version'
-      fullPath: '/api/version'
-      preLoaderRoute: typeof ApiVersionRouteImport
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/health': {
@@ -566,95 +482,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/start/server-funcs': {
-      id: '/demo/start/server-funcs'
-      path: '/demo/start/server-funcs'
-      fullPath: '/demo/start/server-funcs'
-      preLoaderRoute: typeof DemoStartServerFuncsRouteImport
+    '/api/version': {
+      id: '/api/version'
+      path: '/api/version'
+      fullPath: '/api/version'
+      preLoaderRoute: typeof ApiVersionRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/start/api-request': {
-      id: '/demo/start/api-request'
-      path: '/demo/start/api-request'
-      fullPath: '/demo/start/api-request'
-      preLoaderRoute: typeof DemoStartApiRequestRouteImport
+    '/demo/': {
+      id: '/demo/'
+      path: '/demo'
+      fullPath: '/demo/'
+      preLoaderRoute: typeof DemoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/sentry/testing': {
-      id: '/demo/sentry/testing'
-      path: '/demo/sentry/testing'
-      fullPath: '/demo/sentry/testing'
-      preLoaderRoute: typeof DemoSentryTestingRouteImport
+    '/demo/branding': {
+      id: '/demo/branding'
+      path: '/demo/branding'
+      fullPath: '/demo/branding'
+      preLoaderRoute: typeof DemoBrandingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/form/simple': {
-      id: '/demo/form/simple'
-      path: '/demo/form/simple'
-      fullPath: '/demo/form/simple'
-      preLoaderRoute: typeof DemoFormSimpleRouteImport
+    '/demo/components': {
+      id: '/demo/components'
+      path: '/demo/components'
+      fullPath: '/demo/components'
+      preLoaderRoute: typeof DemoComponentsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/form/product': {
-      id: '/demo/form/product'
-      path: '/demo/form/product'
-      fullPath: '/demo/form/product'
-      preLoaderRoute: typeof DemoFormProductRouteImport
+    '/demo/gqlkit': {
+      id: '/demo/gqlkit'
+      path: '/demo/gqlkit'
+      fullPath: '/demo/gqlkit'
+      preLoaderRoute: typeof DemoGqlkitRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/form/kitchen-sink': {
-      id: '/demo/form/kitchen-sink'
-      path: '/demo/form/kitchen-sink'
-      fullPath: '/demo/form/kitchen-sink'
-      preLoaderRoute: typeof DemoFormKitchenSinkRouteImport
+    '/demo/mcp-todos': {
+      id: '/demo/mcp-todos'
+      path: '/demo/mcp-todos'
+      fullPath: '/demo/mcp-todos'
+      preLoaderRoute: typeof DemoMcpTodosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/form/address': {
-      id: '/demo/form/address'
-      path: '/demo/form/address'
-      fullPath: '/demo/form/address'
-      preLoaderRoute: typeof DemoFormAddressRouteImport
+    '/demo/orpc-todo': {
+      id: '/demo/orpc-todo'
+      path: '/demo/orpc-todo'
+      fullPath: '/demo/orpc-todo'
+      preLoaderRoute: typeof DemoOrpcTodoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/form/account': {
-      id: '/demo/form/account'
-      path: '/demo/form/account'
-      fullPath: '/demo/form/account'
-      preLoaderRoute: typeof DemoFormAccountRouteImport
+    '/demo/server-table': {
+      id: '/demo/server-table'
+      path: '/demo/server-table'
+      fullPath: '/demo/server-table'
+      preLoaderRoute: typeof DemoServerTableRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/api/tq-todos': {
-      id: '/demo/api/tq-todos'
-      path: '/demo/api/tq-todos'
-      fullPath: '/demo/api/tq-todos'
-      preLoaderRoute: typeof DemoApiTqTodosRouteImport
+    '/demo/store': {
+      id: '/demo/store'
+      path: '/demo/store'
+      fullPath: '/demo/store'
+      preLoaderRoute: typeof DemoStoreRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/api/names': {
-      id: '/demo/api/names'
-      path: '/demo/api/names'
-      fullPath: '/demo/api/names'
-      preLoaderRoute: typeof DemoApiNamesRouteImport
+    '/demo/table': {
+      id: '/demo/table'
+      path: '/demo/table'
+      fullPath: '/demo/table'
+      preLoaderRoute: typeof DemoTableRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/api/mcp-todos': {
-      id: '/demo/api/mcp-todos'
-      path: '/demo/api/mcp-todos'
-      fullPath: '/demo/api/mcp-todos'
-      preLoaderRoute: typeof DemoApiMcpTodosRouteImport
+    '/demo/tanstack-query': {
+      id: '/demo/tanstack-query'
+      path: '/demo/tanstack-query'
+      fullPath: '/demo/tanstack-query'
+      preLoaderRoute: typeof DemoTanstackQueryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/trpc/$': {
-      id: '/api/trpc/$'
-      path: '/api/trpc/$'
-      fullPath: '/api/trpc/$'
-      preLoaderRoute: typeof ApiTrpcSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/orpc/$': {
-      id: '/api/orpc/$'
-      path: '/api/orpc/$'
-      fullPath: '/api/orpc/$'
-      preLoaderRoute: typeof ApiOrpcSplatRouteImport
+    '/demo/trpc-todo': {
+      id: '/demo/trpc-todo'
+      path: '/demo/trpc-todo'
+      fullPath: '/demo/trpc-todo'
+      preLoaderRoute: typeof DemoTrpcTodoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/i/bootinfo': {
@@ -664,6 +573,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiIBootinfoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/orpc/$': {
+      id: '/api/orpc/$'
+      path: '/api/orpc/$'
+      fullPath: '/api/orpc/$'
+      preLoaderRoute: typeof ApiOrpcSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/trpc/$': {
+      id: '/api/trpc/$'
+      path: '/api/trpc/$'
+      fullPath: '/api/trpc/$'
+      preLoaderRoute: typeof ApiTrpcSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/api/mcp-todos': {
+      id: '/demo/api/mcp-todos'
+      path: '/demo/api/mcp-todos'
+      fullPath: '/demo/api/mcp-todos'
+      preLoaderRoute: typeof DemoApiMcpTodosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/api/names': {
+      id: '/demo/api/names'
+      path: '/demo/api/names'
+      fullPath: '/demo/api/names'
+      preLoaderRoute: typeof DemoApiNamesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/api/tq-todos': {
+      id: '/demo/api/tq-todos'
+      path: '/demo/api/tq-todos'
+      fullPath: '/demo/api/tq-todos'
+      preLoaderRoute: typeof DemoApiTqTodosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/form/account': {
+      id: '/demo/form/account'
+      path: '/demo/form/account'
+      fullPath: '/demo/form/account'
+      preLoaderRoute: typeof DemoFormAccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/form/address': {
+      id: '/demo/form/address'
+      path: '/demo/form/address'
+      fullPath: '/demo/form/address'
+      preLoaderRoute: typeof DemoFormAddressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/form/kitchen-sink': {
+      id: '/demo/form/kitchen-sink'
+      path: '/demo/form/kitchen-sink'
+      fullPath: '/demo/form/kitchen-sink'
+      preLoaderRoute: typeof DemoFormKitchenSinkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/form/product': {
+      id: '/demo/form/product'
+      path: '/demo/form/product'
+      fullPath: '/demo/form/product'
+      preLoaderRoute: typeof DemoFormProductRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/form/simple': {
+      id: '/demo/form/simple'
+      path: '/demo/form/simple'
+      fullPath: '/demo/form/simple'
+      preLoaderRoute: typeof DemoFormSimpleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/sentry/testing': {
+      id: '/demo/sentry/testing'
+      path: '/demo/sentry/testing'
+      fullPath: '/demo/sentry/testing'
+      preLoaderRoute: typeof DemoSentryTestingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/start/api-request': {
+      id: '/demo/start/api-request'
+      path: '/demo/start/api-request'
+      fullPath: '/demo/start/api-request'
+      preLoaderRoute: typeof DemoStartApiRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/start/server-funcs': {
+      id: '/demo/start/server-funcs'
+      path: '/demo/start/server-funcs'
+      fullPath: '/demo/start/server-funcs'
+      preLoaderRoute: typeof DemoStartServerFuncsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/start/ssr/': {
       id: '/demo/start/ssr/'
       path: '/demo/start/ssr'
@@ -671,11 +671,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoStartSsrIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/start/ssr/spa-mode': {
-      id: '/demo/start/ssr/spa-mode'
-      path: '/demo/start/ssr/spa-mode'
-      fullPath: '/demo/start/ssr/spa-mode'
-      preLoaderRoute: typeof DemoStartSsrSpaModeRouteImport
+    '/demo/start/ssr/data-only': {
+      id: '/demo/start/ssr/data-only'
+      path: '/demo/start/ssr/data-only'
+      fullPath: '/demo/start/ssr/data-only'
+      preLoaderRoute: typeof DemoStartSsrDataOnlyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/start/ssr/full-ssr': {
@@ -685,11 +685,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoStartSsrFullSsrRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/start/ssr/data-only': {
-      id: '/demo/start/ssr/data-only'
-      path: '/demo/start/ssr/data-only'
-      fullPath: '/demo/start/ssr/data-only'
-      preLoaderRoute: typeof DemoStartSsrDataOnlyRouteImport
+    '/demo/start/ssr/spa-mode': {
+      id: '/demo/start/ssr/spa-mode'
+      path: '/demo/start/ssr/spa-mode'
+      fullPath: '/demo/start/ssr/spa-mode'
+      preLoaderRoute: typeof DemoStartSsrSpaModeRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
