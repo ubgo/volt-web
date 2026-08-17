@@ -12,7 +12,17 @@ import {
 import { type FormEvent, useState } from "react"
 import { toast } from "sonner"
 import { AdminShell, PageHeader } from "@/components/admin-shell"
-import { Button } from "@/components/ui/button"
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
 	Dialog,
 	DialogBody,
@@ -59,6 +69,10 @@ function TRPCTodos() {
 	const [dialogOpen, setDialogOpen] = useState(false)
 	const [editing, setEditing] = useState<Todo | null>(null)
 	const [name, setName] = useState("")
+	// Pending-delete target. Non-null opens the confirm AlertDialog — never a
+	// native confirm(): it blocks the event loop and violates the kit's
+	// no-native-dialogs rule.
+	const [deleting, setDeleting] = useState<Todo | null>(null)
 
 	const reload = () => refetch()
 
@@ -116,8 +130,7 @@ function TRPCTodos() {
 	}
 
 	function onDelete(todo: Todo) {
-		if (!confirm(`Delete “${todo.name}”? This can't be undone.`)) return
-		deleteTodo.mutate({ id: todo.id })
+		setDeleting(todo)
 	}
 
 	const remaining = todos.filter((t) => !t.completed).length
@@ -263,6 +276,35 @@ function TRPCTodos() {
 						</form>
 					</DialogContent>
 				</Dialog>
+
+				{/* Delete confirmation — AlertDialog (accessible, non-blocking)
+				    instead of the browser's native confirm(). */}
+				<AlertDialog
+					open={deleting !== null}
+					onOpenChange={(open) => {
+						if (!open) setDeleting(null)
+					}}
+				>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>Delete todo</AlertDialogTitle>
+							<AlertDialogDescription>
+								Delete “{deleting?.name}”? This can't be undone.
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>Cancel</AlertDialogCancel>
+							<AlertDialogAction
+								className={buttonVariants({ variant: "destructive" })}
+								onClick={() => {
+									if (deleting) deleteTodo.mutate({ id: deleting.id })
+								}}
+							>
+								Delete
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
 			</div>
 		</AdminShell>
 	)
