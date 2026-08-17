@@ -1,15 +1,21 @@
 import type { RankingInfo } from "@tanstack/match-sorter-utils"
 import { compareItems, rankItem } from "@tanstack/match-sorter-utils"
 import { createFileRoute } from "@tanstack/react-router"
-import type { ColumnDef, FilterFn, SortingFn } from "@tanstack/react-table"
+import type { ColumnDef } from "@tanstack/react-table"
 import {
+	columnFilteringFeature,
+	constructFilterFn,
+	constructSortFn,
+	createFilteredRowModel,
+	createPaginatedRowModel,
+	createSortedRowModel,
 	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
-	sortingFns,
-	useReactTable,
+	globalFilteringFeature,
+	rowPaginationFeature,
+	rowSortingFeature,
+	sortFn_alphanumeric,
+	tableFeatures,
+	useTable,
 } from "@tanstack/react-table"
 import {
 	ChevronDown,
@@ -39,32 +45,64 @@ export const Route = createFileRoute("/demo/table")({
 	head: () => seo({ title: "Data table" }),
 })
 
-declare module "@tanstack/react-table" {
-	interface FilterFns {
-		fuzzy: FilterFn<unknown>
-	}
-	interface FilterMeta {
-		itemRank: RankingInfo
-	}
+// Filter meta stored by the fuzzy filter — read back by the fuzzy sort so
+// currently-matching rows sort by match rank instead of plain alphanumerics.
+// Declared type-only via the `filterMeta` phantom slot in `tableFeatures`
+// below (v9 replaced the v8 `declare module` FilterMeta augmentation).
+interface FuzzyFilterMeta {
+	itemRank: RankingInfo
 }
 
 // Fuzzy filter — ranks rows via match-sorter, stores rank meta for fuzzy sort.
-const fuzzyFilter: FilterFn<Person> = (row, columnId, value, addMeta) => {
-	const itemRank = rankItem(row.getValue(columnId), value)
-	addMeta({ itemRank })
-	return itemRank.passed
-}
+// Built with `constructFilterFn` so it stays callable against any feature set
+// (same pattern as the built-in filter fns).
+const fuzzyFilter = constructFilterFn({
+	filter: (dataValue, filterValue, _row, _columnId, addMeta) => {
+		const itemRank = rankItem(dataValue, filterValue)
+		addMeta?.({ itemRank })
+		return itemRank.passed
+	},
+})
 
-const fuzzySort: SortingFn<Person> = (rowA, rowB, columnId) => {
-	let dir = 0
-	if (rowA.columnFiltersMeta[columnId]) {
-		dir = compareItems(
-			rowA.columnFiltersMeta[columnId]?.itemRank as RankingInfo,
-			rowB.columnFiltersMeta[columnId]?.itemRank as RankingInfo,
-		)
-	}
-	return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
-}
+const fuzzySort = constructSortFn({
+	sort: (_dataValueA, _dataValueB, rowA, rowB, columnId) => {
+		let dir = 0
+		// Boundary cast: `constructSortFn` is feature-set-agnostic (its rows are
+		// typed against `any` features), so the meta written by `fuzzyFilter`
+		// above must be narrowed back to its known shape here.
+		const metaA = rowA.columnFiltersMeta[columnId] as
+			| FuzzyFilterMeta
+			| undefined
+		const metaB = rowB.columnFiltersMeta[columnId] as
+			| FuzzyFilterMeta
+			| undefined
+		if (metaA && metaB) {
+			dir = compareItems(metaA.itemRank, metaB.itemRank)
+		}
+		return dir === 0 ? sortFn_alphanumeric(rowA, rowB, columnId) : dir
+	},
+})
+
+// Static feature set — features, row models, and fn registries are stitched
+// together once at module scope (v9's tree-shakable replacement for v8's
+// monolithic table). The `filterFns`/`sortFns` keys become the valid string
+// values for `filterFn`/`globalFilterFn`/`sortFn` with full inference.
+const features = tableFeatures({
+	columnFilteringFeature,
+	globalFilteringFeature,
+	rowPaginationFeature,
+	rowSortingFeature,
+	filteredRowModel: createFilteredRowModel(),
+	paginatedRowModel: createPaginatedRowModel(),
+	sortedRowModel: createSortedRowModel(),
+	filterFns: { fuzzy: fuzzyFilter },
+	sortFns: { alphanumeric: sortFn_alphanumeric, fuzzy: fuzzySort },
+	// Phantom value — stripped at runtime, only the type is used (library-
+	// documented idiom for declaring the table's filter meta shape).
+	filterMeta: {} as FuzzyFilterMeta,
+})
+
+type DemoTableFeatures = typeof features
 
 // Domain status → shared StatusTone (the pill shell lives in the kit).
 const STATUS_TONE: Record<Person["status"], StatusTone> = {
@@ -77,7 +115,7 @@ function TableDemo() {
 	const [globalFilter, setGlobalFilter] = React.useState("")
 	const [data, setData] = React.useState<Person[]>(() => makeData(200))
 
-	const columns = React.useMemo<ColumnDef<Person, unknown>[]>(
+	const columns = React.useMemo<ColumnDef<DemoTableFeatures, Person>[]>(
 		() => [
 			{
 				accessorFn: (row) => `${row.firstName} ${row.lastName}`,
@@ -89,7 +127,7 @@ function TableDemo() {
 					</span>
 				),
 				filterFn: "fuzzy",
-				sortingFn: fuzzySort,
+				sortFn: "fuzzy",
 			},
 			{
 				accessorKey: "age",
@@ -141,22 +179,18 @@ function TableDemo() {
 		[],
 	)
 
-	const table = useReactTable({
+	const table = useTable({
+		features,
 		data,
 		columns,
-		filterFns: { fuzzy: fuzzyFilter },
 		state: { globalFilter },
 		onGlobalFilterChange: setGlobalFilter,
 		globalFilterFn: "fuzzy",
-		getCoreRowModel: getCoreRowModel(),
-		getFilteredRowModel: getFilteredRowModel(),
-		getSortedRowModel: getSortedRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
-		initialState: { pagination: { pageSize: 10 } },
+		initialState: { pagination: { pageIndex: 0, pageSize: 10 } },
 	})
 
-	const total = table.getPrePaginationRowModel().rows.length
-	const { pageIndex, pageSize } = table.getState().pagination
+	const total = table.getPrePaginatedRowModel().rows.length
+	const { pageIndex, pageSize } = table.state.pagination
 
 	return (
 		<AdminShell>
@@ -255,7 +289,10 @@ function TableDemo() {
 										key={row.id}
 										className="hover:bg-muted/60 transition-colors"
 									>
-										{row.getVisibleCells().map((cell) => (
+										{/* getAllCells, not getVisibleCells — the demo has no
+										    column-visibility feature registered, so every cell
+										    is visible by definition. */}
+										{row.getAllCells().map((cell) => (
 											<td
 												key={cell.id}
 												className="px-3 py-(--row-padding-y) align-middle text-(length:--row-font-size)"

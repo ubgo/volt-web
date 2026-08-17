@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -13,7 +13,7 @@
 			"**/index.html",
 			"**/vite.config.ts",
 			"!**/src/routeTree.gen.ts",
-			"!**/src/generated/**",
+			"!**/src/generated",
 			"!**/src/styles.css"
 		]
 	},
@@ -25,16 +25,12 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"preset": "recommended"
 		}
 	},
 	"overrides": [
 		{
-			"includes": [
-				"src/components/ui/**",
-				"src/routes/demo/**",
-				"src/demo/**"
-			],
+			"includes": ["src/components/ui/**", "src/routes/demo/**", "src/demo/**"],
 			"linter": {
 				"rules": {
 					"correctness": { "useExhaustiveDependencies": "off" },
