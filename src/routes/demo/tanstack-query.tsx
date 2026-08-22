@@ -2,10 +2,10 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Database } from "lucide-react"
 import { useCallback, useState } from "react"
-
 import { AdminShell, PageHeader } from "@/components/admin-shell"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { QK } from "@/lib/query-keys"
 import { seo } from "@/lib/seo"
 
 export const Route = createFileRoute("/demo/tanstack-query")({
@@ -24,7 +24,7 @@ function TanStackQueryDemo() {
 		isLoading,
 		refetch,
 	} = useQuery<Todo[]>({
-		queryKey: ["todos"],
+		queryKey: QK.todos.list(),
 		queryFn: () => fetch("/demo/api/tq-todos").then((res) => res.json()),
 		initialData: [],
 	})

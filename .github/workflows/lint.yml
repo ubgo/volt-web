@@ -1,0 +1,48 @@
+# lint.yml — biome (format + lint) + tsc over hand-written code.
+#
+# Policy: the linter runs at full strength with zero suppressions in
+# hand-written code (see volt/docs/lint-policy.md). Generated trees
+# (src/generated, routeTree.gen.ts) are excluded at the biome.json
+# `files.includes` level — scoping the tool off tool-output, never silencing
+# findings in code we own. If this job fails, fix the cause; do not add
+# ignore comments or rule off-switches to make it green.
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        # Version comes from package.json's `packageManager` pin — no drift.
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: biome check (format + lint, zero findings required)
+        run: pnpm biome check
+
+      - name: tsc --noEmit
+        run: pnpm exec tsc --noEmit

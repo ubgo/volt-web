@@ -640,6 +640,9 @@ export type ServerDataTableConfig<
 	queryKey: string
 	/** Build & execute the query for the given state args. */
 	queryFn: QueryFn<TNode, TWhere>
+	/** Data-aware polling: return an interval in ms while any visible row needs
+	 * live updates (e.g. a queued/running run), false to stop. Omit = no poll. */
+	refetchInterval?: (nodes: TNode[]) => number | false
 	/** Column definitions. See `DataTableColumn`. */
 	columns: DataTableColumn<TNode>[]
 

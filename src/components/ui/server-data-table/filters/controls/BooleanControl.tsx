@@ -43,12 +43,15 @@ export function BooleanControl({
 		onSelect: (i) => commit(options[i].value),
 	})
 
-	// Auto-focus + seed highlight from current value.
+	// Auto-focus + seed highlight from the initial value. Snapshot the inputs in
+	// a ref so this runs mount-only (re-running on value change would steal focus)
+	// while keeping the empty dep list exhaustive.
+	const seedRef = React.useRef({ value, setActiveIndex: nav.setActiveIndex })
 	React.useEffect(() => {
+		const { value: v, setActiveIndex } = seedRef.current
 		containerRef.current?.focus({ preventScroll: true })
-		if (value === true) nav.setActiveIndex(0)
-		else if (value === false) nav.setActiveIndex(1)
-		// mount-only — don't re-focus when value changes
+		if (v === true) setActiveIndex(0)
+		else if (v === false) setActiveIndex(1)
 	}, [])
 
 	// Y/T → True, F/N → False shortcut keys.
@@ -70,6 +73,8 @@ export function BooleanControl({
 	return (
 		<div
 			ref={containerRef}
+			role="listbox"
+			aria-label="Options"
 			tabIndex={-1}
 			onKeyDown={onKeyDown}
 			className="flex flex-col outline-none"

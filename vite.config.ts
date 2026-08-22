@@ -8,6 +8,16 @@ import { nitro } from "nitro/vite"
 import { defineConfig } from "vite"
 
 const config = defineConfig({
+	// allowedHosts: vite blocks unknown Host headers by default (DNS-rebinding
+	// protection). When the dev server is fronted by a reverse-proxy vhost
+	// (portless custom domain, a remote dev box's public Caddy host), set
+	// VITE_ALLOWED_HOSTS to a comma-separated hostname list in .env; unset =
+	// vite's safe default, zero behavior change.
+	server: {
+		allowedHosts: process.env.VITE_ALLOWED_HOSTS
+			? process.env.VITE_ALLOWED_HOSTS.split(",")
+			: [],
+	},
 	resolve: {
 		alias: {
 			"@": fileURLToPath(new URL("./src", import.meta.url)),

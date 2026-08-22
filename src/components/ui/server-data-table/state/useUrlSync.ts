@@ -21,12 +21,21 @@ export function useUrlSync({ state, enabled, namespace }: Options) {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const isFirstRender = React.useRef(true)
 
+	// Hold the URL read/write handles in a ref so the effect can use the latest
+	// values WITHOUT listing them as dependencies. This is deliberate: the effect
+	// must react to TableState changes only — depending on searchParams would make
+	// our own writes re-trigger it and loop. The ref keeps the dep list exhaustive
+	// (everything it references is either a state field or ref-stable).
+	const urlIoRef = React.useRef({ searchParams, setSearchParams })
+	urlIoRef.current = { searchParams, setSearchParams }
+
 	React.useEffect(() => {
 		if (!enabled) return
 		if (isFirstRender.current) {
 			isFirstRender.current = false
 			return
 		}
+		const { searchParams: current, setSearchParams: write } = urlIoRef.current
 		const next = encodeUrlState(
 			{
 				search: state.search,
@@ -34,16 +43,13 @@ export function useUrlSync({ state, enabled, namespace }: Options) {
 				sort: state.sort,
 				viewId: state.viewId,
 			},
-			searchParams,
+			current,
 			namespace,
 		)
 		// Only write if something actually changed
-		if (next.toString() !== searchParams.toString()) {
-			setSearchParams(next, { replace: true })
+		if (next.toString() !== current.toString()) {
+			write(next, { replace: true })
 		}
-		// We intentionally do NOT depend on searchParams to avoid loops:
-		// we want to react to state changes, not URL changes.
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		state.search,
 		state.filters,

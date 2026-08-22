@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "dotenv -e .env -- sh -c \"NODE_OPTIONS='--import ./instrument.server.mjs' vite dev --port 3000 --host 127.0.0.1\"",
     "dev:vite": "vite dev --host 127.0.0.1",
-    "build": "vite build && cp instrument.server.mjs .output/server",
+    "dev:host": "dotenv -e .env -- sh -c \"NODE_OPTIONS='--import ./instrument.server.mjs' vite dev --port 3000 --host 0.0.0.0\"",
+    "build": "vite build && (cp instrument.server.mjs .output/server 2>/dev/null || echo \"note: .output/server absent (serverless preset) — instrument.server.mjs not copied\")",
     "preview": "vite preview",
     "test": "vitest run",
     "format": "biome format",

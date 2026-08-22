@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react"
+import { Check, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
 	DropdownMenu,
@@ -33,10 +33,7 @@ export function PageSizeSelect({ value, options, onChange }: Props) {
 					<ChevronDown className="h-2.5 w-2.5 opacity-60" />
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent
-				align="end"
-				className="min-w-0 w-[var(--anchor-width)]"
-			>
+			<DropdownMenuContent align="end" className="min-w-0 p-0.5">
 				<DropdownMenuGroup>
 					{options.map((opt) => {
 						const active = value === opt
@@ -45,10 +42,16 @@ export function PageSizeSelect({ value, options, onChange }: Props) {
 								key={opt}
 								onClick={() => onChange(opt)}
 								className={cn(
-									"h-7 cursor-pointer px-2 py-0 text-xs tabular-nums",
-									active && "bg-accent text-accent-foreground",
+									"h-7 cursor-pointer gap-1.5 px-2 py-0 text-xs tabular-nums",
+									active && "bg-accent",
 								)}
 							>
+								<Check
+									className={cn(
+										"h-2.5 w-2.5 shrink-0",
+										active ? "opacity-100" : "opacity-0",
+									)}
+								/>
 								{opt}
 							</DropdownMenuItem>
 						)

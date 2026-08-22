@@ -21,33 +21,19 @@
 		"enabled": true,
 		"indentStyle": "tab"
 	},
-	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {
 			"preset": "recommended"
 		}
 	},
-	"overrides": [
-		{
-			"includes": ["src/components/ui/**", "src/routes/demo/**", "src/demo/**"],
-			"linter": {
-				"rules": {
-					"correctness": { "useExhaustiveDependencies": "off" },
-					"suspicious": { "noArrayIndexKey": "off" },
-					"a11y": {
-						"noStaticElementInteractions": "off",
-						"useKeyWithClickEvents": "off",
-						"useSemanticElements": "off",
-						"useValidAnchor": "off",
-						"useAnchorContent": "off",
-						"useFocusableInteractive": "off",
-						"noLabelWithoutControl": "off"
-					}
-				}
-			}
-		}
-	],
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double",

@@ -157,9 +157,6 @@ function useResolvedLabel<TWhere>(
 			? field.resolveLabel
 			: undefined
 
-	// Cache key: field id + serialized value. Re-resolve when either changes.
-	const cacheKey = `${cond.fieldId}:${JSON.stringify(cond.value)}`
-
 	React.useEffect(() => {
 		if (!resolve) return
 		let cancelled = false
@@ -189,8 +186,10 @@ function useResolvedLabel<TWhere>(
 		return () => {
 			cancelled = true
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [cacheKey, resolve])
+		// Re-resolve when the value, field type, or resolver changes. cond.value
+		// is referentially stable across renders (it lives in filter state), so
+		// this doesn't over-fire; the cancelled flag guards stale async results.
+	}, [cond.value, field.type, resolve])
 
 	return resolved ?? fallback
 }

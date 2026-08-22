@@ -119,9 +119,9 @@ export function useRowContextMenu<TNode>({
 		>
 			{actions.length > 0 && (
 				<div className="flex flex-col">
-					{actions.map((action, i) => (
+					{actions.map((action) => (
 						<ContextActionRow
-							key={`${action.label}-${i}`}
+							key={action.label}
 							action={action}
 							onClose={close}
 							onRequestMutation={(m) => {

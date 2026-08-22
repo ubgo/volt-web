@@ -50,11 +50,15 @@ export function useListNavigation({
 	// Keep the ref array sized to the current item count.
 	itemRefs.current.length = count
 
-	// Reset highlight when the underlying list changes (e.g. user typed
-	// a different query and the filtered list updated).
-	React.useEffect(() => {
+	// Reset highlight to the top when the underlying list changes (e.g. the user
+	// typed a new query and the filtered list updated). Done in render via a
+	// previous-value compare rather than an effect — it's synchronous (no flash
+	// of a stale highlight) and `resetKey` is a real read, not a trigger-only dep.
+	const [prevResetKey, setPrevResetKey] = React.useState(resetKey)
+	if (prevResetKey !== resetKey) {
+		setPrevResetKey(resetKey)
 		setActiveIndex(0)
-	}, [resetKey])
+	}
 
 	// Clamp if items shrank below the active index.
 	React.useEffect(() => {

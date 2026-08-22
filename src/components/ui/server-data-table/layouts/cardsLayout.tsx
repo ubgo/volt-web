@@ -1,5 +1,6 @@
 import { LayoutGrid } from "lucide-react"
 import * as React from "react"
+import { stableKeys } from "@/lib/react-keys"
 import { cn } from "@/lib/utils"
 import { RowActions } from "../actions/RowActions"
 import type { DataTableColumn, DataTableLayout, LayoutCtx } from "../types"
@@ -60,9 +61,9 @@ export function cardsLayout<TNode>(
 			if (ctx.isLoading && ctx.nodes.length === 0) {
 				return (
 					<div className={gridClassName}>
-						{Array.from({ length: 6 }).map((_, i) => (
+						{stableKeys("card-skeleton", 6).map((key) => (
 							<div
-								key={i}
+								key={key}
 								style={{ minHeight }}
 								className="bg-muted/30 animate-pulse rounded-md border"
 							/>

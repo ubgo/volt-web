@@ -2,6 +2,7 @@
 
 import { Slider as SliderPrimitive } from "@base-ui/react/slider"
 import * as React from "react"
+import { stableKeys } from "@/lib/react-keys"
 
 import { cn } from "@/lib/utils"
 
@@ -30,9 +31,6 @@ function Slider({
 			value={value}
 			min={min}
 			max={max}
-			// Inset the thumb so its edge (not its center) aligns with the track
-			// ends — keeps the knob within bounds at 0%/100% instead of overhanging.
-			thumbAlignment="edge"
 			className={cn(
 				"relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
 				className,
@@ -53,10 +51,10 @@ function Slider({
 						)}
 					/>
 				</SliderPrimitive.Track>
-				{Array.from({ length: _values.length }, (_, index) => (
+				{stableKeys("slider-thumb", _values.length).map((key) => (
 					<SliderPrimitive.Thumb
 						data-slot="slider-thumb"
-						key={index}
+						key={key}
 						className="border-primary bg-background ring-ring/50 block size-4 shrink-0 rounded-full border shadow-sm transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
 					/>
 				))}

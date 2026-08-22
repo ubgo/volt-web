@@ -83,10 +83,19 @@ export function FilterPicker<TWhere>({
 		}
 	}
 
+	// `fields` and the consume callback held in refs so the effect fires only on
+	// the intended triggers (open / initialField) while still using their latest
+	// values — depending on `fields` directly would re-jump whenever the column
+	// set is rebuilt.
+	const fieldsRef = React.useRef(fields)
+	fieldsRef.current = fields
+	const onInitialFieldConsumedRef = React.useRef(onInitialFieldConsumed)
+	onInitialFieldConsumedRef.current = onInitialFieldConsumed
+
 	// Consume initialField → jump to value editor for that field
 	React.useEffect(() => {
 		if (!open || !initialField) return
-		const field = fields.find((f) => f.id === initialField)
+		const field = fieldsRef.current.find((f) => f.id === initialField)
 		if (!field) return
 		setView({
 			mode: "value",
@@ -94,8 +103,7 @@ export function FilterPicker<TWhere>({
 			operator: smartDefaultOperator[field.type],
 			value: defaultValueForType(field.type, smartDefaultOperator[field.type]),
 		})
-		onInitialFieldConsumed?.()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		onInitialFieldConsumedRef.current?.()
 	}, [open, initialField])
 
 	const handlePickField = (field: FilterFieldDef<TWhere>) => {

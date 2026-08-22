@@ -71,6 +71,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { FormSection } from "@/demo/form/form-kit"
+import { stableKeys } from "@/lib/react-keys"
 import { seo } from "@/lib/seo"
 
 export const Route = createFileRoute("/demo/components")({
@@ -296,8 +297,8 @@ function ComponentsGallery() {
 							<Label className="mb-1.5 block">Scroll area</Label>
 							<ScrollArea className="h-28 rounded-md border border-border p-3">
 								<div className="space-y-2 text-[13px] text-muted-foreground">
-									{Array.from({ length: 12 }, (_, i) => (
-										<div key={i}>Scrollable row {i + 1}</div>
+									{stableKeys("scroll-demo-row", 12).map((key, i) => (
+										<div key={key}>Scrollable row {i + 1}</div>
 									))}
 								</div>
 							</ScrollArea>

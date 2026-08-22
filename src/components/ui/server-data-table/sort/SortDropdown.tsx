@@ -168,14 +168,14 @@ export function SortDropdown({ options, value, onChange }: Props) {
 					return (
 						<>
 							{active.length > 0 && (
-								<div className="flex flex-col">
+								<ul className="flex flex-col">
 									{active.map((rule) => {
 										i += 1
 										const idx = i
 										const isActive = nav.activeIndex === idx
 										const opt = options.find((o) => o.fieldId === rule.fieldId)
 										return (
-											<div
+											<li
 												key={rule.fieldId}
 												ref={nav.getItemRef(idx)}
 												onMouseMove={() => nav.setActiveIndex(idx)}
@@ -257,10 +257,10 @@ export function SortDropdown({ options, value, onChange }: Props) {
 												>
 													<X className="h-3 w-3" />
 												</button>
-											</div>
+											</li>
 										)
 									})}
-								</div>
+								</ul>
 							)}
 
 							{active.length > 0 && available.length > 0 && (
@@ -281,50 +281,51 @@ export function SortDropdown({ options, value, onChange }: Props) {
 											"desc",
 										]
 										return (
-											<button
+											// Layout row (no handlers → no static-interaction lint). The
+											// label and each direction are real <button>s as siblings, so
+											// none is nested inside another interactive element.
+											<div
 												key={opt.fieldId}
-												type="button"
-												ref={nav.getItemRef(idx)}
-												onMouseMove={() => nav.setActiveIndex(idx)}
-												onClick={() => addRule(opt.fieldId, dirs[0] ?? "asc")}
-												// Arrow-key driven; don't snare Tab focus or ring.
-												tabIndex={-1}
 												className={cn(
-													"hover:bg-accent flex h-7 w-full items-center gap-1.5 rounded-sm px-2 text-left text-xs outline-none",
+													"hover:bg-accent flex h-7 w-full items-center gap-1.5 rounded-sm px-2 text-xs",
 													isActive && "bg-accent",
 												)}
 											>
-												<Plus className="text-muted-foreground h-2.5 w-2.5 shrink-0" />
-												<span className="flex-1 truncate">{opt.label}</span>
+												<button
+													type="button"
+													ref={nav.getItemRef(idx)}
+													onMouseMove={() => nav.setActiveIndex(idx)}
+													onClick={() => addRule(opt.fieldId, dirs[0] ?? "asc")}
+													// Arrow-key driven; don't snare Tab focus or ring.
+													tabIndex={-1}
+													className="flex min-w-0 flex-1 items-center gap-1.5 text-left outline-none"
+												>
+													<Plus className="text-muted-foreground h-2.5 w-2.5 shrink-0" />
+													<span className="flex-1 truncate">{opt.label}</span>
+												</button>
 												{dirs.length > 1 && (
 													<span className="text-muted-foreground flex items-center gap-0.5">
-														<span
-															role="button"
+														<button
+															type="button"
 															tabIndex={-1}
-															onClick={(e) => {
-																e.stopPropagation()
-																addRule(opt.fieldId, "asc")
-															}}
+															onClick={() => addRule(opt.fieldId, "asc")}
 															className="hover:text-foreground inline-flex h-5 w-5 items-center justify-center rounded"
 															aria-label="Add ascending"
 														>
 															<ArrowUp className="h-3 w-3" />
-														</span>
-														<span
-															role="button"
+														</button>
+														<button
+															type="button"
 															tabIndex={-1}
-															onClick={(e) => {
-																e.stopPropagation()
-																addRule(opt.fieldId, "desc")
-															}}
+															onClick={() => addRule(opt.fieldId, "desc")}
 															className="hover:text-foreground inline-flex h-5 w-5 items-center justify-center rounded"
 															aria-label="Add descending"
 														>
 															<ArrowDown className="h-3 w-3" />
-														</span>
+														</button>
 													</span>
 												)}
-											</button>
+											</div>
 										)
 									})}
 								</div>

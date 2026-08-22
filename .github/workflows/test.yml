@@ -1,0 +1,42 @@
+# test.yml — vitest unit tests.
+#
+# The suite is small but NEVER empty (app-env detection pins live in
+# src/lib/*.test.ts) — an empty suite makes `vitest run` a vacuous green and
+# hides the day the test runner itself breaks. Keep at least the lib pins.
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        # Version comes from package.json's `packageManager` pin — no drift.
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: vitest run
+        run: pnpm test

@@ -3,17 +3,16 @@
 //
 // - `createAnonClient()` — no auth headers (login/register/public queries).
 // - `createApiClient()`  — injects Authorization + X-Workspace-Id from
-//   localStorage on every request, plus a dev-only X-Internal-Key.
+//   localStorage on every request.
 //
-// The endpoint defaults to the sync_go dashboard API. Override with
+// The endpoint defaults to the Volt API dashboard endpoint. Override with
 // `VITE_GRAPHQL_URL`. (When you wire real auth, add a refresh-on-401 retry to
 // the `fetch` override below — see the reference project.)
 
 import { GraphQLClient } from "gqlkit-ts"
 
 const GRAPHQL_ENDPOINT =
-	import.meta.env.VITE_GRAPHQL_URL ??
-	"https://sync-api.localhost/api/admin/v1/query"
+	import.meta.env.VITE_GRAPHQL_URL ?? "https://volt-api.localhost/api/query"
 
 /** SSR-safe localStorage read — returns null on the server or on error. */
 function lsGet(key: string): string | null {
@@ -48,10 +47,11 @@ export function createApiClient(): GraphQLClient {
 			if (ws && !headers.has("X-Workspace-Id")) {
 				headers.set("X-Workspace-Id", ws)
 			}
-			const internalKey = import.meta.env.VITE_INTERNAL_KEY
-			if (internalKey && !headers.has("X-Internal-Key")) {
-				headers.set("X-Internal-Key", internalKey)
-			}
+			// Browser never sends X-Internal-Key: any VITE_* value is baked into
+			// the public JS bundle, so it can never be a transport secret. The
+			// real gate is the Bearer token + X-Workspace-Id above; server-only
+			// internal auth stays in src/lib/middleware.ts (env.INTERNAL_KEY,
+			// which never reaches the client build).
 			return globalThis.fetch(url, { ...init, headers })
 		},
 	})
