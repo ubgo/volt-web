@@ -33,13 +33,16 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
 
 function BreadcrumbLink({
 	className,
-	render = <a />,
+	render,
 	...props
 }: React.ComponentProps<"a"> & {
 	render?: useRender.RenderProp
 }) {
+	// Default render is <a {...props}> (not a bare <a />): the caller's href +
+	// children flow into the literal, so the anchor is verifiably valid at
+	// this site — pass render={<Link …/>} to swap in a router link.
 	return useRender({
-		render,
+		render: render ?? <a {...props} />,
 		props: {
 			"data-slot": "breadcrumb-link",
 			className: cn("hover:text-foreground transition-colors", className),
@@ -50,10 +53,10 @@ function BreadcrumbLink({
 
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
 	return (
+		// The current page is NOT a link (WAI-ARIA breadcrumb pattern): a plain
+		// span with aria-current is the correct semantic — no role, no disabled.
 		<span
 			data-slot="breadcrumb-page"
-			role="link"
-			aria-disabled="true"
 			aria-current="page"
 			className={cn("text-foreground font-normal", className)}
 			{...props}

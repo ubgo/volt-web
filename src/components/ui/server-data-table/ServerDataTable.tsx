@@ -94,6 +94,7 @@ export function ServerDataTable<
 	const {
 		queryKey,
 		queryFn,
+		refetchInterval,
 		columns: userColumns,
 		filterFields,
 		search,
@@ -128,11 +129,12 @@ export function ServerDataTable<
 	// Subsequent URL writes are pushed by useUrlSync. We never re-read the
 	// URL on later renders to avoid clobbering user state.
 	const [searchParams] = useSearchParams()
-	const urlInitial = React.useMemo(
-		() => (urlState ? decodeUrlState(searchParams, urlNamespace) : null),
-		// hydrate-once: never re-read URL on later renders to avoid clobbering user state
-		[],
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+	// Hydrate-once: a lazy useState initializer runs exactly on first render and
+	// never again, so later URL writes from useUrlSync can't clobber user state.
+	// (This is the exhaustive-deps-clean form of a `useMemo(…, [])` — the
+	// initializer's captures aren't a reactive dependency list.)
+	const [urlInitial] = React.useState(() =>
+		urlState ? decodeUrlState(searchParams, urlNamespace) : null,
 	)
 
 	// ── Single source of truth for table state ───────────────────────────
@@ -209,6 +211,7 @@ export function ServerDataTable<
 			state,
 			where,
 			pageSize: state.pageSize,
+			refetchInterval,
 		})
 
 	// Mirror of the orderBy useServerQuery builds — exposed via toolbar ctx.
@@ -510,7 +513,10 @@ export function ServerDataTable<
 							{renderedToolbar}
 							{sortOptions && sortOptions.length > 0 && (
 								<SortDropdown
-									options={sortOptions as unknown as SortOption[]}
+									// sortOptions is the readonly generic `SOpts`; SortDropdown
+									// wants a mutable SortOption[]. Spread into a fresh mutable
+									// copy (it only reads them) instead of casting.
+									options={[...sortOptions]}
 									value={state.sort}
 									onChange={actions.setSort}
 								/>
@@ -703,22 +709,30 @@ export function ServerDataTable<
 											{/* Header label = the drag handle. Resize handle is a
                         sibling, so it doesn't get treated as part of the
                         draggable area. */}
-											<div
-												draggable={reorderable}
-												onDragStart={
-													reorderable
-														? (e: React.DragEvent) => {
-																e.dataTransfer.setData("text/plain", col.id)
-																e.dataTransfer.effectAllowed = "move"
-															}
-														: undefined
-												}
-												className={cn(
-													"flex items-center gap-1",
-													reorderable && "cursor-grab active:cursor-grabbing",
+											<div className="flex items-center gap-1">
+												{reorderable ? (
+													// Drag handle as a real <button> — semantic and
+													// keyboard-focusable, with the column menu as a SIBLING
+													// so no interactive element nests inside another. The
+													// label text is the button's accessible name; native
+													// HTML5 DnD stays a pointer-only enhancement.
+													<button
+														type="button"
+														draggable
+														onDragStart={(e: React.DragEvent) => {
+															e.dataTransfer.setData("text/plain", col.id)
+															e.dataTransfer.effectAllowed = "move"
+														}}
+														title="Drag to reorder column"
+														className="flex min-w-0 cursor-grab items-center gap-1 text-left active:cursor-grabbing"
+													>
+														<span className="truncate">
+															{renderHeader(col)}
+														</span>
+													</button>
+												) : (
+													<span className="truncate">{renderHeader(col)}</span>
 												)}
-											>
-												<span className="truncate">{renderHeader(col)}</span>
 												<ColumnHeaderMenu
 													column={col}
 													sortFieldIds={sortFieldIds}

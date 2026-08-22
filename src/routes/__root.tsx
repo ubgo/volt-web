@@ -10,10 +10,12 @@ import {
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query"
+import { useEffect } from "react"
 import { Toaster } from "sonner"
 import StoreDevtools from "@/demo/data/store-devtools"
 import type { ORPCClient } from "@/integrations/orpc/react"
 import type { TRPCRouter } from "@/integrations/trpc/routers"
+import { applyEnvFavicon } from "@/lib/app-env"
 import { THEME_INIT_SCRIPT } from "@/lib/theme"
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools"
 import { Provider } from "../integrations/tanstack-query/root-provider"
@@ -82,6 +84,13 @@ function NotFound() {
 
 function RootComponent() {
 	const { queryClient } = Route.useRouteContext()
+	// Swap the static favicon for the environment-tinted one (local/dev/stag
+	// each get their own tile color; prod keeps the brand icon) so tabs across
+	// environments are tellable apart at a glance. Once on mount — the env
+	// can't change mid-tab.
+	useEffect(() => {
+		applyEnvFavicon()
+	}, [])
 	return (
 		<Provider queryClient={queryClient}>
 			<Outlet />

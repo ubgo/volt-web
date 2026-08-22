@@ -97,10 +97,28 @@ function RelationControlBase<TValue>({
 		}
 	}, [debounced])
 
+	// TValue is a per-mode runtime shape the generic parameter can't encode:
+	// `string` in single mode, `string[]` in multi. Read it via `unknown` (a
+	// safe widening — no cast) and narrow by shape; `selectedValues` is the
+	// multi-mode array (empty in single mode).
+	const rawValue: unknown = value
+	const selectedValues: string[] = Array.isArray(rawValue)
+		? rawValue.map(String)
+		: []
+
+	// emit is the ONE irreducible bridge: producing the opaque generic TValue
+	// from a concrete string / string[] has no safe assignment form (a plain
+	// `as TValue` doesn't compile for an unconstrained generic), so the single
+	// documented `as unknown as TValue` lives here and nowhere else.
+	const emit = (next: string | string[], commit = false) => {
+		const tv = next as unknown as TValue
+		onChange(tv)
+		if (commit) onCommit?.(tv)
+	}
+
 	const isSelected = (optValue: string) => {
-		if (mode === "single") return value === (optValue as unknown as TValue)
-		const arr = (value as unknown as string[] | undefined) ?? []
-		return arr.includes(optValue)
+		if (mode === "single") return rawValue === optValue
+		return selectedValues.includes(optValue)
 	}
 
 	const handlePick = (opt: FilterOption) => {
@@ -109,22 +127,17 @@ function RelationControlBase<TValue>({
 		onLabelsChange?.({ ...labelsRef.current })
 
 		if (mode === "single") {
-			onChange(opt.value as unknown as TValue)
-			onCommit?.(opt.value as unknown as TValue)
+			emit(opt.value, true)
 			return
 		}
 		// multi: toggle
-		const arr = (value as unknown as string[] | undefined) ?? []
-		const next = arr.includes(opt.value)
-			? arr.filter((v) => v !== opt.value)
-			: [...arr, opt.value]
-		onChange(next as unknown as TValue)
+		const next = selectedValues.includes(opt.value)
+			? selectedValues.filter((v) => v !== opt.value)
+			: [...selectedValues, opt.value]
+		emit(next)
 	}
 
-	const selectedCount =
-		mode === "multi"
-			? ((value as unknown as string[] | undefined) ?? []).length
-			: 0
+	const selectedCount = mode === "multi" ? selectedValues.length : 0
 
 	// Arrow nav: in multi mode, Enter = apply (commit), Space = toggle.
 	// In single mode, Enter = pick (already commits via handlePick).

@@ -30,3 +30,6 @@ src/generated/graphql/graphql.ts
 scripts/dist/
 scripts/node_modules/
 .claude/settings.local.json
+
+# Vercel project/org ids — never commit
+.vercel

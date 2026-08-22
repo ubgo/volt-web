@@ -70,10 +70,13 @@ export function FilterValuePopover<TWhere>({
 	const [value, setValue] = React.useState<unknown>(initialValue)
 	const [labels, setLabels] = React.useState<Record<string, string>>({})
 
-	// Reset value when an operator with arity 0 is picked
+	// Reset value when an operator with arity 0 is picked. Functional update so
+	// the effect depends only on `operator` (not `value`) — re-running on every
+	// value change would fight the user's typing; this preserves that intent
+	// while keeping the dep list exhaustive.
 	React.useEffect(() => {
-		if (operatorArity[operator] === 0 && value !== undefined) {
-			setValue(undefined)
+		if (operatorArity[operator] === 0) {
+			setValue((v: unknown) => (v !== undefined ? undefined : v))
 		}
 	}, [operator])
 

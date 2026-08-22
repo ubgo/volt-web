@@ -15,8 +15,7 @@ export const Route = createFileRoute("/demo/gqlkit")({
 })
 
 const ENDPOINT =
-	import.meta.env.VITE_GRAPHQL_URL ??
-	"https://sync-api.localhost/api/admin/v1/query"
+	import.meta.env.VITE_GRAPHQL_URL ?? "https://volt-api.localhost/api/query"
 
 function GqlkitDemo() {
 	// Live connectivity check against the GraphQL backend via the gqlkit-ts

@@ -82,10 +82,7 @@ export function ShortcutsHelp({
 										<span className="text-foreground">{row.label}</span>
 										<span className="flex items-center gap-1">
 											{row.keys.map((k, i) => (
-												<span
-													key={`${k}-${i}`}
-													className="flex items-center gap-1"
-												>
+												<span key={k} className="flex items-center gap-1">
 													{i > 0 && (
 														<span className="text-muted-foreground text-[10px]">
 															+

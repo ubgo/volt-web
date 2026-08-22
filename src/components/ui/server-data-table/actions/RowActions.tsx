@@ -42,9 +42,9 @@ export function RowActions({ actions }: RowActionsProps) {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" className="min-w-32 p-0.5">
-					{actions.map((action, i) => (
+					{actions.map((action) => (
 						<ActionRow
-							key={`${action.label}-${i}`}
+							key={action.label}
 							action={action}
 							onRequestMutation={setPendingMutation}
 						/>

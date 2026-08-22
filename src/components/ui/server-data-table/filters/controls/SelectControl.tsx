@@ -44,9 +44,12 @@ export function SelectControl({
 	// arrow keys work immediately. With search, the input itself is
 	// autoFocused and forwards keydowns to nav via onKeyDown.
 	const containerRef = React.useRef<HTMLDivElement>(null)
+	// Snapshot showSearch so the mount-only focus doesn't re-fire (and steal
+	// focus) on later renders — a ref read keeps the empty dep list exhaustive.
+	const showSearchRef = React.useRef(showSearch)
 	React.useEffect(() => {
-		if (!showSearch) containerRef.current?.focus({ preventScroll: true })
-		// mount-only — don't refocus on subsequent renders
+		if (!showSearchRef.current)
+			containerRef.current?.focus({ preventScroll: true })
 	}, [])
 
 	return (
@@ -69,6 +72,8 @@ export function SelectControl({
 			{/* When there's no search input, the container catches arrow keys. */}
 			<div
 				ref={containerRef}
+				role="listbox"
+				aria-label="Options"
 				className="max-h-64 overflow-y-auto p-1 outline-none"
 				tabIndex={showSearch ? -1 : 0}
 				onKeyDown={showSearch ? undefined : nav.onKeyDown}

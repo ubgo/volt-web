@@ -29,13 +29,18 @@ export function MultiSelectControl({
 		return options.filter((o) => o.label.toLowerCase().includes(q))
 	}, [options, query])
 
-	const toggle = (val: string) => {
-		if (selected.includes(val)) {
-			onChange(selected.filter((v) => v !== val))
-		} else {
-			onChange([...selected, val])
-		}
-	}
+	// useCallback so the memoized keydown handler below has a stable `toggle`
+	// dependency (otherwise it'd be rebuilt on every render).
+	const toggle = React.useCallback(
+		(val: string) => {
+			if (selected.includes(val)) {
+				onChange(selected.filter((v) => v !== val))
+			} else {
+				onChange([...selected, val])
+			}
+		},
+		[selected, onChange],
+	)
 
 	// Arrow nav: Space toggles the highlighted option, Enter applies.
 	const nav = useListNavigation({
@@ -72,9 +77,12 @@ export function MultiSelectControl({
 	// Auto-focus the list container when there's no search input so
 	// arrows + Space/Enter work immediately.
 	const containerRef = React.useRef<HTMLDivElement>(null)
+	// Snapshot showSearch so the mount-only focus doesn't re-fire on later
+	// renders — a ref read keeps the empty dep list exhaustive.
+	const showSearchRef = React.useRef(showSearch)
 	React.useEffect(() => {
-		if (!showSearch) containerRef.current?.focus({ preventScroll: true })
-		// mount-only
+		if (!showSearchRef.current)
+			containerRef.current?.focus({ preventScroll: true })
 	}, [])
 
 	return (
@@ -96,6 +104,9 @@ export function MultiSelectControl({
 			)}
 			<div
 				ref={containerRef}
+				role="listbox"
+				aria-label="Options"
+				aria-multiselectable="true"
 				className="max-h-64 overflow-y-auto p-1 outline-none"
 				tabIndex={showSearch ? -1 : 0}
 				onKeyDown={showSearch ? undefined : handleListKeyDown}

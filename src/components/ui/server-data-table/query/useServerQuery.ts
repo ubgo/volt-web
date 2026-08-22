@@ -9,6 +9,10 @@ type UseServerQueryOpts<TNode, TWhere> = {
 	state: TableState
 	where: TWhere | undefined
 	pageSize: number
+	/** Data-aware polling: called with the CURRENT page's nodes after every
+	 * fetch; return an interval in ms to keep polling (e.g. while a row is in
+	 * a non-terminal state) or false to stop. Omit = never poll. */
+	refetchInterval?: (nodes: TNode[]) => number | false
 }
 
 /**
@@ -21,6 +25,7 @@ export function useServerQuery<TNode, TWhere>({
 	state,
 	where,
 	pageSize,
+	refetchInterval,
 }: UseServerQueryOpts<TNode, TWhere>) {
 	const { direction, cursor } = state.pagination
 
@@ -46,6 +51,16 @@ export function useServerQuery<TNode, TWhere>({
 		() => queryFn({ where, orderBy, ...paginationArgs }),
 		{
 			placeholderData: keepPreviousData,
+			// react-query evaluates this against the freshest data, so polling
+			// stops by itself once the watched rows go terminal.
+			refetchInterval: refetchInterval
+				? (q) => {
+						const edges = q.state.data?.edges ?? []
+						const nodes: TNode[] = []
+						for (const e of edges) if (e?.node) nodes.push(e.node)
+						return refetchInterval(nodes)
+					}
+				: undefined,
 		},
 	)
 

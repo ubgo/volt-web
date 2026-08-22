@@ -146,7 +146,7 @@ tasks:
   gqlkit:fetch:
     desc: Fetch the GraphQL SDL from the live API via introspection → src/scripts/api/schema-introspected.graphql
     cmds:
-      - gqlkit-sdl fetch --url "${VITE_API_URL:-https://sync-api.localhost}/api/admin/v1/query_playground?pkey=${GQL_PKEY:-1234}" -o src/scripts/api/schema-introspected.graphql
+      - gqlkit-sdl fetch --url "${VITE_API_URL:-https://volt-api.localhost}/api/query_playground?pkey=${GQL_PKEY:-1234}" -o src/scripts/api/schema-introspected.graphql
 
   gqlkit:gen:
     desc: Generate the typed TypeScript SDK at src/generated/sdk from the fetched SDL
