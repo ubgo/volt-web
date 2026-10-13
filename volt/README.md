@@ -5,7 +5,7 @@
   keep or delete this whole volt/ folder as you like.
 -->
 
-> **This is the original README for [Volt](https://github.com/khanakia/volt-web)** — the TanStack Start boilerplate this project was built on. It's preserved here on purpose: once you replace the root `README.md` with your own app's README, this file keeps the Volt reference (features, setup pointers, license) available. Setup lives in [docs/getting-started.md](docs/getting-started.md).
+> **This is the original README for [Volt](https://github.com/ubgo/volt-web)** — the TanStack Start boilerplate this project was built on. It's preserved here on purpose: once you replace the root `README.md` with your own app's README, this file keeps the Volt reference (features, setup pointers, license) available. Setup lives in [docs/getting-started.md](docs/getting-started.md).
 
 <p align="center">
   <img src="brand/png/icon-512.png" alt="Volt logo — a lightning bolt on a violet tile" width="72" height="72" />
