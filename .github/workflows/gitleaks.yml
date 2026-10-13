@@ -1,3 +1,8 @@
+# Manual only (owner's call, 2026-10-13: Actions minutes are a budget). To run automatically again, replace the on: block with:
+#   on:
+#     push:
+#     pull_request:
+
 name: gitleaks
 
 # Server-side secret-scanning backstop. The local pre-commit hook
@@ -10,8 +15,7 @@ name: gitleaks
 # allowlists stay in one place.
 
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
