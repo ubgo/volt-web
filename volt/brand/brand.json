@@ -6,7 +6,7 @@
   "homepage": "",
   "language": "typescript",
   "kind": "web-app",
-  "license": "LicenseRef-Proprietary",
+  "license": "Apache-2.0",
   "distribution": "commercial-private",
   "author": {
     "name": "khanakia",

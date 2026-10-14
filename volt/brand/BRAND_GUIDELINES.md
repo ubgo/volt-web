@@ -134,4 +134,4 @@ If you don't want the generator, the minimum to match by hand:
 - Technical handle = **`usevolt`** (`usevolt.dev`, `@usevolt/*`, GitHub org `usevolt`); family naming = **Volt Web** / **Volt API** (`volt-web` / `volt-api`).
 - Fonts = **Space Grotesk** (display) / **Inter** (sans) / **JetBrains Mono** (mono); app UI uses system fonts, brand fonts for marketing.
 - Full regenerable brand kit lives in `brand/`, driven by `brand.json` + `gen-brand.mjs`.
-- Distribution = **commercial / private** (proprietary license) — relevant if the backend reuses the same LICENSE model.
+- Distribution = **open source, Apache-2.0** — the same license as the Volt API backend.
