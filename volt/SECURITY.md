@@ -14,7 +14,7 @@ You'll receive an acknowledgement within a few business days, and a fix or mitig
 
 ## Supported versions
 
-Volt is delivered as a source starter that you fork into your own application. Security fixes are published to the main branch; licensed users should pull updates from there. Older snapshots are not separately patched.
+Volt is delivered as a source starter that you fork into your own application. Security fixes are published to the main branch; users should pull updates from there. Older snapshots are not separately patched.
 
 ## Secret scanning
 

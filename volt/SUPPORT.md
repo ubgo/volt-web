@@ -1,13 +1,13 @@
 # Support
 
-Volt is a commercial product. Support is available to licensed users.
+Volt is open source under the Apache License 2.0. Help is best-effort, through the issue tracker and the channels below.
 
 ## Getting help
 
 - **Documentation** — start with the [README](README.md) and the guides in [`docs/`](docs/) (Drizzle, gqlkit, Sentry, SPA mode, deployment).
 - **In-app reference** — run the app and browse `/demo/components` (the UI kit) and `/demo/branding` (assets & rebranding).
-- **Licensing & account questions** — email **khanakia@gmail.com**.
-- **Bugs** — licensed users can report reproducible issues via the repository issue tracker, or by email if the repo is private.
+- **Questions** — email **khanakia@gmail.com**.
+- **Bugs** — report reproducible issues via the repository issue tracker.
 
 ## Before reporting a bug
 

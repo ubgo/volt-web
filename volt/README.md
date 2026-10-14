@@ -23,7 +23,7 @@
   <img src="https://img.shields.io/badge/TypeScript-6-3178C6" alt="TypeScript 6" />
   <img src="https://img.shields.io/badge/Tailwind-v4-38BDF8" alt="Tailwind CSS v4" />
   <img src="https://img.shields.io/badge/SSR%20%2B%20SPA-ready-7C3AED" alt="SSR and SPA ready" />
-  <img src="https://img.shields.io/badge/license-Commercial-7C3AED" alt="Commercial license" />
+  <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache--2.0-7C3AED" alt="License: Apache-2.0" /></a>
 </p>
 
 **Volt** is a batteries-included starter for quickly bootstrapping a **server-side-rendered React app** with [TanStack Start](https://tanstack.com/start). It ships with a token-driven **design system**, a **dashboard shell**, light/dark **theming**, two **RPC** layers (**tRPC** + **oRPC**), a typed **GraphQL** SDK (**gqlkit**), a **Drizzle + PostgreSQL** database, **typesafe env**, and a full gallery of demo pages — so you delete the demos and start building your actual app in minutes, not plumbing.
@@ -114,7 +114,7 @@ That's the short path. For the full setup — **prerequisites** (Node, pnpm, Pos
 ## FAQ
 
 **Is Volt open source?**
-No. Volt is a commercial product — purchasing a license grants you access to the repository, and you can use it in your own personal and commercial applications. See [License](#license). It is not redistributable as a starter/boilerplate itself.
+Yes. Volt is open source under the [Apache License 2.0](../LICENSE): you can use, modify and redistribute it, including in commercial applications, as long as you keep the license and copyright notices. See [License](#license).
 
 **What is TanStack Start?**
 [TanStack Start](https://tanstack.com/start) is a full-stack React framework built on TanStack Router and Vite, with SSR, streaming, server functions, and SPA mode. Volt is a production-ready wiring of it.
@@ -139,6 +139,6 @@ Drop a square logo at `public/logo-source.png`, run `task branding:gen`, and upd
 
 ## License
 
-Volt is a **commercial product** distributed under a proprietary license — see [LICENSE](../LICENSE). A purchase grants a license to use Volt as the foundation of your own applications; it does not permit redistributing or reselling Volt itself (or a derivative starter) as a product. This is not open-source software.
+Volt is licensed under the [Apache License 2.0](../LICENSE). You can use, modify and redistribute it, including as the foundation of your own commercial applications, provided you keep the license and copyright notices.
 
-<sub>Volt — a commercial TanStack Start boilerplate / React SSR starter kit: token-driven design system, dashboard shell, tRPC + oRPC, typed GraphQL (gqlkit), Drizzle + PostgreSQL, Tailwind CSS v4, light/dark theming, typesafe env. Built with <a href="https://tanstack.com/start">TanStack Start</a>.</sub>
+<sub>Volt — an open-source (Apache-2.0) TanStack Start boilerplate / React SSR starter kit: token-driven design system, dashboard shell, tRPC + oRPC, typed GraphQL (gqlkit), Drizzle + PostgreSQL, Tailwind CSS v4, light/dark theming, typesafe env. Built with <a href="https://tanstack.com/start">TanStack Start</a>.</sub>

@@ -11,6 +11,7 @@ All notable changes to Volt are documented here. The format is based on [Keep a 
 - Per-route typesafe document titles via `src/lib/seo.ts`.
 
 ### Changed
+- Licensed under the Apache License 2.0 (previously a proprietary license); the repository is now public.
 - Rebranded the project to **Volt** across the app (logo/favicon, manifest, page titles, sidebar) and docs.
 - Migrated GraphQL tooling from graphql-codegen to gqlkit; removed all graphql-codegen traces.
 - Upgraded the stack to latest (Vite 8, TypeScript 6, Base UI 1.6, Tailwind CSS v4).
