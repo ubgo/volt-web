@@ -111,6 +111,7 @@ tasks:
   check:
     desc: biome check (lint + format) the source tree
     cmds:
+      - task: names:check
       - pnpm exec biome check src
 
   build:
@@ -188,3 +189,8 @@ tasks:
     desc: Run gitleaks against the currently staged diff only (fast)
     cmds:
       - gitleaks protect --staged --redact --no-banner --verbose
+
+  names:check:
+    desc: Fail if a tracked file holds a private name listed (as a sha256 hash) in .github/denyhash.txt
+    cmds:
+      - bash scripts/check-names.sh
