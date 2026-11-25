@@ -21,13 +21,9 @@
 
 set -euo pipefail
 
-# Private-name guard: refuse staged files that hold a name listed (as a
-# sha256 hash) in .github/denyhash.txt. See scripts/check-names.sh.
-staged=()
-while IFS= read -r -d '' f; do staged+=("$f"); done < <(git diff --cached --name-only --diff-filter=ACMRT -z)
-if (( ${#staged[@]} > 0 )); then
-	bash scripts/check-names.sh "${staged[@]}"
-fi
+# Private-name guard: refuse staged private names (list read from outside
+# the repo, see scripts/check-names.sh).
+bash scripts/check-names.sh --staged
 
 # ─────────────────────────────────────────────────────────────────────────────
 # LAYER 1 — gitleaks (if installed)

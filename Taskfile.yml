@@ -191,6 +191,6 @@ tasks:
       - gitleaks protect --staged --redact --no-banner --verbose
 
   names:check:
-    desc: Fail if a tracked file holds a private name listed (as a sha256 hash) in .github/denyhash.txt
+    desc: Fail if a tracked file or commit message holds a private name (list read from ~/.config/names-guard/terms.txt, never stored here)
     cmds:
       - bash scripts/check-names.sh
